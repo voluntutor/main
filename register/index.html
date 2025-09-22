@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Signup</title>
+  <!-- Global stylesheet with auth-box styles -->
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="auth-box">
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-target="login">Login</div>
+      <div class="auth-tab" data-target="signup">Signup</div>
+    </div>
+
+    <!-- Login form -->
+    <form id="login" class="auth-form active">
+      <input type="email" id="login-email" placeholder="Email" required>
+      <input type="password" id="login-password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+
+    <!-- Signup form -->
+    <form id="signup" class="auth-form">
+      <input type="email" id="signup-email" placeholder="Email" required>
+      <input type="password" id="signup-password" placeholder="Password" required>
+      <button type="submit">Signup</button>
+    </form>
+  </div>
+
+  <script>
+    // Tab switching (local)
+    const tabs = document.querySelectorAll('.auth-tab');
+    const forms = document.querySelectorAll('.auth-form');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        forms.forEach(f => f.classList.remove('active'));
+
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).classList.add('active');
+      });
+    });
+  </script>
+
+  <!-- External JS for form handling -->
+  <script src="register.js"></script>
+</body>
+</html>
