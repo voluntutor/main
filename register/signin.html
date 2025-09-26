@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script type="module" src="signin.js" defer></script>
+</head>
+<body>
+  <div class="auth-box">
+    <h2 class="auth-title">Sign in</h2>
+
+    <form id="signin" class="auth-form active">
+      <input type="email" id="email" name="email" placeholder="Email" required />
+      <input type="password" id="password" name="password" placeholder="Password" required />
+
+      <button id="submit" type="submit">Sign in</button>
+
+      <div class="auth-row" style="margin-top: .5rem;">
+        <button id="reset" type="button" class="linklike">Forgot password?</button>
+      </div>
+    </form>
+
+    <p class="alt-action">
+      New here?
+      <a href="index.html">Create an account</a>
+    </p>
+
+    <!-- Optional inline styles for the linklike button; move to CSS if you care about cleanliness -->
+    
+  </div>
+</body>
+</html>

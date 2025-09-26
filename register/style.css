@@ -101,3 +101,9 @@
     background: #15803d;
   }
   
+  .linklike {
+    background: none; border: none; padding: 0; cursor: pointer;
+    text-decoration: underline; font: inherit;
+  }
+  .auth-title { margin-bottom: .5rem; }
+  .alt-action { text-align: center; margin-top: 1rem; }
