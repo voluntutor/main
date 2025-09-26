@@ -39,3 +39,5 @@ document.getElementById("signup").addEventListener("submit", async (e) => {
     alert(`${err.code}: ${err.message}`);
   }
 });
+
+
