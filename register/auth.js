@@ -73,7 +73,10 @@ if (signinForm) {
 
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
-      alert("Signed in successfully.");
+      // after successful createUserWithEmailAndPassword(...)
+      alert("Signup successful.");
+      window.location.href = "/postSignUp.html";
+
       console.log("Signed in user:", cred.user);
       // redirect if needed
     } catch (err) {

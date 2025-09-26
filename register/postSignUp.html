@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complete Profile</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script type="module" src="postSignUp.js" defer></script>
+</head>
+<body>
+  <div class="auth-box">
+    <h2 class="auth-title">Complete your profile</h2>
+    <form id="profile-form" class="auth-form active">
+      <div class="name-row">
+        <input class="input" id="first-name" placeholder="First name" required />
+        <input class="input" id="last-name"  placeholder="Last name" required />
+      </div>
+
+      <select class="input" id="role" required>
+        <option value="" disabled selected>Select role</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+      </select>
+
+      <button class="btn" type="submit">Save & continue</button>
+    </form>
+  </div>
+</body>
+</html>
