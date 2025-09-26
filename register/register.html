@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Signup</title>
-  <!-- Global stylesheet with auth-box styles -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
   <script type="module" src="register.js" defer></script>
 </head>
 <body>
   <div class="auth-box">
     <h2 class="auth-title">Create an Account</h2>
     <form id="signup" class="auth-form active">
-      <input type="email" id="email" name="email" placeholder="Email" required>
-      <input type="password" id="password" name="password" placeholder="Password" required>
-      <input type="password" id="signup-confirm" name="confirmPassword" placeholder="Confirm Password" required>
+      <input type="email" id="email" name="email" placeholder="Email" required />
+      <input type="password" id="password" name="password" placeholder="Password" required />
+      <input type="password" id="signup-confirm" name="confirmPassword" placeholder="Confirm Password" required />
       <button id="submit" type="submit">Signup</button>
     </form>
+
+    <p class="alt-action">
+      Already registered? 
+      <a href="signin.html">Click here to sign in</a>
+    </p>
   </div>
 </body>
 </html>
