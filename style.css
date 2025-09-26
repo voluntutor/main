@@ -69,33 +69,61 @@
   /* Cards Styles */
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
-    gap: 20px; /* Space between cards */
-    padding: 40px 20px; /* Padding around the grid */
-    max-width: 1000px; /* Limit the width of the grid */
-    margin: 0 auto; /* Center the grid */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
   }
   
   .card {
-    background: #fff; /* White background for contrast */
-    padding: 25px; /* Inner padding */
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border: 1px solid #ddd; /* Light border for definition */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+    perspective: 1000px; /* Enable 3D perspective */
   }
   
-  .card:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    transform-style: preserve-3d; /* Preserve 3D effect */
+    transition: transform 0.6s; /* Smooth flipping animation */
   }
   
-  .card h2 {
-    font-size: 1.4rem; /* Adjusted font size */
-    margin-bottom: 10px; /* Space below the heading */
+  .card:hover .card-inner {
+    transform: rotateY(180deg); /* Flip the card on hover */
   }
   
-  .card p {
-    color: #555; /* Softer text color */
-    line-height: 1.5; /* Improved readability */
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the back side when not visible */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+  }
+  
+  .card-front {
+    background: #fff; /* Front side background */
+  }
+  
+  .card-back {
+    background: #f4f4f4; /* Back side background */
+    transform: rotateY(180deg); /* Flip the back side initially */
+  }
+
+  .card img {
+    max-width: 80%;
+  }
+
+  .card-attribute {
+    position: absolute;
+    bottom: 10px; /* Position the text at the bottom */
+    left: 0;
+    right: 0;
+    text-align: center; /* Center-align the text */
+    font-size: 0.7rem;
   }
