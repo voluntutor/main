@@ -12,7 +12,7 @@
     /*Home page styles*/
   
   /* Home: Header */
-  .home .header {
+  .home.header {
     text-align: center; /* Centers inline text elements */
     padding: 60px 20px 20px;
     display: flex; /* Use flexbox for centering */
@@ -21,23 +21,23 @@
     justify-content: center; /* Vertically center children */
   }
   
-  .home .header h1 {
+  .home.header h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
   }
   
-  .home .header p {
+  .home.header p {
     font-size: 1.1rem;
     color: #666;
   }
   
   /* Home: Signup Button */
-  .home .signup {
+  .home.signup {
     text-align: center;
     margin: 40px 0;
   }
   
-  .home .signup-button {
+  .home.signup-button {
     text-decoration: none;
     background-color: #333;
     color: white;
@@ -47,7 +47,7 @@
     transition: background-color 0.3s;
   }
   
-  .home .signup-button:hover {
+  .home.signup-button:hover {
     background-color: #555;
   }
   
