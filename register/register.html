@@ -1,167 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< Updated upstream
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Signup</title>
-  <link rel="stylesheet" href="style.css"/>
+  <!-- Global stylesheet with auth-box styles -->
+  <link rel="stylesheet" href="style.css">
   <script type="module" src="register.js" defer></script>
 </head>
 <body>
   <div class="auth-box">
     <h2 class="auth-title">Create an Account</h2>
     <form id="signup" class="auth-form active">
-      <input type="email" id="email" name="email" placeholder="Email" required />
-      <input type="password" id="password" name="password" placeholder="Password" required />
-      <input type="password" id="signup-confirm" name="confirmPassword" placeholder="Confirm Password" required />
+      <input type="email" id="email" name="email" placeholder="Email" required>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <input type="password" id="signup-confirm" name="confirmPassword" placeholder="Confirm Password" required>
       <button id="submit" type="submit">Signup</button>
     </form>
-
-    <p class="alt-action">
-      Already registered? 
-      <a href="signin.html">Click here to sign in</a>
-    </p>
-=======
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Volunteer Intro</title>
-  <style>
-    * { box-sizing: border-box; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    body { background: #f9fafb; color: #111; }
-
-    header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 32px; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .brand img { height: 40px; }
-    nav { display: flex; gap: 16px; align-items: center; }
-    nav a { text-decoration: none; color: #333; font-weight: 500; }
-    .btn { padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; }
-    .btn.primary { background: #2563eb; color: #fff; }
-    .btn.ghost { background: transparent; border: 1px solid #ccc; }
-
-    /* Card grid */
-    .hero { max-width: 1100px; margin: 40px auto; padding: 20px; }
-    .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-
-    /* Flip card styles */
-    .flip-card {
-      background: transparent; perspective: 1000px;
-    }
-    .flip-card-inner {
-      position: relative; width: 100%; height: 220px;
-      text-align: center; transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-    .flip-card:hover .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-    .flip-card-front, .flip-card-back {
-      position: absolute; width: 100%; height: 100%;
-      -webkit-backface-visibility: hidden; backface-visibility: hidden;
-      border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      padding: 20px;
-    }
-    .flip-card-front { background: #fff; }
-    .flip-card-back {
-      background: #2563eb; color: #fff;
-      transform: rotateY(180deg);
-    }
-
-    .divider { height: 1px; background: #e5e7eb; margin: 40px 0; }
-    .why { text-align: center; margin-top: 20px; }
-    .features { display: flex; justify-content: center; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
-    .feature { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); min-width: 200px; }
-    .plus { font-size: 28px; color: #94a3b8; display:flex; align-items:center; }
-
-    footer {
-      margin-top: 50px; padding: 20px;
-      background: #f1f5f9; display: flex; justify-content: center; gap: 30px;
-    }
-    footer a { text-decoration: none; color: #334155; font-weight: 500; }
-  </style>
-</head>
-<body>
-
-<header>
-  <div class="brand">
-    <img src="logo_resized.png" alt="Logo">
-    <div>
-      <div style="font-weight:700;">Volunteer</div>
-      <div style="font-size:12px;color:#6b7280">one schedule one day</div>
-    </div>
->>>>>>> Stashed changes
   </div>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#sponsors">Sponsors</a>
-    <button class="btn ghost">Sign-up</button>
-    <button class="btn primary">Login</button>
-  </nav>
-</header>
-
-<main class="hero">
-  <section class="grid3">
-    <!-- Card 1 -->
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <h3>Our Mission</h3>
-          <p>Learn what drives us.</p>
-        </div>
-        <div class="flip-card-back">
-          <p>We empower students through meaningful volunteering opportunities that create real impact.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 2 -->
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <h3>What We Offer</h3>
-          <p>See the benefits.</p>
-        </div>
-        <div class="flip-card-back">
-          <p>Events, workshops, and simple tools that make it easy to give back.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <h3>Join Our Community</h3>
-          <p>Be part of something.</p>
-        </div>
-        <div class="flip-card-back">
-          <p>Sign up, connect with peers, and start making a difference today!</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section class="why">
-    <h2>Why Us?</h2>
-    <div class="features">
-      <div class="feature"><strong>Student-led</strong><br> Relatable, peer-driven events</div>
-      <div class="plus">+</div>
-      <div class="feature"><strong>Simple Interface</strong><br> Easy to use, quick to navigate</div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <a href="#contact">Contact Us</a>
-  <a href="#learn">Learn More</a>
-  <a href="#partner">Partner</a>
-</footer>
-
 </body>
 </html>
