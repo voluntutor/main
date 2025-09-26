@@ -1,0 +1,101 @@
+/* Global body style*/
+  body {
+    margin: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+    /*Home page styles*/
+  
+  /* Home: Header */
+  .home .header {
+    text-align: center; /* Centers inline text elements */
+    padding: 60px 20px 20px;
+    display: flex; /* Use flexbox for centering */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Horizontally center children */
+    justify-content: center; /* Vertically center children */
+  }
+  
+  .home .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .home .header p {
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  /* Home: Signup Button */
+  .home .signup {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .home .signup-button {
+    text-decoration: none;
+    background-color: #333;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .home .signup-button:hover {
+    background-color: #555;
+  }
+  
+  /* Footer styles*/
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #777;
+    background-color: #f1f1f1;
+    margin-top: auto;
+  }
+  
+  .footer p {
+    margin: 5px 0;
+  }
+  
+  
+  /* Cards Styles */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between cards */
+    padding: 40px 20px; /* Padding around the grid */
+    max-width: 1000px; /* Limit the width of the grid */
+    margin: 0 auto; /* Center the grid */
+  }
+  
+  .card {
+    background: #fff; /* White background for contrast */
+    padding: 25px; /* Inner padding */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: 1px solid #ddd; /* Light border for definition */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  }
+  
+  .card h2 {
+    font-size: 1.4rem; /* Adjusted font size */
+    margin-bottom: 10px; /* Space below the heading */
+  }
+  
+  .card p {
+    color: #555; /* Softer text color */
+    line-height: 1.5; /* Improved readability */
+  }
