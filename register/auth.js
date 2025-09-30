@@ -53,8 +53,10 @@ if (signupForm) {
 
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
-      alert("Signup successful.");
-      console.log("Signed up user:", cred.user);
+      // after successful createUserWithEmailAndPassword(...)
+alert("Signup successful.");
+window.location.href = "postSignUp.html";
+
       // redirect if needed
     } catch (err) {
       console.error(err);
@@ -74,8 +76,9 @@ if (signinForm) {
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
       // after successful createUserWithEmailAndPassword(...)
-      alert("Signup successful.");
-      window.location.href = "/postSignUp.html";
+     // on successful sign-in
+window.location.href = "route.html"; // tiny router page below
+
 
       console.log("Signed in user:", cred.user);
       // redirect if needed
