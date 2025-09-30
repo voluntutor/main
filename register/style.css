@@ -158,7 +158,7 @@ a{color:inherit}
 
 :root { --header-h: clamp(64px, 9svh, 88px); }
 
-body { padding-top: var(--header-h); }
+body { padding-top: var(--header-h) ; }
 
 /* Center the auth container under the fixed header */
 .stage {
@@ -173,3 +173,62 @@ body { padding-top: var(--header-h); }
   width: min(95vw, 48rem);
   max-height: min(70svh, 680px);
 }
+
+:root { --header-h: clamp(64px, 9svh, 88px); }
+
+body { padding-top: var(--header-h); }
+
+/* Stage centers content below header */
+.stage {
+  min-height: calc(100svh - var(--header-h));
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+/* Card wrapper */
+.auth-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.15);
+  width: min(95vw, 900px);   /* don’t stretch across the world */
+  max-height: 600px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Inner container takes full size of the card */
+.auth-card .container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;   /* card already has rounded corners */
+  box-shadow: none;   /* avoid double shadow */
+}
+
+/* Add distance between header and auth panel */
+.auth-card,
+.container {
+  margin-top: 10%;   /* 👈 adjust this value to make the gap bigger/smaller */
+}
+
+
+#signin .link {
+  margin-bottom: 1rem;
+}
+
+body {
+  /* animated gradient background */
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+/* keyframes to cycle the gradient */
+@keyframes gradientBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
