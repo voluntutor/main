@@ -12,7 +12,7 @@ body{
   margin:0; color:var(--gray);
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
   min-height:100svh; display:block;
-  background: var(--white) url("bgAuth.png") center/cover fixed no-repeat;
+  background: var(--white) url("/Media/bgAuth.png") center/cover fixed no-repeat;
   /* space for fixed header */
   padding-top: clamp(64px, 9svh, 88px);
 }
@@ -92,7 +92,7 @@ a{color:inherit}
 }
 .container.right-panel-active .container__overlay{ transform:translateX(-100%) }
 .overlay{
-  background:url("bgAuth.png") center/cover fixed no-repeat, var(--lightblue);
+  background:url("/Media/bgAuth.png") center/cover fixed no-repeat, var(--lightblue);
   position:relative; left:-100%; width:200%; height:100%;
   transform:translateX(0); transition:transform .6s ease-in-out;
 }
@@ -158,7 +158,7 @@ a{color:inherit}
 
 :root { --header-h: clamp(64px, 9svh, 88px); }
 
-body { padding-top: var(--header-h); }
+body { padding-top: var(--header-h) ; }
 
 /* Center the auth container under the fixed header */
 .stage {
@@ -172,4 +172,103 @@ body { padding-top: var(--header-h); }
 .container {
   width: min(95vw, 48rem);
   max-height: min(70svh, 680px);
+}
+
+:root { --header-h: clamp(64px, 9svh, 88px); }
+
+body { padding-top: var(--header-h); }
+
+/* Stage centers content below header */
+.stage {
+  min-height: calc(100svh - var(--header-h));
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+/* Card wrapper */
+.auth-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.15);
+  width: min(95vw, 900px);   /* don’t stretch across the world */
+  max-height: 600px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Inner container takes full size of the card */
+.auth-card .container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;   /* card already has rounded corners */
+  box-shadow: none;   /* avoid double shadow */
+}
+
+/* Add distance between header and auth panel */
+.auth-card,
+.container {
+  margin-top: 10%;   /* 👈 adjust this value to make the gap bigger/smaller */
+}
+
+
+#signin .link {
+  margin-bottom: 1rem;
+}
+
+body {
+  /* animated gradient background */
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+/* keyframes to cycle the gradient */
+@keyframes gradientBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  /* animated gradient background */
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+/* keyframes to cycle the gradient */
+@keyframes gradientBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.brand img {
+  height: clamp(48px, 7vw, 80px); /* ⬅️ bump these numbers up */
+  width: auto;
+}
+
+
+/* Custom background PNG just for the Sign Up panel */
+.container__form#signup {
+  background: transparent !important; /* remove the gray */
+  position: relative;                 /* ensure ::before sticks to it */
+}
+
+.container__form#signup::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;  /* behind form fields */
+  background: url("/Media/logo.png") center/cover no-repeat; /* <-- replace with your PNG */
+}
+
+/* keep the form content above the image */
+.container__form#signup > * {
+  position: relative;
+  z-index: 1;
 }
