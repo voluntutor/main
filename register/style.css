@@ -252,3 +252,23 @@ body {
   width: auto;
 }
 
+
+/* Custom background PNG just for the Sign Up panel */
+.container__form#signup {
+  background: transparent !important; /* remove the gray */
+  position: relative;                 /* ensure ::before sticks to it */
+}
+
+.container__form#signup::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;  /* behind form fields */
+  background: url("/Media/logo.png") center/cover no-repeat; /* <-- replace with your PNG */
+}
+
+/* keep the form content above the image */
+.container__form#signup > * {
+  position: relative;
+  z-index: 1;
+}
