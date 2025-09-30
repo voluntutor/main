@@ -1,6 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<header class="site-header">
+    <a class="brand" href="/">
+      <img src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor Logo">
+      <h2>VolunTutor</h2>
+    </a>
+  
+    <!-- Desktop nav -->
+    <nav class="nav-links" id="site-nav">
+      <a href="#about">About</a>
+      <a href="#sponsors">Sponsors</a>
+      <a href="/register/auth.html">Login</a>
+      <button id="contactToggle" class="linklike">Contact Us</button>
+    </nav>
+  
+    <!-- Mobile hamburger (pure CSS), slides in from the RIGHT -->
+    <nav role="navigation" class="hamburger-right">
+      <div id="menuToggleRight">
+        <input type="checkbox" id="menuCheckboxRight" aria-label="Toggle menu" />
+        <span></span><span></span><span></span>
+        <ul id="menuRight" aria-label="Mobile navigation">
+          <li><a href="#about"><label for="menuCheckboxRight" onclick="this.parentNode.click();">About</label></a></li>
+          <li><a href="#sponsors"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Sponsors</label></a></li>
+          <li><a href="/register/auth.html"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Login</label></a></li>
+          <li><label for="menuCheckboxRight"><a id="contactToggleMobile">Contact Us</a></label></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +39,9 @@
     <!-- one JS file that will handle both signup & signin -->
     <script type="module" src="auth.js" defer></script>
 </head>
+
+
+  
 
 <body>
     <div class="container right-panel-active">
