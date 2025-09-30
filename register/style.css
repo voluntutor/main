@@ -12,7 +12,7 @@ body{
   margin:0; color:var(--gray);
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
   min-height:100svh; display:block;
-  background: var(--white) url("bgAuth.png") center/cover fixed no-repeat;
+  background: var(--white) url("/Media/bgAuth.png") center/cover fixed no-repeat;
   /* space for fixed header */
   padding-top: clamp(64px, 9svh, 88px);
 }
@@ -92,7 +92,7 @@ a{color:inherit}
 }
 .container.right-panel-active .container__overlay{ transform:translateX(-100%) }
 .overlay{
-  background:url("bgAuth.png") center/cover fixed no-repeat, var(--lightblue);
+  background:url("/Media/bgAuth.png") center/cover fixed no-repeat, var(--lightblue);
   position:relative; left:-100%; width:200%; height:100%;
   transform:translateX(0); transition:transform .6s ease-in-out;
 }
@@ -230,5 +230,25 @@ body {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+
+body {
+  /* animated gradient background */
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+/* keyframes to cycle the gradient */
+@keyframes gradientBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.brand img {
+  height: clamp(48px, 7vw, 80px); /* ⬅️ bump these numbers up */
+  width: auto;
 }
 
