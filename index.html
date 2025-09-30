@@ -1,42 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | VolunTutor</title>
-    <link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VolunTutor</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header home">
-        <h1 class ="home">Voluntutor</h1>
-        <p class ="home">Placeholder. Lorem ipsum. Dolor sit amet.</p>
-      </header>
-  
-      <main class="main">
-        <section class="cards">
-          <div class="card">
-            <h2>Our Mission</h2>
-            <p>Placeholder: Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet.</p>
-          </div>
-          <div class="card">
-            <h2>What We Offer</h2>
-            <p>Placeholder: Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet.</p>
-          </div>
-          <div class="card">
-            <h2>Join Our Community</h2>
-            <p>Placeholder: Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet.</p>
-          </div>
-        </section>
-  
-        <div class="signup home">
-          <a href="/register/auth.html" class="signup-button">Sign Up Today</a>
-        </div>
-      </main>
-  
-      <footer class="footer">
-        <p>Contact us: Lorem ipsum dolor sit amet@placeholder.com | (XXX) XXX-XXXX</p>
-        <p>&copy; 2025 Placeholder Co. All rights reserved.</p>
-      </footer>
+
+<header>
+  <div class="brand">
+    <img src="logo.png" alt="VolunTutor Logo">
+    <h2>VolunTutor</h2>
+  </div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#sponsors">Sponsors</a>
+    <a href="/register/auth.html">Login</a>
+    <button id="contactToggle">Contact Us</button>
+  </nav>
+</header>
+
+<!-- Contact Slide Down -->
+<div id="contactPanel">
+  <h3>📬 Get in Touch</h3>
+  <a href="mailto:voluntutor25@gmail.com">Email: voluntutor25@gmail.com</a>
+  <a href="#">Instagram (coming soon)</a>
+  <a href="tel:0000000000">Phone: (000) 000-0000</a>
+</div>
+
+<section class="hero">
+  <h1>Welcome to VolunTutor 🎓</h1>
+  <p>Fun, interactive tutoring made for students, by students.</p>
+  <button class="btn primary">Sign Up</button>
+</section>
+
+<main>
+  <section class="grid3">
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front"><h3>Our Mission</h3><p>Learn what drives us.</p></div>
+        <div class="flip-card-back"><p>We help students grow by making tutoring accessible and collaborative.</p></div>
+      </div>
+    </div>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front"><h3>What We Offer</h3><p>See the benefits.</p></div>
+        <div class="flip-card-back"><p>Engaging tutoring sessions, resources, and community support!</p></div>
+      </div>
+    </div>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front"><h3>Join Our Community</h3><p>Be part of something.</p></div>
+        <div class="flip-card-back"><p>Sign up, meet peers, and start learning together 🎉</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why">
+    <h2>✨ Why Us?</h2>
+    <div class="features">
+      <div class="feature"><strong>Student-led</strong><br>Peer-driven sessions</div>
+      <div class="feature"><strong>Modern Design</strong><br>Glass finish & animations</div>
+      <div class="feature"><strong>Supportive</strong><br>Everyone grows together</div>
+    </div>
+    <button class = "btn primary" href="register/auth.html" btn primary style="margin-top:25px;">Sign Up</button>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 VolunTutor. All Rights Reserved.</p>
+</footer>
+
+<script>
+  const toggleBtn = document.getElementById('contactToggle');
+  const panel = document.getElementById('contactPanel');
+  toggleBtn.addEventListener('click', () => {
+    panel.classList.toggle('open');
+  });
+</script>
+
 </body>
 </html>

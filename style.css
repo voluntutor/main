@@ -1,101 +1,96 @@
-/* Global body style*/
-  body {
-    margin: 0;
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-    /*Home page styles*/
-  
-  /* Home: Header */
-  .home.header {
-    text-align: center; /* Centers inline text elements */
-    padding: 60px 20px 20px;
-    display: flex; /* Use flexbox for centering */
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Horizontally center children */
-    justify-content: center; /* Vertically center children */
-  }
-  
-  .home.header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-  }
-  
-  .home.header p {
-    font-size: 1.1rem;
-    color: #666;
-  }
-  
-  /* Home: Signup Button */
-  .home.signup {
-    text-align: center;
-    margin: 40px 0;
-  }
-  
-  .home.signup-button {
-    text-decoration: none;
-    background-color: #333;
-    color: white;
-    padding: 12px 30px;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    transition: background-color 0.3s;
-  }
-  
-  .home.signup-button:hover {
-    background-color: #555;
-  }
-  
-  /* Footer styles*/
-  .footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9rem;
-    color: #777;
-    background-color: #f1f1f1;
-    margin-top: auto;
-  }
-  
-  .footer p {
-    margin: 5px 0;
-  }
-  
-  
-  /* Cards Styles */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
-    gap: 20px; /* Space between cards */
-    padding: 40px 20px; /* Padding around the grid */
-    max-width: 1000px; /* Limit the width of the grid */
-    margin: 0 auto; /* Center the grid */
-  }
-  
-  .card {
-    background: #fff; /* White background for contrast */
-    padding: 25px; /* Inner padding */
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border: 1px solid #ddd; /* Light border for definition */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
-  }
-  
-  .card:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-  }
-  
-  .card h2 {
-    font-size: 1.4rem; /* Adjusted font size */
-    margin-bottom: 10px; /* Space below the heading */
-  }
-  
-  .card p {
-    color: #555; /* Softer text color */
-    line-height: 1.5; /* Improved readability */
-  }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color:#111; overflow-x:hidden;
+    }
+
+    /* Header */
+    header {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 32px;
+      background:rgba(255,255,255,0.15); backdrop-filter:blur(15px);
+      border-radius:16px; margin:12px auto; width:95%;
+      box-shadow:0 8px 24px rgba(0,0,0,0.1); position:sticky; top:10px; z-index:100;
+    }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .brand img { height:55px; }
+    .brand h2 { font-size:22px; font-weight:700; color:white; }
+
+    nav { display:flex; align-items:center; gap:20px; }
+    nav a, nav button {
+      text-decoration:none; font-weight:600; color:white; transition:0.3s;
+      background:none; border:none; cursor:pointer; font-size:16px;
+    }
+    nav a:hover, nav button:hover { color:#FFD93D; transform:scale(1.1); }
+
+    .btn {
+      padding:12px 22px; border:none; border-radius:12px; cursor:pointer;
+      font-weight:600; transition:0.3s; font-size:16px;
+    }
+    .btn.primary { background:linear-gradient(90deg,#3B82F6,#9333EA); color:white; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn.primary:hover { transform:scale(1.07) rotate(-1deg); }
+
+    /* Hero */
+    .hero {
+      text-align:center; padding:80px 20px;
+      color:white; animation: fadeInDown 1.2s ease;
+    }
+    .hero h1 { font-size:54px; margin-bottom:16px; }
+    .hero p { font-size:20px; margin-bottom:28px; }
+    .hero .btn { font-size:18px; }
+
+    /* Cards */
+    .grid3 { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px; max-width:1100px; margin:60px auto; padding:20px; }
+    .flip-card { perspective:1000px; }
+    .flip-card-inner {
+      position:relative; width:100%; height:260px; transition:transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform-style:preserve-3d;
+    }
+    .flip-card:hover .flip-card-inner { transform:rotateY(180deg); }
+    .flip-card-front, .flip-card-back {
+      position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:16px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center;
+      background:rgba(255,255,255,0.25); backdrop-filter:blur(12px); color:white;
+      box-shadow:0 6px 20px rgba(0,0,0,0.15);
+    }
+    .flip-card-back { transform:rotateY(180deg); background:rgba(59,130,246,0.9); }
+
+    /* Why Us */
+    .why { text-align:center; padding:40px 20px; color:white; }
+    .features { display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-top:30px; }
+    .feature {
+      background:rgba(255,255,255,0.2); backdrop-filter:blur(15px);
+      padding:20px; border-radius:14px; min-width:220px; color:white;
+      box-shadow:0 6px 15px rgba(0,0,0,0.2); transition:0.3s;
+    }
+    .feature:hover { transform:translateY(-6px) scale(1.05); background:rgba(255,255,255,0.3); }
+
+    footer { padding:20px; background:rgba(0,0,0,0.2); text-align:center; color:white; }
+
+    /* Contact Panel */
+    #contactPanel {
+      max-height:0; overflow:hidden;
+      background:rgba(255,255,255,0.85); backdrop-filter:blur(10px);
+      transition:max-height 0.6s ease, padding 0.6s ease;
+      margin:0 auto; width:90%; border-radius:12px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.2); color:#111; text-align:center;
+    }
+    #contactPanel.open {
+      max-height:300px; padding:20px;
+    }
+    #contactPanel a { display:block; margin:8px 0; color:#2563EB; font-weight:600; text-decoration:none; }
+    #contactPanel a:hover { color:#F43F5E; }
+
+    /* Background animation */
+    @keyframes gradientBG {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+
+    /* Animations */
+    @keyframes fadeInDown { from {opacity:0; transform:translateY(-20px);} to {opacity:1; transform:translateY(0);} }
