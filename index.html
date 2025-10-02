@@ -1,96 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VolunTutor</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Favicon links -->
-  <link rel="icon" type="image/png" href="/Media/favicon2.png">
-  <link rel="shortcut icon" href="media/favicon2.png">
+  <link rel="icon" type="image/png" href="/Media/favicon2.png" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<header>
-  <div class="brand">
-    <img src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor Logo">
-    <h2>VolunTutor</h2>
-  </div>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#sponsors">Sponsors</a>
-    <a href="/register/auth.html">Login</a>
-    <button id=" ">Contact Us</button>
-  </nav>
-</header>
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VolunTutor</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<!-- Contact Slide Down -->
-<div id="contactPanel">
-  <h3>📬 Get in Touch</h3>
-  <a href="mailto:voluntutor25@gmail.com">Email: voluntutor25@gmail.com</a>
-  <a href="#">Instagram (coming soon)</a>
-  <a href="tel:0000000000">Phone: (000) 000-0000</a>
-</div>
-
-<section class="hero">
-  <h1>Welcome to VolunTutor 🎓</h1>
-  <p>Fun, interactive tutoring made for students, by students.</p>
-  <button class="btn primary">Sign Up</button>
-</section>
-
-<main>
-  <section class="grid3">
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front"><h3>Our Mission</h3><p>Learn what drives us.</p></div>
-        <div class="flip-card-back"><p>We help students grow by making tutoring accessible and collaborative.</p></div>
-      </div>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="brand">
+      <a class="brand-link" href="/" aria-label="VolunTutor Home">
+        <img
+          src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true"
+          alt="VolunTutor Logo"
+          width="128"
+          height="128"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <h1>VolunTutor</h1>
+      </a>
     </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front"><h3>What We Offer</h3><p>See the benefits.</p></div>
-        <div class="flip-card-back"><p>Engaging tutoring sessions, resources, and community support!</p></div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front"><h3>Join Our Community</h3><p>Be part of something.</p></div>
-        <div class="flip-card-back"><p>Sign up, meet peers, and start learning together 🎉</p></div>
-      </div>
+
+    <!-- Mobile menu toggle -->
+    <button id="navToggle" class="icon-btn" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+
+    <nav id="primaryNav" class="primary-nav" aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#sponsors">Sponsors</a>
+      <a href="/register/auth.html">Login</a>
+      <button id="contactToggle" class="linklike" type="button">Contact</button>
+    </nav>
+  </header>
+
+  <!-- Contact Slide Down -->
+  <section id="contactPanel" class="contact-panel" aria-hidden="true">
+    <h3>📬 Get in Touch</h3>
+    <a href="mailto:voluntutor25@gmail.com">voluntutor25@gmail.com</a>
+    <span class="muted">Instagram (coming soon)</span>
+    <a href="tel:0000000000">(000) 000-0000</a>
+  </section>
+
+  <!-- Hero -->
+  <section class="hero" id="about">
+    <div class="hero-inner container">
+      <h2>Welcome to VolunTutor 🎓</h2>
+      <p>Fun, interactive tutoring made for students, by students.</p>
+      <a class="btn primary" href="/register/auth.html">Sign Up</a>
     </div>
   </section>
 
-  <section class="why">
-    <h2>✨ Why Us?</h2>
-    <div class="features">
-      <div class="feature"><strong>Student-led</strong><br>Peer-driven sessions</div>
-      <div class="feature"><strong>Modern Design</strong><br>Glass finish & animations</div>
-      <div class="feature"><strong>Supportive</strong><br>Everyone grows together</div>
-    </div>
-    <button class = "btn primary" href="register/auth.html" btn primary style="margin-top:25px;">Sign Up</button>
-  </section>
-</main>
+  <main class="container">
+    <!-- Cards -->
+    <section class="grid3" aria-label="Highlights">
+      <article class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h3>Our Mission</h3>
+            <p>Learn what drives us.</p>
+          </div>
+          <div class="flip-card-back">
+            <p>We help students grow by making tutoring accessible and collaborative.</p>
+          </div>
+        </div>
+      </article>
 
-<footer>
-  <p>© 2025 VolunTutor. All Rights Reserved.</p>
-</footer>
+      <article class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h3>What We Offer</h3>
+            <p>See the benefits.</p>
+          </div>
+          <div class="flip-card-back">
+            <p>Engaging sessions, resources, and a supportive community.</p>
+          </div>
+        </div>
+      </article>
 
-<script>
-  const toggleBtn = document.getElementById('contactToggle');
-  const panel = document.getElementById('contactPanel');
-  toggleBtn.addEventListener('click', () => {
-    panel.classList.toggle('open');
-  });
-</script>
+      <article class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h3>Join Our Community</h3>
+            <p>Be part of something.</p>
+          </div>
+          <div class="flip-card-back">
+            <p>Sign up, meet peers, and start learning together 🎉</p>
+          </div>
+        </div>
+      </article>
+    </section>
 
+    <!-- Why -->
+    <section class="why" aria-label="Why VolunTutor?">
+      <h2>✨ Why Us?</h2>
+      <div class="features">
+        <div class="feature"><strong>Student-led</strong><br />Peer-driven sessions</div>
+        <div class="feature"><strong>Modern Design</strong><br />Glass finish & animations</div>
+        <div class="feature"><strong>Supportive</strong><br />Everyone grows together</div>
+      </div>
+      <a class="btn primary mt-24" href="/register/auth.html">Sign Up</a>
+    </section>
+
+    <!-- Sponsors anchor target -->
+    <div id="sponsors" class="sr-only" aria-hidden="true"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 VolunTutor. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Mobile nav
+    const navToggle = document.getElementById('navToggle');
+    const primaryNav = document.getElementById('primaryNav');
+    navToggle.addEventListener('click', () => {
+      const isOpen = primaryNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Contact panel
+    const contactToggle = document.getElementById('contactToggle');
+    const contactPanel = document.getElementById('contactPanel');
+    contactToggle.addEventListener('click', () => {
+      const isOpen = contactPanel.classList.toggle('open');
+      contactPanel.setAttribute('aria-hidden', String(!isOpen));
+    });
+
+    // Close menus on outside click (mobile sanity)
+    document.addEventListener('click', (e) => {
+      if (!primaryNav.contains(e.target) && !navToggle.contains(e.target)) {
+        primaryNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+      if (!contactPanel.contains(e.target) && !contactToggle.contains(e.target)) {
+        contactPanel.classList.remove('open');
+        contactPanel.setAttribute('aria-hidden', 'true');
+      }
+    });
+  </script>
 </body>
 </html>
