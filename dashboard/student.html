@@ -1,1 +1,86 @@
-Bonkajour
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Dashboard | VolunTutor</title>
+  <link rel="icon" type="image/png" href="/Media/favicon2.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="brand">
+      <img
+        src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true"
+        alt="VolunTutor Logo"
+      />
+      <h1>VolunTutor</h1>
+    </div>
+    <nav class="primary-nav">
+      <a href="/">Home</a>
+      <a href="#request">Request Help</a>
+      <a href="/register/auth.html">Logout</a>
+    </nav>
+  </header>
+
+  <!-- ===== DASHBOARD CONTENT ===== -->
+  <main class="dashboard">
+    <!-- Filters -->
+    <section class="filters">
+      <label for="subject">Filter by:</label>
+      <select id="subject">
+        <option value="">Subject</option>
+        <option value="math">Math</option>
+        <option value="science">Science</option>
+        <option value="english">English</option>
+      </select>
+      <select id="grade">
+        <option value="">Grade</option>
+        <option value="9">9th</option>
+        <option value="10">10th</option>
+        <option value="11">11th</option>
+        <option value="12">12th</option>
+      </select>
+    </section>
+
+    <!-- Week Navigation -->
+    <section class="week-nav">
+      <button id="prev-week">&lt;</button>
+      <h2 id="week-label">Week of October 6</h2>
+      <button id="next-week">&gt;</button>
+    </section>
+
+    <!-- Days Grid -->
+    <section class="days-grid">
+      <div class="day-card"><h3>Monday</h3><p>No sessions</p></div>
+      <div class="day-card"><h3>Tuesday</h3><p>2 requests</p></div>
+      <div class="day-card"><h3>Wednesday</h3><p>3 sessions</p></div>
+      <div class="day-card"><h3>Thursday</h3><p>1 request</p></div>
+      <div class="day-card"><h3>Friday</h3><p>No sessions</p></div>
+      <div class="day-card"><h3>Saturday</h3><p>1 session</p></div>
+      <div class="day-card"><h3>Sunday</h3><p>Free day!</p></div>
+    </section>
+
+    <!-- Details Panel -->
+    <section class="details-panel">
+      <h3>Wednesday Sessions</h3>
+      <ul>
+        <li>Math tutoring - 3:00 PM with </li>
+        <li>Language writing - 4:30 PM </li>
+        <li>Science review - 6:00 PM with </li>
+      </ul>
+    </section>
+
+    <!-- Request Help Form -->
+    <section id="request" class="request-help">
+      <h3>📅 Request Tutoring Help</h3>
+      <form id="request-form">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <select required>
+          <option value="">Choose Subject</option>
+          <option value="math">Math</option>
+          <option value="science">Science</option>
+          <option val
