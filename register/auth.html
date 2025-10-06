@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<link rel="icon" type="image/png" href="../Media/favicon2.png" />
+<link rel="shortcut icon" href="../Media/favicon2.png" />
 <html lang="en">
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,6 +114,61 @@
             </div>
         </div>
     </div>
+    <script>
+  // Switch between panels
+  const switchToSignUp = document.getElementById("switchToSignUp");
+  const switchToSignIn = document.getElementById("switchToSignIn");
+  const container = document.querySelector(".container");
+
+  switchToSignUp.addEventListener("click", () => {
+    container.classList.add("right-panel-active");
+  });
+
+  switchToSignIn.addEventListener("click", () => {
+    container.classList.remove("right-panel-active");
+  });
+
+  // Handle Sign In redirect
+  const signinForm = document.getElementById("signin");
+  signinForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // OPTIONAL: add simple validation
+    const email = document.getElementById("signin-email").value.trim();
+    const password = document.getElementById("signin-password").value.trim();
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+
+    // ✅ Redirect to the student dashboard
+    window.location.href = "../html/inside/studentdash.html";
+  });
+
+  // Handle Sign Up redirect
+  const signupForm = document.getElementById("signup");
+  signupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("signup-email").value.trim();
+    const password = document.getElementById("signup-password").value.trim();
+    const confirm = document.getElementById("signup-confirm").value.trim();
+
+    if (!email || !password || !confirm) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    if (password !== confirm) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    // ✅ Redirect after signing up
+    window.location.href = "../html/inside/studentdash.html";
+  });
+</script>
+
 </body>
 
 </html>
