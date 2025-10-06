@@ -1,0 +1,220 @@
+/* ===== Base Layout ===== */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0a0f1f, #081830);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== Header ===== */
+header.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.brand img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.brand h1 {
+  font-size: 1.4rem;
+  color: #6ecbff;
+}
+
+nav.primary-nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav.primary-nav a:hover {
+  color: #6ecbff;
+}
+
+/* ===== Filters ===== */
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.filters label {
+  font-weight: 600;
+}
+
+.filters select {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  backdrop-filter: blur(8px);
+}
+
+/* ===== Week Navigation ===== */
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.week-nav button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #6ecbff;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+}
+
+.week-nav button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.week-nav h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+/* ===== Day Cards Grid ===== */
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.day-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s, background 0.3s;
+  cursor: pointer;
+}
+
+.day-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.day-card h3 {
+  color: #6ecbff;
+  margin-bottom: 0.5rem;
+}
+
+/* ===== Details Panel ===== */
+.details-panel {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  margin-bottom: 3rem;
+}
+
+.details-panel h3 {
+  color: #6ecbff;
+  margin-top: 0;
+}
+
+.details-panel ul {
+  list-style: none;
+  padding: 0;
+}
+
+.details-panel li {
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+/* ===== Request Help Form ===== */
+.request-help {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.request-help h3 {
+  color: #6ecbff;
+  margin-bottom: 1rem;
+}
+
+.request-help form {
+  display: grid;
+  gap: 1rem;
+}
+
+.request-help input,
+.request-help select,
+.request-help textarea {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  width: 100%;
+  resize: none;
+}
+
+.request-help button {
+  background: #6ecbff;
+  color: #081830;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: fit-content;
+}
+
+.request-help button:hover {
+  background: #4fb9f0;
+  transform: translateY(-2px);
+}
+
+footer {
+  text-align: center;
+  margin: 2rem 0;
+  color: #999;
+  font-size: 0.9rem;
+}
