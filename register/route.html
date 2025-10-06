@@ -1,38 +1,33 @@
-<!DOCTYPE html>
-<html><head>
-  <meta charset="utf-8"/><title>Routing…</title>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>Routing…</title></head>
+  <body>
+    <p>Routing to your dashboard…</p>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+      import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+      import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCiiAfvZ25ChvpCVCbMj46dsCrZBYMGBpM",
-      authDomain: "logintrial001.firebaseapp.com",
-      projectId: "logintrial001",
-      storageBucket: "logintrial001.appspot.com",
-      messagingSenderId: "419688887007",
-      appId: "1:419688887007:web:013af1286ba6e7aff42f6a"
-    };
+      const app = initializeApp({
+        apiKey: "AIzaSyCiiAfvZ25ChvpCVCbMj46dsCrZBYMGBpM",
+        authDomain: "logintrial001.firebaseapp.com",
+        projectId: "logintrial001",
+        storageBucket: "logintrial001.appspot.com",
+        messagingSenderId: "419688887007",
+        appId: "1:419688887007:web:013af1286ba6e7aff42f6a"
+      });
+      const auth = getAuth(app);
+      const db = getFirestore(app);
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db   = getFirestore(app);
-
-    function go(role) {
-      if (!role) window.location.href = "/complete-profile.html";
-      else if (role === "teacher") window.location.href = "/teacher/dashboard.html";
-      else window.location.href = "/student/dashboard.html";
-    }
-
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) { window.location.href = "/signin.html"; return; }
-      try {
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) { window.location.href = "/register/auth.html"; return; }
         const snap = await getDoc(doc(db, "users", user.uid));
-        go(snap.exists() ? snap.data().role : null);
-      } catch {
-        go(null);
-      }
-    });
-  </script>
-</head><body></body></html>
+        const data = snap.data();
+        if (!data?.userType) { window.location.href = "/postSignUp.html"; return; }
+        window.location.href = (data.userType === "teacher")
+          ? "/dashboard/teacher.html"
+          : "/dashboard/student.html";
+      });
+    </script>
+  </body>
+</html>
