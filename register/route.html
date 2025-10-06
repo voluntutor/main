@@ -25,8 +25,9 @@
         const data = snap.data();
         if (!data?.userType) { window.location.href = "/postSignUp.html"; return; }
         window.location.href = (data.userType === "teacher")
-          ? "/dashboard/teacher.html"
-          : "/dashboard/student.html";
+  ? "../dashboard/teacher.html"
+  : "../dashboard/student.html";
+
       });
     </script>
   </body>

@@ -81,10 +81,11 @@ if (signupForm) {
 
       // redirect based on user type
       if (userType === "teacher") {
-        window.location.href = "/dashboard/teacher.html";
+        window.location.href = "../dashboard/teacher.html";
       } else {
-        window.location.href = "/dashboard/student.html";
+        window.location.href = "../dashboard/student.html";
       }
+      
 
     } catch (err) {
       console.error(err);
