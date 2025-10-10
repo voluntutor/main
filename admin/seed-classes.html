@@ -1,0 +1,37 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Seed classes</title>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+  const app = initializeApp({ /* your Firebase config */ });
+  const db = getFirestore(app);
+
+  const CLASSES = [
+    // French
+    { subject:"French", name:"French I",  teacherEmail:"french1@school.org" },
+    { subject:"French", name:"French II", teacherEmail:"french2@school.org" },
+    { subject:"French", name:"French III",teacherEmail:"french3@school.org" },
+    // Spanish
+    { subject:"Spanish", name:"Spanish I",  teacherEmail:"spanish1@school.org" },
+    { subject:"Spanish", name:"Spanish II", teacherEmail:"spanish2@school.org" },
+    // German
+    { subject:"German", name:"German I",  teacherEmail:"german1@school.org" },
+    { subject:"German", name:"German II", teacherEmail:"german2@school.org" },
+    // Science
+    { subject:"Physics",   name:"Physics I", teacherEmail:"physics@school.org" },
+    { subject:"Chemistry", name:"Chemistry I", teacherEmail:"chem@school.org" },
+    { subject:"Biology",   name:"Biology I", teacherEmail:"bio@school.org" },
+    // Math
+    { subject:"Math", name:"Algebra I", teacherEmail:"math@school.org" },
+    { subject:"Math", name:"Geometry",  teacherEmail:"math@school.org" },
+    { subject:"Math", name:"AP Calculus", teacherEmail:"calc@school.org" },
+  ];
+
+  const run = async () => {
+    for (const c of CLASSES) await addDoc(collection(db,"classes"), c);
+    document.body.innerHTML = "<h2>Seed done.</h2>";
+  };
+  run();
+</script>
