@@ -1,71 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Dashboard | VolunTutor</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VolunTutor • Student Dashboard</title>
+
+  <!-- iOS-like system font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- confetti lib (required for confetti to show) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+
+  <!-- main stylesheet -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="glass header">
-    <div>
-      <h2>Welcome, <span id="userName"></span></h2>
-      <p id="userEmail"></p>
-    </div>
-    <button id="logoutBtn" class="btn">Logout</button>
-  </header>
-
-  <main>
-    <section class="dashboard glass">
-      <div class="dashboard-top">
-        <h3>📅 Your Weekly Schedule</h3>
-        <div class="week-controls">
-          <button id="prevWeek" class="btn-ghost">◀</button>
-          <span id="weekLabel"></span>
-          <button id="nextWeek" class="btn-ghost">▶</button>
+  <div id="app" class="app">
+    <!-- Topbar -->
+    <header class="topbar glass">
+      <div class="brand">
+        <img src="../logo.png" alt="VolunTutor" class="logo" />
+        <div>
+          <h1 class="title">VolunTutor</h1>
+          <p class="subtitle">Student Dashboard</p>
         </div>
       </div>
-      <div id="calendarGrid" class="calendar-grid"></div>
-    </section>
 
-    <section class="glass upcoming">
-      <h3>🎯 Upcoming Sessions</h3>
-      <div id="upcomingList" class="list"></div>
-    </section>
-  </main>
-
-  <button id="fab" class="fab">＋</button>
-
-  <!-- Modal -->
-  <div id="modalBackdrop" class="modal hidden">
-    <div class="modal-content glass">
-      <h3>Request a Tutoring Session</h3>
-      <label>Subject</label>
-      <select id="subjectSelect"></select>
-
-      <label>Teacher</label>
-      <select id="teacherSelect"></select>
-
-      <label>Date</label>
-      <input type="date" id="reqDate" />
-
-      <label>Time</label>
-      <input type="time" id="reqTime" />
-
-      <label>Details</label>
-      <textarea id="reqDetails" placeholder="Notes or special requests..."></textarea>
-
-      <div class="modal-actions">
-        <button id="sendRequest" class="btn">Schedule</button>
-        <button id="closeModal" class="btn-ghost">Cancel</button>
+      <div class="top-controls">
+        <button id="themeToggle" class="icon-btn" title="Toggle theme">🌗</button>
+        <div class="user-chip glass">
+          <div class="avatar" id="avatar">VT</div>
+          <div class="user-info">
+            <div id="userName">Student</div>
+            <div id="userEmail" class="muted small"></div>
+          </div>
+        </div>
+        <button id="logoutBtn" class="btn-ghost">Log out</button>
       </div>
-    </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="main-grid">
+      <!-- Calendar panel -->
+      <section class="panel glass animated-card">
+        <div class="panel-head">
+          <h2>📆 Calendar</h2>
+          <div class="panel-actions month-nav">
+            <button id="prevMonth" class="btn-ghost">◀</button>
+            <div id="monthLabel" class="muted"></div>
+            <button id="nextMonth" class="btn-ghost">▶</button>
+          </div>
+        </div>
+
+        <div id="calendar" class="calendar" aria-live="polite"></div>
+
+        <div class="legend">
+          <span class="dot booked"></span> Booked
+          <span class="dot today"></span> Today
+        </div>
+      </section>
+
+      <!-- Right column: request and widgets -->
+      <aside class="sidecol">
+        <section class="panel glass animated-card">
+          <div class="panel-head"><h2>✍ Request a Session</h2></div>
+
+          <form id="requestForm" class="form" onsubmit="return false;">
+            <label>Subject
+              <select id="subjectSelect" required></select>
+            </label>
+
+            <label>Teacher
+              <select id="teacherSelect" required></select>
+            </label>
+
+            <label>Date
+              <input id="reqDate" type="date" required />
+            </label>
+
+            <label>Time
+              <input id="reqTime" type="time" required />
+            </label>
+
+            <label>Notes
+              <textarea id="reqDetails" rows="3" placeholder="Any notes / requests..."></textarea>
+            </label>
+
+            <div class="form-actions">
+              <button id="sendRequest" type="button" class="btn-primary">Schedule</button>
+              <button id="clearForm" type="button" class="btn-ghost">Clear</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel glass animated-card">
+          <div class="panel-head"><h2>⏱ Upcoming Sessions</h2></div>
+          <div id="upcomingList" class="list" aria-live="polite"></div>
+        </section>
+
+        <section class="panel glass animated-card small">
+          <h3>Quick Tools</h3>
+          <div class="tools">
+            <a id="becomeTutor" class="btn-ghost" href="tutor.html">Become a Tutor</a>
+            <button id="refreshBtn" class="btn-ghost">Refresh</button>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer glass">
+      <div>© 2025 VolunTutor</div>
+      <div class="muted small">Futuristic glass UI • Mobile-ready</div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- confetti canvas (kept even if the confetti lib uses its own canvas) -->
+    <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
   </div>
 
-<canvas id="confettiCanvas"></canvas>
-<script type="module" src="student.js"></script>
-
-
+  <!-- main script (module) -->
   <script type="module" src="student.js"></script>
 </body>
 </html>
