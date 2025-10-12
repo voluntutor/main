@@ -128,6 +128,11 @@
     contactToggle.addEventListener('click', () => {
       const isOpen = contactPanel.classList.toggle('open');
       contactPanel.setAttribute('aria-hidden', String(!isOpen));
+      // Scroll to top when opened
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scrolling effect
+      });
     });
 
     // Close menus on outside click (mobile sanity)

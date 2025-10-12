@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8"><title>Approve Tutor (Admin)</title>
+<input id="appId" placeholder="tutorApplications doc id">
+<button id="approve">Approve</button>
+<pre id="out"></pre>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+  const app = initializeApp({ /* your config */ });
+  const db = getFirestore(app);
+
+  const $ = (s)=>document.querySelector(s);
+  $('#approve').onclick = async () => {
+    const id = $('#appId').value.trim();
+    const ref = doc(db, 'tutorApplications', id);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) { $('#out').textContent = 'Not found'; return; }
+    const appData = snap.data();
+
+    await updateDoc(ref, { status:'approved', reviewedAt: serverTimestamp() });
+
+    const userRef = doc(db, 'users', appData.applicantUid);
+    await setDoc(userRef, {
+      isTutor: true,
+      tutorSubjects: arrayUnion(...appData.subjects),
+      tutorClasses: arrayUnion(...appData.classes)
+    }, { merge: true });
+
+    $('#out').textContent = 'Approved and user updated.';
+  };
+</script>
