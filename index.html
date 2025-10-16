@@ -4,15 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VolunTutor</title>
-  <!-- Use relative paths so it works locally and on GitHub Pages (/main) -->
+  <!-- Use relative paths so it works both locally and on GitHub Pages -->
   <link rel="icon" type="image/png" href="Media/favicon2.png" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Dynamic base path: fixes internal links automatically -->
+  <script>
+    (function () {
+      const base = document.createElement('base');
+      base.href = location.hostname.endsWith('github.io') ? '/main/' : '/';
+      document.head.prepend(base);
+    })();
+  </script>
 </head>
+
 <body>
   <!-- Header -->
   <header class="site-header">
     <div class="brand">
-      <!-- Home link is relative, not root -->
       <a class="brand-link" href="./" aria-label="VolunTutor Home">
         <img
           src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true"
@@ -34,7 +43,6 @@
     <nav id="primaryNav" class="primary-nav" aria-label="Main">
       <a href="#about">About</a>
       <a href="#sponsors">Sponsors</a>
-      <!-- Relative link into /register/ -->
       <a href="register/auth.html">Login</a>
       <button id="contactToggle" class="linklike" type="button">Contact</button>
     </nav>
@@ -53,7 +61,6 @@
     <div class="hero-inner container">
       <h2>Welcome to VolunTutor 🎓</h2>
       <p>Fun, interactive tutoring made for students, by students.</p>
-      <!-- Relative button link -->
       <a class="btn primary" href="register/auth.html">Sign Up</a>
     </div>
   </section>
@@ -106,7 +113,6 @@
         <div class="feature"><strong>Modern Design</strong><br />Glass finish & animations</div>
         <div class="feature"><strong>Supportive</strong><br />Everyone grows together</div>
       </div>
-      <!-- Relative CTA -->
       <a class="btn primary mt-24" href="register/auth.html">Sign Up</a>
     </section>
 
@@ -119,7 +125,7 @@
   </footer>
 
   <script>
-    // Mobile nav
+    // Mobile nav toggle
     const navToggle = document.getElementById('navToggle');
     const primaryNav = document.getElementById('primaryNav');
     navToggle.addEventListener('click', () => {
@@ -127,17 +133,16 @@
       navToggle.setAttribute('aria-expanded', String(isOpen));
     });
 
-    // Contact panel
+    // Contact panel toggle
     const contactToggle = document.getElementById('contactToggle');
     const contactPanel = document.getElementById('contactPanel');
     contactToggle.addEventListener('click', () => {
       const isOpen = contactPanel.classList.toggle('open');
       contactPanel.setAttribute('aria-hidden', String(!isOpen));
-      // Scroll to top when opened
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Close menus on outside click (mobile sanity)
+    // Close menus on outside click
     document.addEventListener('click', (e) => {
       if (!primaryNav.contains(e.target) && !navToggle.contains(e.target)) {
         primaryNav.classList.remove('open');
