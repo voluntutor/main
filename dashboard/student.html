@@ -1,77 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VolunTutor • Student Dashboard</title>
 
-  <!-- iOS-like system font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- favicon -->
+  <link rel="icon" type="image/png" href="media/favcon2.png" />
 
-  <!-- confetti lib (required for confetti to show) -->
+  <!-- Main stylesheet (your CSS file) -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Confetti library required by the JS confetti wrappers -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
-  <!-- main stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- Optional fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* tiny page-level fallback to avoid raw-unstyled flash while CSS loads */
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Outfit",sans-serif;background:#0b0f1a;color:#eaf0ff}
+  </style>
 </head>
 <body>
+  <!-- App container -->
   <div id="app" class="app">
-    <!-- Topbar -->
-    <header class="topbar glass">
-      <div class="brand">
-        <img src="../logo.png" alt="VolunTutor" class="logo" />
+
+    <!-- Header / Topbar -->
+    <header class="topbar glass" role="banner">
+      <div class="brand" id="homeLink" style="cursor:pointer;">
+        <img id="logoImg" src="media/favcon2.png" alt="VolunTutor Logo" class="logo" />
         <div>
-          <h1 class="title">VolunTutor</h1>
-          <p class="subtitle">Student Dashboard</p>
+          <div class="title">VolunTutor</div>
+          <div class="subtitle muted small">Student Dashboard</div>
         </div>
       </div>
 
       <div class="top-controls">
-        <button id="themeToggle" class="icon-btn" title="Toggle theme">🌗</button>
-        <div class="user-chip glass">
+        <div class="user-chip glass" id="userChip" aria-hidden="false">
           <div class="avatar" id="avatar">VT</div>
           <div class="user-info">
             <div id="userName">Student</div>
-            <div id="userEmail" class="muted small"></div>
+            <div id="userEmail" class="small muted"></div>
           </div>
         </div>
-        <button id="logoutBtn" class="btn-ghost">Log out</button>
+
+        <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Toggle theme">🌗</button>
+        <button id="logoutBtn" class="btn-ghost" title="Log out">Log out</button>
       </div>
     </header>
 
-    <!-- Main Grid -->
-    <main class="main-grid">
-      <!-- Calendar panel -->
-      <section class="panel glass animated-card">
+    <!-- Main grid -->
+    <main class="main-grid" role="main" id="mainGrid">
+
+      <!-- Left column -->
+      <section class="panel glass animated-card" id="leftColumn" style="min-height:540px;">
         <div class="panel-head">
-          <h2>📆 Calendar</h2>
-          <div class="panel-actions month-nav">
-            <button id="prevMonth" class="btn-ghost">◀</button>
-            <div id="monthLabel" class="muted"></div>
-            <button id="nextMonth" class="btn-ghost">▶</button>
+          <h2>📆 Your Calendar</h2>
+          <div class="panel-actions">
+            <button id="prevMonth" class="btn-ghost" aria-label="Previous month">◀</button>
+            <div id="monthLabel" class="muted small" aria-live="polite">Loading…</div>
+            <button id="nextMonth" class="btn-ghost" aria-label="Next month">▶</button>
           </div>
         </div>
 
-        <div id="calendar" class="calendar" aria-live="polite"></div>
+        <!-- Calendar grid (JS injects day cells here) -->
+        <div id="calendar" class="calendar" role="grid" aria-label="Month calendar"></div>
 
-        <div class="legend">
+        <div class="legend" aria-hidden="true" style="margin-top:12px">
           <span class="dot booked"></span> Booked
-          <span class="dot today"></span> Today
+          <span class="dot today" style="margin-left:12px"></span> Today
         </div>
       </section>
 
-      <!-- Right column: request and widgets -->
-      <aside class="sidecol">
-        <section class="panel glass animated-card">
-          <div class="panel-head"><h2>✍ Request a Session</h2></div>
+      <!-- Right column -->
+      <aside class="sidecol" id="rightColumn" style="min-width:340px;">
+        <!-- Request session -->
+        <section class="panel glass animated-card" aria-labelledby="requestTitle">
+          <div class="panel-head">
+            <h2 id="requestTitle">✍ Request a Session</h2>
+          </div>
 
-          <form id="requestForm" class="form" onsubmit="return false;">
+          <form id="requestForm" class="form" novalidate>
             <label>Subject
-              <select id="subjectSelect" required></select>
+              <select id="subjectSelect" class="dropdown" required>
+                <option value="">Select Subject</option>
+                <!-- Option fallback; JS may replace/populate -->
+                <option value="French">French</option>
+                <option value="Spanish">Spanish</option>
+                <option value="German">German</option>
+                <option value="Math">Math</option>
+                <option value="Science">Science</option>
+              </select>
             </label>
 
             <label>Teacher
-              <select id="teacherSelect" required></select>
+              <select id="teacherSelect" class="dropdown" required>
+                <option value="">Select Teacher</option>
+                <!-- static fallback; JS may replace/populate -->
+                <option>Mr. Hearty</option>
+                <option>Mr. French</option>
+              </select>
             </label>
 
             <label>Date
@@ -83,43 +111,107 @@
             </label>
 
             <label>Notes
-              <textarea id="reqDetails" rows="3" placeholder="Any notes / requests..."></textarea>
+              <textarea id="reqDetails" rows="3" placeholder="Notes or special requests..."></textarea>
             </label>
 
-            <div class="form-actions">
-              <button id="sendRequest" type="button" class="btn-primary">Schedule</button>
-              <button id="clearForm" type="button" class="btn-ghost">Clear</button>
+            <div class="form-actions" style="display:flex;gap:10px;margin-top:8px;">
+              <button type="button" id="sendRequest" class="btn-primary">Schedule</button>
+              <button type="button" id="clearForm" class="btn-ghost">Clear</button>
+              <button type="button" id="applyTutorBtn" class="btn-ghost" title="Become a Tutor">Become a Tutor</button>
             </div>
           </form>
         </section>
 
+        <!-- Upcoming sessions -->
         <section class="panel glass animated-card">
-          <div class="panel-head"><h2>⏱ Upcoming Sessions</h2></div>
-          <div id="upcomingList" class="list" aria-live="polite"></div>
+          <div class="panel-head">
+            <h2>📍 Upcoming Sessions</h2>
+          </div>
+          <div id="upcomingList" class="list" aria-live="polite">
+            <!-- JS will inject upcoming session cards -->
+            <div class="muted small">Loading upcoming sessions…</div>
+          </div>
         </section>
 
-        <section class="panel glass animated-card small">
-          <h3>Quick Tools</h3>
-          <div class="tools">
-            <a id="becomeTutor" class="btn-ghost" href="tutor.html">Become a Tutor</a>
-            <button id="refreshBtn" class="btn-ghost">Refresh</button>
+        <!-- Reviews -->
+        <section class="panel glass animated-card">
+          <h3>📝 Leave a Review</h3>
+          <p class="muted small">Feedback is anonymous and helps us improve.</p>
+          <textarea id="reviewText" placeholder="Write your feedback here..." rows="4"></textarea>
+          <div style="display:flex;gap:10px;margin-top:8px;">
+            <button id="submitReview" class="btn">Submit Review</button>
+            <button id="viewReviews" class="btn-ghost">View Reviews</button>
+          </div>
+        </section>
+
+        <!-- Help -->
+        <section class="panel glass animated-card">
+          <h3>🆘 Help & Support</h3>
+          <p class="muted small">Report an issue, complaint, or suggestion.</p>
+          <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
+          <div style="display:flex;gap:10px;margin-top:8px;">
+            <button id="sendHelp" class="btn">Send</button>
+            <button id="openFAQ" class="btn-ghost">FAQ</button>
           </div>
         </section>
       </aside>
     </main>
 
+    <!-- Footer -->
     <footer class="footer glass">
       <div>© 2025 VolunTutor</div>
       <div class="muted small">Futuristic glass UI • Mobile-ready</div>
     </footer>
 
+    <!-- Toast -->
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    <!-- confetti canvas (kept even if the confetti lib uses its own canvas) -->
-    <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+    <!-- Day overlay (used when user clicks a calendar day) -->
+    <div id="dayOverlay" class="day-overlay hidden" aria-hidden="true">
+      <div class="overlay-backdrop" id="overlayBackdrop"></div>
+      <div class="overlay-panel glass-panel" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
+        <div class="overlay-header">
+          <h3 id="overlayTitle">Selected Date</h3>
+          <div class="overlay-controls">
+            <button id="overlayClose" class="btn-ghost">Close</button>
+          </div>
+        </div>
+        <div id="overlayBody" class="overlay-body">
+          <!-- JS will populate day contents (sessions, quick add, reminders) -->
+        </div>
+        <div class="overlay-footer">
+          <button id="overlayQuickAdd" class="btn-primary">Quick Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confetti Canvas (JS will use) -->
+    <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
   </div>
 
-  <!-- main script (module) -->
+  <!-- Module JS (your fixed student.js) -->
+  <!-- Make sure student.js is the JS file that contains working Firebase init and logic -->
   <script type="module" src="student.js"></script>
+
+  <!-- Small inline script: wire simple UI bits that must exist even if module fails (failsafe) -->
+  <script>
+    // logo click => go to dashboard home
+    document.getElementById('homeLink')?.addEventListener('click', () => {
+      // navigate to same page root (dashboard home)
+      location.href = 'student.html';
+    });
+
+    // Apply to Tutor button: navigate to tutor page (tutor.html placeholder)
+    document.getElementById('applyTutorBtn')?.addEventListener('click', () => {
+      location.href = 'tutor.html';
+    });
+
+    // Small keyboard shortcut for theme toggle (T)
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 't') {
+        document.getElementById('themeToggle')?.click();
+      }
+    });
+  </script>
 </body>
 </html>
