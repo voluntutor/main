@@ -1,34 +1,182 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VolunTutor • Student Dashboard</title>
 
-  <!-- favicon -->
-  <link rel="icon" type="image/png" href="media/favcon2.png" />
+  <!-- Favicon (fixed the filename and path) -->
+  <link rel="icon" type="image/png" href="Media/favicon2.png" />
 
-  <!-- Main stylesheet (your CSS file) -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Optional font -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Confetti library required by the JS confetti wrappers -->
+  <!-- Confetti (kept; harmless) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
-  <!-- Optional fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* tiny page-level fallback to avoid raw-unstyled flash while CSS loads */
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Outfit",sans-serif;background:#0b0f1a;color:#eaf0ff}
+    /* ================== THEME TOKENS ================== */
+    :root{
+      --bg-grad: linear-gradient(145deg, #f0f0ff 0%, rgba(225,230,255,.9) 100%);
+      --glass: rgba(255,255,255,.28);
+      --glass-border: rgba(255,255,255,.45);
+      --card: rgba(255,255,255,.36);
+      --text: #0b0b0b;
+      --muted: #596072;
+      --accent: #0066ff;
+      --accent-2: #3399ff;
+      --shadow: 0 8px 28px rgba(15,23,42,.12);
+      --nav-h: 64px;
+      --radius: 20px;
+    }
+    body.dark{
+      --bg-grad: linear-gradient(145deg, #0b0f1a 0%, #141824 100%);
+      --glass: rgba(0,0,0,.35);
+      --glass-border: rgba(255,255,255,.12);
+      --card: rgba(0,0,0,.42);
+      --text: #eaf0ff;
+      --muted: #9aa3b2;
+      --accent: #3a86ff;
+      --accent-2: #66a6ff;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* ================== GLOBAL ================== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Outfit", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg-grad);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    img{max-width:100%; display:block}
+
+    .glass{
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+    .btn, .btn-ghost, .btn-primary, .icon-btn{
+      cursor:pointer; border:0; border-radius:12px; font-weight:600
+    }
+    .btn{ padding:10px 16px; background:var(--card) }
+    .btn-primary{ padding:10px 16px; background:var(--accent); color:#fff }
+    .btn-ghost{ padding:10px 16px; background:transparent; color:var(--text) }
+    .btn:hover{ transform:translateY(-1px) }
+    .btn-primary:hover{ background:var(--accent-2) }
+    .icon-btn{ padding:8px 10px; background:transparent; font-size:18px }
+
+    .muted{ color: var(--muted) }
+    .small{ font-size:.9rem }
+
+    /* ================== LAYOUT ================== */
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      height:var(--nav-h); display:flex; align-items:center; justify-content:space-between;
+      padding:0 18px; border-radius:0 0 16px 16px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px }
+    .brand .logo{ width:40px; height:40px; border-radius:10px }
+    .brand .title{ font-weight:800; letter-spacing:.3px }
+    .subtitle{ margin-top:-4px }
+
+    .top-controls{ display:flex; align-items:center; gap:10px }
+    .user-chip{
+      display:flex; align-items:center; gap:10px; padding:6px 10px; border-radius:14px;
+    }
+    .avatar{
+      width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+      background: var(--accent); color:#fff; font-weight:700;
+    }
+
+    main.main-grid{
+      display:grid; grid-template-columns: 1fr 340px; gap:22px;
+      padding:18px; max-width:1200px; margin: 18px auto;
+    }
+    .panel{
+      border-radius: var(--radius);
+      padding:16px;
+    }
+    .panel-head{
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+    }
+    .sidecol{ display:flex; flex-direction:column; gap:18px }
+
+    footer.footer{
+      margin: 10px auto 24px; max-width:1200px; padding:10px 18px; border-radius:14px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+
+    /* ================== CALENDAR ================== */
+    .calendar{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px }
+    .cal-head{
+      display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:8px;
+      color: var(--muted); font-weight:600;
+    }
+    .cal-cell{
+      position:relative; min-height:86px; border-radius:16px; padding:10px;
+      background: var(--card);
+      border:1px solid var(--glass-border);
+      display:flex; align-items:flex-start; justify-content:flex-start;
+    }
+    .cal-cell.today{ outline:2px solid var(--accent) }
+    .cal-date{ font-weight:700; font-size:.95rem }
+    .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; vertical-align:middle }
+    .dot.booked{ background: var(--accent) }
+    .dot.today{ background: #22c55e }
+
+    /* ================== FORM ================== */
+    .form label{ display:block; font-weight:600; margin:8px 0 6px }
+    .form input, .form select, .form textarea{
+      width:100%; padding:10px 12px; border-radius:12px; border:1px solid var(--glass-border);
+      background: var(--card); color: var(--text); outline:none;
+    }
+    .form-actions{ display:flex; gap:10px; margin-top:10px }
+
+    /* ================== LISTS ================== */
+    .list{ display:flex; flex-direction:column; gap:10px }
+    .card{
+      padding:12px; border-radius:14px; border:1px solid var(--glass-border); background:var(--card);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+
+    /* ================== OVERLAY ================== */
+    .day-overlay.hidden{ display:none }
+    .overlay-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.35) }
+    .glass-panel{
+      position:fixed; inset:10% 50% auto 50%; transform:translate(-50%,0);
+      width:min(720px, 92vw); max-height:80vh; overflow:auto; padding:16px; border-radius:18px;
+    }
+    .overlay-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px }
+    .overlay-body{ padding:8px 0 }
+    .overlay-footer{ display:flex; justify-content:flex-end; gap:8px; margin-top:12px }
+
+    /* ================== TOAST ================== */
+    .toast{
+      position:fixed; right:16px; bottom:16px; min-width:220px;
+      padding:10px 14px; border-radius:12px; background:#111827; color:#fff; opacity:0; transform:translateY(8px);
+      transition:.3s;
+    }
+    .toast.show{ opacity:1; transform:translateY(0) }
+
+    /* ================== RESPONSIVE ================== */
+    @media (max-width: 900px){
+      main.main-grid{ grid-template-columns:1fr }
+      .sidecol{ order:-1 }
+    }
   </style>
 </head>
 <body>
-  <!-- App container -->
-  <div id="app" class="app">
-
-    <!-- Header / Topbar -->
+  <div id="app">
+    <!-- Header -->
     <header class="topbar glass" role="banner">
       <div class="brand" id="homeLink" style="cursor:pointer;">
-        <img id="logoImg" src="media/favcon2.png" alt="VolunTutor Logo" class="logo" />
+        <img id="logoImg" src="Media/favicon2.png" alt="VolunTutor Logo" class="logo" />
         <div>
           <div class="title">VolunTutor</div>
           <div class="subtitle muted small">Student Dashboard</div>
@@ -49,21 +197,20 @@
       </div>
     </header>
 
-    <!-- Main grid -->
+    <!-- Main -->
     <main class="main-grid" role="main" id="mainGrid">
-
       <!-- Left column -->
-      <section class="panel glass animated-card" id="leftColumn" style="min-height:540px;">
+      <section class="panel glass" id="leftColumn">
         <div class="panel-head">
           <h2>📆 Your Calendar</h2>
-          <div class="panel-actions">
+          <div class="panel-actions" style="display:flex;align-items:center;gap:8px">
             <button id="prevMonth" class="btn-ghost" aria-label="Previous month">◀</button>
             <div id="monthLabel" class="muted small" aria-live="polite">Loading…</div>
             <button id="nextMonth" class="btn-ghost" aria-label="Next month">▶</button>
           </div>
         </div>
 
-        <!-- Calendar grid (JS injects day cells here) -->
+        <div class="cal-head" id="calHead"></div>
         <div id="calendar" class="calendar" role="grid" aria-label="Month calendar"></div>
 
         <div class="legend" aria-hidden="true" style="margin-top:12px">
@@ -73,83 +220,68 @@
       </section>
 
       <!-- Right column -->
-      <aside class="sidecol" id="rightColumn" style="min-width:340px;">
-        <!-- Request session -->
-        <section class="panel glass animated-card" aria-labelledby="requestTitle">
+      <aside class="sidecol" id="rightColumn">
+        <section class="panel glass" aria-labelledby="requestTitle">
           <div class="panel-head">
             <h2 id="requestTitle">✍ Request a Session</h2>
           </div>
 
           <form id="requestForm" class="form" novalidate>
-            <label>Subject
-              <select id="subjectSelect" class="dropdown" required>
-                <option value="">Select Subject</option>
-                <!-- Option fallback; JS may replace/populate -->
-                <option value="French">French</option>
-                <option value="Spanish">Spanish</option>
-                <option value="German">German</option>
-                <option value="Math">Math</option>
-                <option value="Science">Science</option>
-              </select>
-            </label>
+            <label for="subjectSelect">Subject</label>
+            <select id="subjectSelect" class="dropdown" required>
+              <option value="">Select Subject</option>
+              <option>French</option><option>Spanish</option><option>German</option>
+              <option>Math</option><option>Science</option>
+            </select>
 
-            <label>Teacher
-              <select id="teacherSelect" class="dropdown" required>
-                <option value="">Select Teacher</option>
-                <!-- static fallback; JS may replace/populate -->
-                <option>Mr. Hearty</option>
-                <option>Mr. French</option>
-              </select>
-            </label>
+            <label for="teacherSelect">Teacher</label>
+            <select id="teacherSelect" class="dropdown" required>
+              <option value="">Select Teacher</option>
+              <option>Mr. Hearty</option>
+              <option>Mr. French</option>
+            </select>
 
-            <label>Date
-              <input id="reqDate" type="date" required />
-            </label>
+            <label for="reqDate">Date</label>
+            <input id="reqDate" type="date" required />
 
-            <label>Time
-              <input id="reqTime" type="time" required />
-            </label>
+            <label for="reqTime">Time</label>
+            <input id="reqTime" type="time" required />
 
-            <label>Notes
-              <textarea id="reqDetails" rows="3" placeholder="Notes or special requests..."></textarea>
-            </label>
+            <label for="reqDetails">Notes</label>
+            <textarea id="reqDetails" rows="3" placeholder="Notes or special requests..."></textarea>
 
-            <div class="form-actions" style="display:flex;gap:10px;margin-top:8px;">
+            <div class="form-actions">
               <button type="button" id="sendRequest" class="btn-primary">Schedule</button>
-              <button type="button" id="clearForm" class="btn-ghost">Clear</button>
+              <button type="button" id="clearForm" class="btn">Clear</button>
               <button type="button" id="applyTutorBtn" class="btn-ghost" title="Become a Tutor">Become a Tutor</button>
             </div>
           </form>
         </section>
 
-        <!-- Upcoming sessions -->
-        <section class="panel glass animated-card">
+        <section class="panel glass">
           <div class="panel-head">
             <h2>📍 Upcoming Sessions</h2>
           </div>
           <div id="upcomingList" class="list" aria-live="polite">
-            <!-- JS will inject upcoming session cards -->
-            <div class="muted small">Loading upcoming sessions…</div>
+            <div class="muted small">No sessions yet.</div>
           </div>
         </section>
 
-        <!-- Reviews -->
-        <section class="panel glass animated-card">
+        <section class="panel glass">
           <h3>📝 Leave a Review</h3>
           <p class="muted small">Feedback is anonymous and helps us improve.</p>
           <textarea id="reviewText" placeholder="Write your feedback here..." rows="4"></textarea>
-          <div style="display:flex;gap:10px;margin-top:8px;">
+          <div class="form-actions">
             <button id="submitReview" class="btn">Submit Review</button>
             <button id="viewReviews" class="btn-ghost">View Reviews</button>
           </div>
         </section>
 
-        <!-- Help -->
-        <section class="panel glass animated-card">
+        <section class="panel glass">
           <h3>🆘 Help & Support</h3>
           <p class="muted small">Report an issue, complaint, or suggestion.</p>
           <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
-          <div style="display:flex;gap:10px;margin-top:8px;">
+          <div class="form-actions">
             <button id="sendHelp" class="btn">Send</button>
             <button id="openFAQ" class="btn-ghost">FAQ</button>
           </div>
@@ -166,7 +298,7 @@
     <!-- Toast -->
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    <!-- Day overlay (used when user clicks a calendar day) -->
+    <!-- Day overlay -->
     <div id="dayOverlay" class="day-overlay hidden" aria-hidden="true">
       <div class="overlay-backdrop" id="overlayBackdrop"></div>
       <div class="overlay-panel glass-panel" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
@@ -176,42 +308,165 @@
             <button id="overlayClose" class="btn-ghost">Close</button>
           </div>
         </div>
-        <div id="overlayBody" class="overlay-body">
-          <!-- JS will populate day contents (sessions, quick add, reminders) -->
-        </div>
+        <div id="overlayBody" class="overlay-body"></div>
         <div class="overlay-footer">
           <button id="overlayQuickAdd" class="btn-primary">Quick Add</button>
         </div>
       </div>
     </div>
-
-    <!-- Confetti Canvas (JS will use) -->
-    <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
   </div>
 
-  <!-- Module JS (your fixed student.js) -->
-  <!-- Make sure student.js is the JS file that contains working Firebase init and logic -->
-  <script type="module" src="student.js"></script>
+  <script type="module">
+    /* ================== MINI UTIL ================== */
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const toast = (msg) => {
+      const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+      setTimeout(()=> t.classList.remove('show'), 1800);
+    };
 
-  <!-- Small inline script: wire simple UI bits that must exist even if module fails (failsafe) -->
-  <script>
-    // logo click => go to dashboard home
-    document.getElementById('homeLink')?.addEventListener('click', () => {
-      // navigate to same page root (dashboard home)
-      location.href = 'student.html';
+    /* ================== THEME TOGGLE ================== */
+    const themeToggle = $('#themeToggle');
+    const applyTheme = () => {
+      const saved = localStorage.getItem('vt-theme');
+      if (saved === 'dark') document.body.classList.add('dark');
+      if (saved === 'light') document.body.classList.remove('dark');
+    };
+    applyTheme();
+    themeToggle?.addEventListener('click', () => {
+      const dark = document.body.classList.toggle('dark');
+      localStorage.setItem('vt-theme', dark ? 'dark' : 'light');
     });
 
-    // Apply to Tutor button: navigate to tutor page (tutor.html placeholder)
-    document.getElementById('applyTutorBtn')?.addEventListener('click', () => {
-      location.href = 'tutor.html';
+    /* ================== NAV / ROUTING BUTTONS ================== */
+    $('#homeLink')?.addEventListener('click', () => location.href = 'student.html');
+    $('#applyTutorBtn')?.addEventListener('click', () => location.href = 'tutor.html');
+    $('#logoutBtn')?.addEventListener('click', () => {
+      // If you wire Firebase, call signOut here. For now, just fake it:
+      toast('Logged out'); setTimeout(()=> location.href = '/register/auth.html', 600);
     });
 
-    // Small keyboard shortcut for theme toggle (T)
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 't') {
-        document.getElementById('themeToggle')?.click();
+    /* ================== CALENDAR ================== */
+    const calHead = $('#calHead');
+    const cal = $('#calendar');
+    const monthLabel = $('#monthLabel');
+
+    const weekdayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const monthNames = [
+      'January','February','March','April','May','June',
+      'July','August','September','October','November','December'
+    ];
+
+    // header once
+    calHead.innerHTML = weekdayNames.map(d=>`<div class="small" style="text-align:center">${d}</div>`).join('');
+
+    let current = new Date(); current.setDate(1);
+
+    function renderCalendar() {
+      cal.innerHTML = '';
+      const year = current.getFullYear();
+      const month = current.getMonth();
+      monthLabel.textContent = `${monthNames[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = new Date(); today.setHours(0,0,0,0);
+
+      // blanks
+      for (let i=0; i<firstDay; i++) cal.appendChild(document.createElement('div'));
+
+      for (let d=1; d<=daysInMonth; d++){
+        const cell = document.createElement('div');
+        cell.className = 'cal-cell';
+        const date = new Date(year, month, d);
+        if (+date === +today) cell.classList.add('today');
+        cell.innerHTML = `<div class="cal-date">${d}</div>`;
+        cell.addEventListener('click', () => openDayOverlay(date));
+        cal.appendChild(cell);
       }
+    }
+    renderCalendar();
+
+    $('#prevMonth')?.addEventListener('click', ()=>{ current.setMonth(current.getMonth()-1); renderCalendar(); });
+    $('#nextMonth')?.addEventListener('click', ()=>{ current.setMonth(current.getMonth()+1); renderCalendar(); });
+
+    /* ================== OVERLAY ================== */
+    const dayOverlay = $('#dayOverlay');
+    function openDayOverlay(date){
+      $('#overlayTitle').textContent = date.toDateString();
+      $('#overlayBody').innerHTML = `
+        <div class="list">
+          <div class="card">
+            <div>
+              <div><strong>No sessions yet</strong></div>
+              <div class="small muted">Click Quick Add to schedule</div>
+            </div>
+            <div class="small muted">${date.toLocaleDateString()}</div>
+          </div>
+        </div>`;
+      dayOverlay.classList.remove('hidden');
+    }
+    $('#overlayClose')?.addEventListener('click', ()=> dayOverlay.classList.add('hidden'));
+    $('#overlayBackdrop')?.addEventListener('click', ()=> dayOverlay.classList.add('hidden'));
+    $('#overlayQuickAdd')?.addEventListener('click', ()=>{
+      dayOverlay.classList.add('hidden');
+      $('#reqDate').value = new Date().toISOString().slice(0,10);
+      toast('Prefilled request date');
     });
+
+    /* ================== REQUEST FORM ================== */
+    $('#clearForm')?.addEventListener('click', () => {
+      $('#requestForm').reset(); toast('Form cleared');
+    });
+
+    $('#sendRequest')?.addEventListener('click', () => {
+      const subj = $('#subjectSelect').value.trim();
+      const teach = $('#teacherSelect').value.trim();
+      const date = $('#reqDate').value;
+      const time = $('#reqTime').value;
+      if (!subj || !teach || !date || !time) return toast('Fill subject, teacher, date, time');
+
+      // Pretend to save it; append to list
+      const when = new Date(`${date}T${time}`);
+      const item = document.createElement('div');
+      item.className = 'card';
+      item.innerHTML = `
+        <div class="info">
+          <h4>${subj} with ${teach}</h4>
+          <p class="small muted">${when.toLocaleString([], { dateStyle:'medium', timeStyle: 'short' })}</p>
+        </div>
+        <button class="btn-ghost small">Details</button>
+      `;
+      $('#upcomingList').prepend(item);
+
+      // confetti, because dopamine
+      try {
+        confetti?.({ particleCount: 70, spread: 70, origin: { y: .7 } });
+      }catch{}
+      toast('Session requested!');
+      $('#requestForm').reset();
+    });
+
+    /* ================== REVIEWS / HELP ================== */
+    $('#submitReview')?.addEventListener('click', () => {
+      const txt = $('#reviewText').value.trim();
+      if (!txt) return toast('Write something first');
+      $('#reviewText').value=''; toast('Thanks for the feedback!');
+    });
+    $('#viewReviews')?.addEventListener('click', () => toast('Reviews feature coming soon'));
+    $('#sendHelp')?.addEventListener('click', () => {
+      const t = $('#helpText').value.trim();
+      if (!t) return toast('Describe the issue');
+      $('#helpText').value=''; toast('We’ll look into it');
+    });
+    $('#openFAQ')?.addEventListener('click', () => toast('FAQ opens here'));
+
+    /* ================== USER BADGE MOCK ================== */
+    // If you wire Firebase later, replace this block with real data.
+    const mockUser = { displayName: 'Student', email: 'student@example.com' };
+    $('#userName').textContent = mockUser.displayName || 'Student';
+    $('#userEmail').textContent = mockUser.email || '';
+    $('#avatar').textContent = (mockUser.displayName || 'VT').slice(0,2).toUpperCase();
   </script>
 </body>
 </html>
