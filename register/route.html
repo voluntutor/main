@@ -1,244 +1,77 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Routing…</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet" />
-<style>
-  :root{
-    --nText: 8;
-    --nParticle: 12;
-    --cellW: 40px;
-    --cellH: 40px;
-  }
-
-  html,body{height:100vh;width:100vw}
-  body{
-    margin:0; overflow:hidden; position:relative; background:#fff;
-    font-family:'Montserrat',system-ui,Segoe UI,Roboto,Arial,sans-serif;
-    color:#222; text-align:center;
-  }
-
-  /* Status line */
-  .status{
-    position:fixed; left:0; right:0; bottom:24px; font-size:14px; opacity:.8;
-    letter-spacing:.3px;
-  }
-
-  /* ============ BACKGROUND STRIPES ============ */
-  .bg-wrap{position:absolute; inset:0; pointer-events:none}
-  .bg{
-    position:absolute; top:0; bottom:0; width:0; opacity:0;
-    left:calc(12.5% * var(--i));
-    background:hsl(calc(var(--i) * (360 / var(--nText))), 80%, 60%);
-    animation: bg-enter 2s ease-in-out calc(4s + var(--i)*40ms) forwards;
-  }
-  @keyframes bg-enter{
-    0%{width:0;opacity:0}
-    50%{width:12.5%;opacity:1}
-    100%{width:25%;opacity:0}
-  }
-
-  /* ============ CENTER STAGE ============ */
-  .stage{
-    position:absolute; left:50%; top:50%;
-    width:0; height:0; transform:translate(-50%,-50%);
-  }
-
-  /* text tiles */
-  .tile{
-    position:absolute; width:var(--cellW); height:var(--cellH);
-    line-height:var(--cellH); font-size:1.6rem; opacity:0; overflow:hidden;
-    left:calc( (var(--i) - (var(--nText) - 1) / 2) * var(--cellW) );
-    top:0;
-    animation:
-      tile-pop 1s ease-in-out calc(1s + var(--i) * 200ms) forwards,
-      tile-shift 2s ease-in-out 5s forwards;
-  }
-  .tile::after{
-    content:""; position:absolute; inset:0 auto 0 0; width:0; height:var(--cellH);
-    background:hsl(calc(var(--i) * (360 / var(--nText))), 80%, 60%);
-    animation: tile-wipe 2s ease-in-out 3s forwards;
-    z-index:-1;
-  }
-  @keyframes tile-pop{
-    0%{transform:scale(0);opacity:0}
-    50%{transform:scale(3)}
-    100%{transform:scale(1);opacity:1}
-  }
-  @keyframes tile-wipe{
-    0%{width:0;opacity:1}
-    50%{width:var(--cellW);opacity:1}
-    100%{transform:translateX(var(--cellW));opacity:0}
-  }
-  /* shift everything left one slot after 5s; the last tile gets the dramatic fling */
-  .tile:not(.last){
-    --nextLeft: calc( (var(--i) + 1 - (var(--nText) - 1) / 2) * var(--cellW) );
-  }
-  .tile.last{ z-index:2 }
-  @keyframes tile-shift{
-    0%{opacity:1}
-    50%{opacity:.0}
-    100%{opacity:0; transform:translateX(calc(var(--nextLeft) - ( (var(--i) - (var(--nText) - 1) / 2) * var(--cellW) )));}
-  }
-  /* custom fling for the last tile */
-  .tile.last{
-    animation:
-      tile-pop 1s ease-in-out calc(1s + var(--i) * 200ms) forwards,
-      last-dance 2s ease-in-out 5s forwards;
-  }
-  @keyframes last-dance{
-    0%{transform:scale(1) translateX(0); top:0; opacity:1}
-    50%{transform:scale(1) translateX(var(--cellW)); opacity:1}
-    70%{transform:scale(3) rotate(90deg); top:-30px}
-    85%{transform:scale(2) rotate(90deg); top:0}
-    100%{transform:scale(2) rotate(90deg) translateX(1000px); opacity:0}
-  }
-
-  /* frames dropping in */
-  .frame{
-    position:absolute; width:var(--cellW); height:var(--cellH); border-radius:50%;
-    left:calc( (var(--i) - (var(--nText) - 1) / 2) * var(--cellW) );
-    top:0; opacity:0;
-    background:hsl(calc(var(--i) * (360 / var(--nText))), 80%, 60%);
-    animation: frame-drop 1s ease-in-out calc(var(--i) * 200ms) forwards;
-  }
-  @keyframes frame-drop{
-    0%{transform:translateY(-1000px);opacity:1}
-    50%{opacity:.8}
-    100%{transform:translateY(0);opacity:0}
-  }
-
-  /* particles bursting out radially */
-  .particle{
-    position:absolute; width:var(--cellW); height:var(--cellH); border-radius:50%;
-    left:calc( (var(--i) - (var(--nText) - 1) / 2) * var(--cellW) );
-    top:0; opacity:0;
-    background:hsl(calc(var(--i) * (360 / var(--nText))), 80%, 60%);
-    animation: burst 1s ease-in-out calc(1s + var(--i) * 200ms) forwards;
-    transform-origin:center;
-  }
-  @keyframes burst{
-    0%{transform:translate(0,0) scale(1); opacity:0}
-    100%{
-      /* CSS trig needs modern browsers; if the school lab PC runs IE, may God help us all. */
-      transform: translate(
-        calc(cos(var(--theta)) * 100px),
-        calc(sin(var(--theta)) * 100px)
-      ) scale(0);
-      opacity:1;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Routing…</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat', system-ui, Segoe UI, Roboto, Arial, sans-serif;
+      background: #fff;
+      color: #222;
     }
-  }
-
-  /* helper text on top */
-  .headline{
-    position:fixed; top:18%; left:50%; transform:translateX(-50%);
-    font-size:clamp(18px, 4vw, 28px); letter-spacing:.4px; opacity:.9;
-  }
-</style>
+    h1 { margin: 0 0 10px; font-size: 1.6rem; }
+    p  { font-size: 0.9rem; opacity: 0.8; }
+  </style>
 </head>
+
 <body>
+  <h1>VolunTutor</h1>
+  <p id="status">Checking your session…</p>
 
-<div class="headline">Welcome :)</div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-<!-- colorful stripes -->
-<div class="bg-wrap" id="bgWrap"></div>
+    const app = initializeApp({
+      apiKey: "AIzaSyCiiAfvZ25ChvpCVCbMj46dsCrZBYMGBpM",
+      authDomain: "logintrial001.firebaseapp.com",
+      projectId: "logintrial001",
+      storageBucket: "logintrial001.appspot.com",
+      messagingSenderId: "419688887007",
+      appId: "1:419688887007:web:013af1286ba6e7aff42f6a"
+    });
 
-<!-- animation stage -->
-<div class="stage" id="stage"></div>
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const $status = document.getElementById('status');
 
-<p class="status" id="status">Checking your session…</p>
-
-<script type="module">
-  // ===== generate DOM from your Pug/Stylus intent, but with JS =====
-  const N_TEXT = 8;
-  const N_PART = 12;
-  const TEXTS = ['W','e','l','c','o','m','e',': )'];
-
-  const bgWrap = document.getElementById('bgWrap');
-  const stage  = document.getElementById('stage');
-
-  // stripes
-  for(let i=0;i<N_TEXT;i++){
-    const d=document.createElement('div');
-    d.className='bg'; d.style.setProperty('--i', i); d.style.setProperty('--nText', N_TEXT);
-    bgWrap.appendChild(d);
-  }
-
-  // tiles, frames, particles
-  for(let i=0;i<N_TEXT;i++){
-    // tile
-    const t=document.createElement('div');
-    t.className='tile';
-    if(i===N_TEXT-1) t.classList.add('last');
-    t.textContent = TEXTS[i] ?? '';
-    t.style.setProperty('--i', i);
-    t.style.setProperty('--nText', N_TEXT);
-    stage.appendChild(t);
-
-    // frame
-    const f=document.createElement('div');
-    f.className='frame';
-    f.style.setProperty('--i', i);
-    f.style.setProperty('--nText', N_TEXT);
-    stage.appendChild(f);
-
-    // particles
-    for(let j=0;j<N_PART;j++){
-      const p=document.createElement('div');
-      p.className='particle';
-      p.style.setProperty('--i', i);
-      p.style.setProperty('--nText', N_TEXT);
-      p.style.setProperty('--theta', (j * (360 / N_PART)) + 'deg');
-      stage.appendChild(p);
-    }
-  }
-
-  // ===== Firebase auth + 5s routing delay =====
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-
-  const app = initializeApp({
-    apiKey: "AIzaSyCiiAfvZ25ChvpCVCbMj46dsCrZBYMGBpM",
-    authDomain: "logintrial001.firebaseapp.com",
-    projectId: "logintrial001",
-    storageBucket: "logintrial001.appspot.com",
-    messagingSenderId: "419688887007",
-    appId: "1:419688887007:web:013af1286ba6e7aff42f6a"
-  });
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
-  const $status = document.getElementById('status');
-
-  function go(url, label){
-    $status.textContent = `${label} in 5 seconds…`;
-    setTimeout(()=>{ window.location.href = url; }, 5000);
-  }
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user){
-      go("/register/auth.html", "Not signed in. Sending you to sign in");
-      return;
-    }
-    $status.textContent = "Signed in. Fetching your profile…";
-    try{
-      const snap = await getDoc(doc(db,"users", user.uid));
-      const data = snap.data();
-      if (!data || !data.userType){
-        go("/postSignUp.html", "Missing profile info. Taking you to finish setup");
+    async function route(user) {
+      if (!user) {
+        window.location.href = "/register/auth.html";
         return;
       }
-      const dest = (data.userType === "teacher")
-        ? "../dashboard/teacher.html"
-        : "../dashboard/student.html";
-      go(dest, `Detected ${data.userType}. Routing to your dashboard`);
-    }catch(err){
-      console.error(err);
-      go("/register/auth.html", "Profile check failed. Back to sign in");
+
+      $status.textContent = "Fetching profile…";
+      try {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        const data = snap.data();
+
+        if (!data || !data.userType) {
+          window.location.href = "/dashboard/student.html";
+          return;
+        }
+
+        const dest = (data.userType === "teacher")
+          ? "../dashboard/teacher.html"
+          : "../dashboard/student.html";
+
+        window.location.href = dest;
+      } catch (err) {
+        console.error(err);
+        window.location.href = "/register/auth.html";
+      }
     }
-  });
-</script>
+
+    onAuthStateChanged(auth, route);
+  </script>
 </body>
 </html>
