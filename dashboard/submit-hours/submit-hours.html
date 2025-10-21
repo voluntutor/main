@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student-Tutor Form</title>
+  <link rel="stylesheet" href="submit-hours.css">
+</head>
+<body>
+  <!--NAVIGATION BAR TO BE ADDED ONCE IT IS UPDATED IN STUDENT DASHBOARD-->
+  <div class="container">
+    <h1>Student-Tutor Form</h1>
+    <form id="studentTutorForm">
+      <div>
+        <label for="studentName">Student Name</label>
+        <input type="text" id="studentName" name="studentName" required>
+      </div>
+      <div>
+        <label for="tutorName">Tutor Name</label>
+        <input type="text" id="tutorName" name="tutorName" required>
+      </div>
+      <div>
+        <label for="tutorEmail">Tutor Email</label>
+        <input type="email" id="tutorEmail" name="tutorEmail" required>
+      </div>
+      <div>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required>
+      </div>
+      <div>
+        <label for="teacherName">Teacher/Verification Contact Name</label>
+        <input type="text" id="teacherName" name="teacherName" required>
+      </div>
+      <div>
+        <label for="teacherEmail">Teacher/Verification Contact Email</label>
+        <input type="email" id="teacherEmail" name="teacherEmail" required>
+      </div>
+      <div>
+        <label for="hours">Hours</label>
+        <input type="number" id="hours" name="hours" min="1" required>
+      </div>
+      <button type="submit">Submit</button>
+      <p id="formMessage" class="error"></p>
+    </form>
+  </div>
+
+  <script src="submit-hours.js"></script>
+</body>
+</html>
