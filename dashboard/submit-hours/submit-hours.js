@@ -7,9 +7,10 @@ document.getElementById('studentTutorForm').addEventListener('submit', function(
     const subject = document.getElementById('subject').value.trim();
     const teacherName = document.getElementById('teacherName').value.trim();
     const teacherEmail = document.getElementById('teacherEmail').value.trim();
+    const teacherPhoneNumber = document.getElementById('teacherPhoneNumber').value.trim();
     const hours = document.getElementById('hours').value.trim();
   
-    if (!studentName || !tutorName || !tutorEmail || !subject || !teacherName || !teacherEmail || !hours) {
+    if (!studentName || !tutorName || !tutorEmail || !subject || !teacherName || !(teacherEmail || teacherPhoneNumber) || !hours) {
       document.getElementById('formMessage').textContent = 'Please fill out all fields.';
       return;
     }
