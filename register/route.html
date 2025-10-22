@@ -56,13 +56,13 @@
         const data = snap.data();
 
         if (!data || !data.userType) {
-          window.location.href = "/dashboard/student.html";
+          window.location.href = "/dashboard/tutor.html";
           return;
         }
 
         const dest = (data.userType === "teacher")
           ? "../dashboard/teacher.html"
-          : "../dashboard/student.html";
+          : "../dashboard/tutor.html";
 
         window.location.href = dest;
       } catch (err) {
