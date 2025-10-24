@@ -272,3 +272,94 @@ body {
   position: relative;
   z-index: 1;
 }
+
+
+/* ================= AUTH PANEL FIXES (append to end of your CSS) ================= */
+
+/* Center the auth card and give it breathing room */
+.auth-shell{
+  min-height: calc(vh - 140px);
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+/* The actual panel/card */
+.auth-card{
+  width: min(1000px, 96vw);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  padding: 32px 28px;
+  /* make it longer to accommodate all fields comfortably */
+  min-height: 600px;               /* ← lengthened panel */
+}
+
+/* Heading inside the card */
+.auth-card h2{
+  margin: 0 0 100px;
+  text-align: center;
+  color: var(--text-dark);
+}
+
+/* Form layout: stack nicely with consistent spacing */
+.auth-form,
+form#signup{                       /* works even if you didn't add .auth-form */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Full-width inputs/selects with decent tap targets */
+.auth-form input,
+.auth-form select,
+form#signup input,
+form#signup select{
+  width: 100%;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.15);
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Make the big CTA button look intentional */
+.auth-form button[type="submit"],
+form#signup button[type="submit"]{
+  margin-top: 8px;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  color: #fff;
+  background: #16a34a;            /* green */
+  box-shadow: 0 8px 18px rgba(22,163,74,.25);
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+.auth-form button[type="submit"]:hover,
+form#signup button[type="submit"]:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(22,163,74,.28);
+}
+
+/* Optional: de-emphasize any stray small buttons living inside the card */
+.auth-card button:not([type="submit"]) {
+  background: transparent;
+  border: 0;
+  padding: 6px 8px;
+  font-size: 14px;
+  opacity: .7;
+}
+
+/* Make sure the card doesn’t collapse on mobile */
+@media (max-width: 480px){
+  .auth-card{
+    padding: 24px 18px;
+    min-height: 560px;            /* still tall on phones */
+  }
+}

@@ -1,154 +1,85 @@
-// Firebase imports
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+// auth.js
+function qs(sel){ return document.querySelector(sel); }
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyCiiAfvZ25ChvpCVCbMj46dsCrZBYMGBpM",
-  authDomain: "logintrial001.firebaseapp.com",
-  projectId: "logintrial001",
-  storageBucket: "logintrial001.appspot.com",
-  messagingSenderId: "419688887007",
-  appId: "1:419688887007:web:013af1286ba6e7aff42f6a"
-};
+const signupForm = qs('#signup');
+const signupBtn  = qs('#signup-btn');
+const signupStatus = qs('#signup-status');
 
-// Initialize
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const signinForm = qs('#signin');
+const signinStatus = qs('#signin-status');
 
-// DOM elements
-const container = document.querySelector(".container");
-const switchToSignIn = document.getElementById("switchToSignIn");
-const switchToSignUp = document.getElementById("switchToSignUp");
+// Overlay toggles (if you use them)
+qs('#switchToSignIn')?.addEventListener('click', () => {
+  document.querySelector('.container')?.classList.remove('right-panel-active');
+});
+qs('#switchToSignUp')?.addEventListener('click', () => {
+  document.querySelector('.container')?.classList.add('right-panel-active');
+});
 
-// === Overlay toggle logic ===
-if (switchToSignIn) {
-  switchToSignIn.addEventListener("click", () => {
-    container.classList.remove("right-panel-active");
-  });
+// Guard against overlay eating clicks
+// Ensure overlay panels don't block pointer events over forms
+document.querySelector('.container__overlay')?.setAttribute('style','pointer-events:none;');
+document.querySelectorAll('.overlay__panel .btn').forEach(b => b.style.pointerEvents = 'auto');
+
+// SIGNUP SUBMIT
+signupForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = qs('#signupName')?.value?.trim();
+  const email = qs('#signupEmail')?.value?.trim();
+  const password = qs('#signupPassword')?.value;
+  const role = qs('#signup-role')?.value;
+
+  if(!name || !email || !password || !role){
+    signupStatus.textContent = 'Fill all fields, champ.';
+    return;
+  }
+
+  signupBtn.disabled = true;
+  signupStatus.textContent = 'Creating your account...';
+
+  try{
+    // TODO: replace with your real auth call (Firebase or API)
+    await fakeCreateUser({name,email,password,role});
+
+    signupStatus.textContent = 'Success. Redirecting...';
+    // example routing by role:
+    if(role === 'student'){
+      location.href = '/dashboard/tutor.html';
+    }else{
+      location.href = '/dashboard/teacher.html';
+    }
+  }catch(err){
+    signupStatus.textContent = (err && err.message) || 'Signup failed. Try again.';
+    signupBtn.disabled = false;
+  }
+});
+
+// SIGNIN SUBMIT (optional parity)
+signinForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = qs('#signin-email')?.value?.trim();
+  const password = qs('#signin-password')?.value;
+  if(!email || !password){
+    signinStatus.textContent = 'Email and password. Both.';
+    return;
+  }
+  signinStatus.textContent = 'Signing in...';
+  try{
+    await fakeSignIn({email,password});
+    signinStatus.textContent = 'Welcome back.';
+    location.href = '/dashboard/tutor.html';
+  }catch(err){
+    signinStatus.textContent = (err && err.message) || 'Sign in failed.';
+  }
+});
+
+// Mock fns for smoke testing
+function fakeCreateUser(data){
+  console.log('createUser', data);
+  return new Promise(res => setTimeout(res, 700));
 }
-if (switchToSignUp) {
-  switchToSignUp.addEventListener("click", () => {
-    container.classList.add("right-panel-active");
-  });
-}
-
-// === Signup form ===
-const signupForm = document.getElementById("signup");
-if (signupForm) {
-  signupForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("signup-email").value.trim();
-    const password = document.getElementById("signup-password").value;
-    const confirm = document.getElementById("signup-confirm").value;
-    const userType = document.getElementById("signup-role").value; // new dropdown
-
-    if (password !== confirm) {
-      alert("Passwords do not match.");
-      return;
-    }
-    if (!userType) {
-      alert("Please select Student or Teacher.");
-      return;
-    }
-
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      const uid = cred.user.uid;
-
-      // store user data in Firestore
-      await setDoc(doc(db, "users", uid), {
-        uid,
-        email,
-        userType,
-        createdAt: new Date().toISOString()
-      });
-
-      alert("Signup successful!");
-
-      // redirect based on user type
-      if (userType === "teacher") {
-        window.location.href = "../dashboard/teacher.html";
-      } else {
-        window.location.href = "../dashboard/student.html";
-      }
-      
-
-    } catch (err) {
-      console.error(err);
-      alert(`${err.code}: ${err.message}`);
-    }
-  });
-}
-
-// === Signin form ===
-const signinForm = document.getElementById("signin");
-if (signinForm) {
-  signinForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("signin-email").value.trim();
-    const password = document.getElementById("signin-password").value;
-
-    try {
-      const cred = await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "route.html";
-      const uid = cred.user.uid;
-
-      // read Firestore user document to get userType
-      const snap = await getDoc(doc(db, "users", uid));
-      const data = snap.data();
-
-      if (!data || !data.userType) {
-        alert("User type missing. Please contact admin.");
-        return;
-      }
-
-      // route based on userType
-      if (data.userType === "teacher") {
-        window.location.href = "/dashboard/teacher.html";
-      } else {
-        window.location.href = "/dashboard/student.html";
-      }
-
-    } catch (err) {
-      console.error(err);
-      alert(`${err.code}: ${err.message}`);
-    }
-  });
-}
-
-// === Reset password link ===
-const resetLink = document.getElementById("reset-link");
-if (resetLink) {
-  resetLink.addEventListener("click", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("signin-email").value.trim();
-    if (!email) {
-      alert("Enter your email first, then click reset.");
-      return;
-    }
-
-    try {
-      await sendPasswordResetEmail(auth, email);
-      alert("Password reset email sent.");
-    } catch (err) {
-      console.error(err);
-      alert(`${err.code}: ${err.message}`);
-    }
-  });
+function fakeSignIn(data){
+  console.log('signIn', data);
+  return new Promise(res => setTimeout(res, 500));
 }

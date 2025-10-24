@@ -1,120 +1,92 @@
 <!DOCTYPE html>
-<link rel="icon" type="image/png" href="../Media/favicon2.png" />
-<link rel="shortcut icon" href="../Media/favicon2.png" />
 <html lang="en">
-<meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VolunTutor</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Favicon links -->
-  <link rel="icon" type="image/png" href="/Media/favicon2.png">
-  <link rel="shortcut icon" href="media/favicon2.png">
-<header class="site-header">
-    <a class="brand" href="https://voluntutor.github.io/main">
-      <img src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor Logo">
-      <h2>VolunTutor</h2>
-    </a>
-  
-    <!-- Desktop nav -->
-    <nav class="nav-links" id="site-nav">
-      <a href="#about">About</a>
-      <a href="#sponsors">Sponsors</a>
-      <a href="https://voluntutor.github.io/main//register/auth.html">Login</a>
-      <button id="contactToggle" class="linklike">Contact Us</button>
-    </nav>
-  
-    <!-- Mobile hamburger (pure CSS), slides in from the RIGHT -->
-    <nav role="navigation" class="hamburger-right">
-      <div id="menuToggleRight">
-        <input type="checkbox" id="menuCheckboxRight" aria-label="Toggle menu" />
-        <span></span><span></span><span></span>
-        <nav role="navigation" class="hamburger-right">
-            <div id="menuToggleRight">
-              <input type="checkbox" id="menuCheckboxRight" aria-label="Toggle menu" />
-              <span></span><span></span><span></span>
-          
-              <!-- BACKDROP: click to close -->
-              <label class="menu-backdrop" for="menuCheckboxRight" aria-hidden="true"></label>
-          
-              <!-- slide-in menu -->
-              <ul id="menuRight" aria-label="Mobile navigation">
-                <li><a href="#about"><label for="menuCheckboxRight" onclick="this.parentNode.click();">About</label></a></li>
-                <li><a href="#sponsors"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Sponsors</label></a></li>
-                <li><a href="/register/auth.html"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Login</label></a></li>
-                <li><label for="menuCheckboxRight"><a id="contactToggleMobile">Contact Us</a></label></li>
-              </ul>
-            </div>
-          </nav>
-          
-        <ul id="menuRight" aria-label="Mobile navigation">
-          <li><a href="#about"><label for="menuCheckboxRight" onclick="this.parentNode.click();">About</label></a></li>
-          <li><a href="#sponsors"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Sponsors</label></a></li>
-          <li><a href="/register/auth.html"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Login</label></a></li>
-          <li><label for="menuCheckboxRight"><a id="contactToggleMobile">Contact Us</a></label></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-  
-
 <head>
-    <!-- Favicon links -->
-  <link rel="icon" type="image/png" href="media/favicon.png">
-  <link rel="shortcut icon" href="media/favicon.png">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Auth</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- one JS file that will handle both signup & signin -->
-    <script type="module" src="auth.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VolunTutor • Auth</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="auth.js" defer></script>
 </head>
 
-
-
-  
-
 <body>
+<header class="site-header">
+  <a class="brand" href="https://voluntutor.github.io/main/">
+    <img src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor Logo" />
+    <h2>VolunTutor</h2>
+  </a>
 
-      
-    <div class="container right-panel-active">
-        <!-- Sign Up -->
-        <div class="container__form container--signup">
-            <!-- inside the Sign Up form -->
-            <form id="signup" class="form">
-                <h2 class="form__title">Sign Up</h2>
-                <input type="email" id="signup-email" placeholder="Email" class="input" required />
-                <input type="password" id="signup-password" placeholder="Password" class="input" required />
-                <input type="password" id="signup-confirm" placeholder="Confirm Password" class="input" required />
-                <button id="signup-btn" type="submit" class="btn">Sign Up</button>
-            </form>
+  <nav class="nav-links" id="site-nav">
+    <a href="#about">About</a>
+    <a href="#sponsors">Sponsors</a>
+    <a href="https://voluntutor.github.io/main/register/auth.html">Login</a>
+    <button id="contactToggle" class="linklike" type="button">Contact Us</button>
+  </nav>
 
-        </div>
+  <!-- Single mobile hamburger (no duplicates) -->
+  <nav role="navigation" class="hamburger-right">
+    <div id="menuToggleRight">
+      <input type="checkbox" id="menuCheckboxRight" aria-label="Toggle menu" />
+      <span></span><span></span><span></span>
 
-        <!-- Sign In -->
-        <div class="container__form container--signin">
-            <form id="signin" class="form">
-                <h2 class="form__title">Sign In</h2>
-                <input type="email" id="signin-email" placeholder="Email" class="input" required />
-                <input type="password" id="signin-password" placeholder="Password" class="input" required />
-                <a href="#" id="reset-link" class="link">Forgot your password?</a>
-                <button id="signin-btn" type="submit" class="btn">Sign In</button>
-            </form>
-        </div>
+      <label class="menu-backdrop" for="menuCheckboxRight" aria-hidden="true"></label>
 
-        <!-- Overlay -->
-        <div class="container__overlay">
-            <div class="overlay">
-                <div class="overlay__panel overlay--left">
-                    <button class="btn" id="switchToSignIn">Sign In</button>
-                </div>
-                <div class="overlay__panel overlay--right">
-                    <button class="btn" id="switchToSignUp">Sign Up</button>
-                </div>
-            </div>
-        </div>
+      <ul id="menuRight" aria-label="Mobile navigation">
+        <li><a href="#about"><label for="menuCheckboxRight" onclick="this.parentNode.click();">About</label></a></li>
+        <li><a href="#sponsors"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Sponsors</label></a></li>
+        <li><a href="/register/auth.html"><label for="menuCheckboxRight" onclick="this.parentNode.click();">Login</label></a></li>
+        <li><label for="menuCheckboxRight"><a id="contactToggleMobile">Contact Us</a></label></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container right-panel-active">
+    <!-- Sign Up -->
+    <div class="container__form container--signup">
+      <form id="signup" class="form" novalidate>
+        <h2 class="form__title">Sign Up</h2>
+
+        <input id="signupName" name="name" type="text" placeholder="Full Name" required />
+        <input id="signupEmail" name="email" type="email" placeholder="Email" required />
+        <input id="signupPassword" name="password" type="password" placeholder="Password" required />
+
+        <label for="signup-role" class="label">Account type</label>
+        <select id="signup-role" name="role" class="input" required>
+          <option value="" disabled selected>Select one</option>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
+
+        <button id="signup-btn" type="submit" class="btn">Sign Up</button>
+        <p id="signup-status" class="muted" aria-live="polite"></p>
+      </form>
     </div>
 
-</body>
+    <!-- Sign In -->
+    <div class="container__form container--signin">
+      <form id="signin" class="form" novalidate>
+        <h2 class="form__title">Sign In</h2>
+        <input type="email" id="signin-email" name="email" placeholder="Email" class="input" required />
+        <input type="password" id="signin-password" name="password" placeholder="Password" class="input" required />
+        <a href="#" id="reset-link" class="link">Forgot your password?</a>
+        <button id="signin-btn" type="submit" class="btn">Sign In</button>
+        <p id="signin-status" class="muted" aria-live="polite"></p>
+      </form>
+    </div>
 
+    <!-- Overlay -->
+    <div class="container__overlay">
+      <div class="overlay">
+        <div class="overlay__panel overlay--left">
+          <button class="btn" id="switchToSignIn" type="button">Sign In</button>
+        </div>
+        <div class="overlay__panel overlay--right">
+          <button class="btn" id="switchToSignUp" type="button">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
 </html>
