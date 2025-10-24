@@ -45,7 +45,7 @@ signupForm?.addEventListener('submit', async (e) => {
     signupStatus.textContent = 'Success. Redirecting...';
     // example routing by role:
     if(role === 'student'){
-      location.href = '/dashboard/tutor.html';
+      location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html';
     }else{
       location.href = '/dashboard/teacher.html';
     }
@@ -68,7 +68,7 @@ signinForm?.addEventListener('submit', async (e) => {
   try{
     await fakeSignIn({email,password});
     signinStatus.textContent = 'Welcome back.';
-    location.href = '/dashboard/tutor.html';
+    location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html';
   }catch(err){
     signinStatus.textContent = (err && err.message) || 'Sign in failed.';
   }
