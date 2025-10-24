@@ -221,3 +221,73 @@
   body.dark input[type="date"]::-moz-focus-inner {
     color: #ffffff; /* White color for the calendar icon */
   }
+
+  /* Style for the checkbox group (aligned to the left) */
+.checkbox-group {
+    display: flex;
+    flex-direction: column; /* Stack checkboxes vertically */
+    gap: 10px; /* Space between checkboxes */
+    margin-top: 8px;
+    align-items: flex-start; /* Align checkboxes to the left */
+  }
+  
+  .checkbox-group label {
+    display: flex;
+    align-items: flex-start; /* Ensure checkbox and label text are aligned */
+    gap: 5px; /* Space between the checkbox and the label text */
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    accent-color: var(--accent); /* Use your theme's accent color */
+    cursor: pointer;
+  }
+
+  /* Container for subject boxes */
+.subject-boxes {
+  display: flex;
+  flex-wrap: wrap; /* Allow boxes to wrap to the next line if needed */
+  gap: 16px; /* Space between boxes */
+  margin-top: 16px;
+}
+
+/* Style for each subject box */
+.subject-box {
+  background: var(--glass); /* Match the glass style */
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  width: 300px; /* Fixed width for each box */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subject-box h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.subject-box .class-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subject-box .class-list label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.subject-box .class-list input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+#subjectsContainer {
+    flex-direction: row;
+}
