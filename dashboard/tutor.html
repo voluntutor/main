@@ -225,8 +225,8 @@
       localStorage.setItem('vt-theme', dark ? 'dark' : 'light');
     });
 
-    /* ================= Routing ================= */
-    $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main');
+    /* ===== Simple routing buttons ===== */
+    $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html');
     $('#applyTutorBtn')?.addEventListener('click', () => location.href = 'student.html');
     $('#logoutBtn')?.addEventListener('click', async () => {
       try { if (auth) await signOut(auth); } catch {}
@@ -238,7 +238,7 @@
       'French': ['French 1','French 2','French 3','Honors French','AP French'],
       'German': ['German 1','German 2','German 3','Honors German','AP German'],
       'Spanish': ['Spanish 1','Spanish 2','Spanish 3','Honors Spanish','AP Spanish'],
-      'Physics': ['Conceptual Physics','Physics Honors','AP Physics 1','AP Physics C'],
+      'Physics': ['Conceptual Physics','Physics Honors','AP Physics 1','AP Physics 2','AP Physics C'],
       'Math': ['Algebra I','Geometry','Algebra II','Precalculus','Honors','AP Calculus','AP Statistics']
     };
     const subjectSelect = $('#subjectSelect');
