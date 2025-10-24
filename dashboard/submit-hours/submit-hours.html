@@ -5,11 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Volunteer Hours Form</title>
   <link rel="stylesheet" href="submit-hours.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" />
+   <!-- Font -->
+   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <!--NAVIGATION BAR TO BE ADDED ONCE IT IS UPDATED IN STUDENT DASHBOARD-->
-  <div class="container">
-    <h1>Volunteer Hours Form</h1>
+  <div id="app">
+    <header class="topbar glass" role="banner">
+      <div class="brand" id="homeLink" style="cursor:pointer;">
+        <img id="logoImg" src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor Logo" class="logo" />
+        <div>
+          <div class="title">VolunTutor</div>
+          <div class="subtitle muted small">Tutor Dashboard</div>
+        </div>
+      </div>
+      <div class="top-controls">
+        <div class="user-chip glass" id="userChip" aria-hidden="false">
+          <div class="avatar" id="avatar">VT</div>
+          <div class="user-info">
+            <div id="userName">Tutor</div>
+            <div id="userEmail" class="small muted"></div>
+          </div>
+        </div>
+        <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Toggle theme">🌗</button>
+        <button id="logoutBtn" class="btn-ghost" title="Log out">Log out</button>
+      </div>
+    </header>
+  <section class="panel glass">
+    <div class = "panel-head"><h1>Volunteer Hours Form</h1></div>
     <form id="studentTutorForm">
       <div>
         <label for="studentName">Student Name</label>
@@ -39,6 +64,10 @@
         <label for="teacherPhoneNumber">Teacher/Verification Contact Phone Number (Required if no email provided)</label>
         <input type="text" id="teacherPhoneNumber" name="teacherPhoneNumber">
       </div>
+      <div><!--currently does not autofill today's date. Ideally should autofill last scheduled appt. time but we're not to that point yet lol-->
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+      </div>
       <div>
         <label for="hours">Hours</label>
         <input type="number" id="hours" name="hours" min="0.5" value="1.5" required>
@@ -46,7 +75,8 @@
       <button type="submit">Submit</button>
       <p id="formMessage" class="error"></p>
     </form>
-  </div>
+  </section>
+</div>
 
   <script src="submit-hours.js"></script>
 </body>
