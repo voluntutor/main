@@ -203,3 +203,21 @@ body.dark input[type="date"]::placeholder,
 body.dark textarea::placeholder {
   color: rgba(255, 255, 255, 0.6); /* Lighter placeholder text in dark mode */
 }
+
+/* Style the date input in dark mode */
+body.dark input[type="date"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="date"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the calendar icon */
+}
