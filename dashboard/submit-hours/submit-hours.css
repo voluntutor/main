@@ -74,6 +74,9 @@ body{
     font-size: 14px;
   }
 
+  img{max-width:100%; display:block}
+
+
 
 button.theme-toggle {
   padding: 10px 20px;

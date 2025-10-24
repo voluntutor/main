@@ -33,6 +33,10 @@ document.getElementById('studentTutorForm').addEventListener('submit', function(
     this.reset(); // Reset the form
   });
 
+  const $ = s => document.querySelector(s);
+  const toast = (msg) => { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); };
+
+
   // Apply the saved theme on page load
 const applyTheme = () => {
   const savedTheme = localStorage.getItem('vt-theme');
@@ -52,7 +56,6 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
 
   /* ===== Simple routing buttons ===== */
   $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main');
-  $('#applyTutorBtn')?.addEventListener('click', () => location.href = 'student.html');
   $('#logoutBtn')?.addEventListener('click', () => {
     toast('Logged out'); setTimeout(()=> location.href = 'https://voluntutor.github.io/main/register/auth.html', 600);
   });
@@ -64,7 +67,7 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
     $('#avatar').textContent = (mockUser.displayName || 'VT').slice(0,2).toUpperCase();
 
 
-    // Set the default value of the date input to today's date
+    // Set the default value of the date input to today's date - MIGHT BE SETTING DATE TO WRONG TIME ZONE
 document.addEventListener('DOMContentLoaded', () => {
   const dateInput = document.getElementById('date');
   console.log('Date input found:', dateInput); // Debuggings
