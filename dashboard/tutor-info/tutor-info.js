@@ -103,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Selected Subjects:', selectedSubjects);
   
       alert('Profile updated successfully!');
-      form.reset(); // Reset the form
     });
   });
 
