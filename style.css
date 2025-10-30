@@ -20,7 +20,7 @@ body{
   margin:0;
   font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
   color:var(--text-dark);
-  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #38BDF8);
   background-size: 400% 400%;
   animation: gradientBG 12s ease infinite;
   -webkit-font-smoothing: antialiased;
@@ -125,7 +125,7 @@ a{ color:inherit; text-decoration:none; }
 }
 .btn.primary{
   color:#fff;
-  background: linear-gradient(90deg,#3B82F6,#9333EA);
+  background: linear-gradient(90deg,#3B82F6,#06B6D4);
   box-shadow: 0 4px 15px rgba(0,0,0,.2);
 }
 .btn.primary:hover{ transform: scale(1.06) rotate(-1deg); }
@@ -231,4 +231,3 @@ a{ color:inherit; text-decoration:none; }
   .btn{ padding:11px 18px; font-size:15px; }
   .feature{ min-width: 100%; }
 }
-
