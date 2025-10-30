@@ -1,1 +1,137 @@
-Chhutiya
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VolunTutor • Teacher Dashboard</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="teacher.css">
+</head>
+<body>
+  <header class="topbar glass" role="banner">
+    <div class="brand">
+      <img src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor" class="logo">
+      <div class="title-block">
+        <div class="title">VolunTutor</div>
+        <div class="subtitle muted">Teacher Dashboard</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <div class="select-wrap">
+        <select id="tutorSelect" aria-label="My tutors"></select>
+        <button id="manageTutors" class="txt-btn">Manage</button>
+      </div>
+
+      <div class="select-wrap">
+        <select id="locationSelect" aria-label="My locations"></select>
+        <button id="manageLocations" class="txt-btn">Manage</button>
+      </div>
+
+      <button id="approvalsBtn" class="btn-ghost">Approvals</button>
+      <button id="logoutBtn" class="btn-ghost">Log Out</button>
+    </div>
+  </header>
+
+  <main class="main-grid" id="mainGrid" role="main">
+    <!-- LEFT: Calendar + lists -->
+    <aside class="sidecol panel glass">
+      <div class="panel-head">
+        <h2>📆 Calendar</h2>
+        <div class="panel-controls">
+          <button id="prev" class="icon-btn">◀</button>
+          <div id="monthLabel" class="muted small" aria-live="polite"></div>
+          <button id="next" class="icon-btn">▶</button>
+        </div>
+      </div>
+
+      <div id="calendar" class="calendar-root"></div>
+
+      <div class="legend muted small">
+        <span class="dot booked"></span> Booked
+        <span class="dot pending" style="margin-left:12px"></span> Pending approval
+        <span class="dot today" style="margin-left:12px"></span> Today
+      </div>
+
+      <section style="margin-top:12px">
+        <h3>📍 Student Feedback</h3>
+        <div id="feedbackList" class="list"></div>
+      </section>
+    </aside>
+
+    <!-- RIGHT: Create Appointment + help -->
+    <section class="panel glass" id="rightPanel">
+      <div class="panel-head">
+        <h2>✍ Create Appointment</h2>
+      </div>
+
+      <form id="createForm" class="form" novalidate>
+        <label for="subject">Subject</label>
+        <select id="subject">
+          <option value="">Select Subject</option>
+          <option>French</option>
+          <option>German</option>
+          <option>Spanish</option>
+          <option>Physics</option>
+          <option>Math</option>
+        </select>
+
+        <label for="level">Level</label>
+        <select id="level"><option value="">Select Level</option></select>
+
+        <label for="apptTutor">Tutor</label>
+        <select id="apptTutor"></select>
+
+        <label for="apptLocation">Location</label>
+        <select id="apptLocation"></select>
+
+        <label for="date">Date</label>
+        <input id="date" type="date" required>
+
+        <label for="time">Time <span class="small muted">(EST)</span></label>
+        <input id="time" type="time" required>
+
+        <label for="notes">Notes</label>
+        <textarea id="notes" rows="3" placeholder="Notes or special requests..."></textarea>
+
+        <div class="form-actions">
+          <button type="button" id="scheduleBtn" class="btn btn-primary">Schedule</button>
+          <button type="button" id="clearBtn" class="btn">Clear</button>
+          <button type="button" id="studentViewBtn" class="btn-ghost">Student View</button>
+        </div>
+      </form>
+
+      <section class="panel glass" style="margin-top:12px">
+        <h3>🆘 Help & Support</h3>
+        <p class="muted small">Report an issue, complaint, or suggestion.</p>
+        <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
+        <div class="form-actions">
+          <button id="sendHelp" class="btn">Send</button>
+          <button id="openFAQ" class="btn-ghost">FAQ</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer glass">
+    <div>© 2025 VolunTutor</div>
+    <div class="muted small">Teacher tools • Local storage</div>
+  </footer>
+
+  <!-- FullCalendar -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+  <!-- App JS -->
+  <script type="module" src="teacher.js"></script>
+</body>
+</html>
