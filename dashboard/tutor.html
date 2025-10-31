@@ -28,6 +28,8 @@
         </div>
       </div>
       <div class="top-controls">
+        <div class = "nav-button glass" id = "volunteer-hours">Volunteer Hours</div>
+        <div class = "nav-button glass" id = "account">Account</div>
         <div class="user-chip glass" id="userChip" aria-hidden="false">
           <div class="avatar" id="avatar">VT</div>
           <div class="user-info">
@@ -36,7 +38,7 @@
           </div>
         </div>
         <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Toggle theme">🌗</button>
-        <button id="logoutBtn" class="btn-ghost" title="Log out">Log out</button>
+        <div id="logoutBtn" class="nav-button glass" title="Log out">Log out</div>
       </div>
     </header>
 
@@ -480,8 +482,9 @@
     $('#openFAQ')?.addEventListener('click', () => toast('FAQ opens here'));
 
 
-    /* ================= Navbar link ================= */
-    $('#user-info')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor-info/tutor-info.html');
+    /* ================= Navbar links ================= */
+    $('#account')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor-info/tutor-info.html');
+    $('#volunteer-hours')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/submit-hours/submit-hours.html');
 
     /* ================= Init ================= */
     // Fallback chip if not signed in yet
