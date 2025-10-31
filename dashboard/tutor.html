@@ -479,6 +479,10 @@
     });
     $('#openFAQ')?.addEventListener('click', () => toast('FAQ opens here'));
 
+
+    /* ================= Navbar link ================= */
+    $('#user-info')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor-info/tutor-info.html');
+
     /* ================= Init ================= */
     // Fallback chip if not signed in yet
     if (!$('#userName').textContent) {
