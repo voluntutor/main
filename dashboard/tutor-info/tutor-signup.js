@@ -1,21 +1,19 @@
-// ===== Subject -> Levels mapping =====
+// ==================== Subject -> Levels ====================
 const levelsBySubject = {
-    'French': ['French 1','French 2','French 3','Honors French','AP French'],
-    'German': ['German 1','German 2','German 3','Honors German','AP German'],
-    'Spanish': ['Spanish 1','Spanish 2','Spanish 3','Honors Spanish','AP Spanish'],
-    'Physics': ['Conceptual Physics','Physics Honors','AP Physics 1','AP Physics 2','AP Physics C'],
-    'Math': ['Algebra I','Geometry','Algebra II','Precalculus','Honors','AP Calculus','AP Statistics']
+    'French': ['French 1', 'French 2', 'French 3', 'Honors French', 'AP French'],
+    'German': ['German 1', 'German 2', 'German 3', 'Honors German', 'AP German'],
+    'Spanish': ['Spanish 1', 'Spanish 2', 'Spanish 3', 'Honors Spanish', 'AP Spanish'],
+    'Physics': ['Conceptual Physics', 'Physics Honors', 'AP Physics 1', 'AP Physics 2', 'AP Physics C'],
+    'Math': ['Algebra I', 'Geometry', 'Algebra II', 'Precalculus', 'Honors', 'AP Calculus', 'AP Statistics']
 };
 
-// Populate level dropdown based on subject
 const subjectSelect = document.getElementById('subjectSelect');
 const levelSelect = document.getElementById('levelSelect');
 
 subjectSelect.addEventListener('change', () => {
     const subject = subjectSelect.value;
     levelSelect.innerHTML = '<option value="">Select Level</option>';
-
-    if(subject && levelsBySubject[subject]) {
+    if (subject && levelsBySubject[subject]) {
         levelsBySubject[subject].forEach(level => {
             const opt = document.createElement('option');
             opt.value = level;
@@ -25,46 +23,45 @@ subjectSelect.addEventListener('change', () => {
     }
 });
 
-// Form Submission
+// ==================== Form Submit ====================
 const tutorForm = document.getElementById('tutorForm');
-document.getElementById('submitForm').addEventListener('click', () => {
-    const tutorName = document.getElementById('tutorName').value.trim();
-    const tutorEmail = document.getElementById('tutorEmail').value.trim();
-    const tutorClass = document.getElementById('tutorClass').value.trim();
-    const teacherName = document.getElementById('teacherName').value.trim();
-    const teacherEmail = document.getElementById('teacherEmail').value.trim();
-    const subject = subjectSelect.value;
-    const level = levelSelect.value;
-    const bio = document.getElementById('bio').value.trim();
 
-    if(!tutorName || !tutorEmail || !tutorClass || !teacherName || !teacherEmail || !subject || !level) {
-        alert("Please fill out all required fields.");
+document.getElementById('submitForm').addEventListener('click', () => {
+    const data = {
+        tutorName: document.getElementById('tutorName').value.trim(),
+        tutorEmail: document.getElementById('tutorEmail').value.trim(),
+        tutorClass: document.getElementById('tutorClass').value.trim(),
+        teacherName: document.getElementById('teacherName').value.trim(),
+        teacherEmail: document.getElementById('teacherEmail').value.trim(),
+        subject: subjectSelect.value,
+        level: levelSelect.value,
+        bio: document.getElementById('bio').value.trim()
+    };
+
+    if (Object.values(data).some(v => !v)) {
+        alert("Please fill all required fields.");
         return;
     }
 
-    const formData = { tutorName, tutorEmail, tutorClass, teacherName, teacherEmail, subject, level, bio };
-    console.log("Form Submitted:", formData);
+    console.log("Form Submitted:", data);
     alert("Tutor profile submitted successfully!");
-
     tutorForm.reset();
     levelSelect.innerHTML = '<option value="">Select Level</option>';
 });
 
-// Clear Form
 document.getElementById('clearForm').addEventListener('click', () => {
     tutorForm.reset();
     levelSelect.innerHTML = '<option value="">Select Level</option>';
 });
 
-// Theme Toggle
+// ==================== Theme Toggle ====================
 const themeToggle = document.getElementById('themeToggle');
+
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark');
-    const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
-    localStorage.setItem('tutor-theme', theme);
+    localStorage.setItem('tutor-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
 });
 
-// Load saved theme
-if(localStorage.getItem('tutor-theme') === 'dark') {
+if (localStorage.getItem('tutor-theme') === 'dark') {
     document.body.classList.add('dark');
 }
