@@ -20,9 +20,23 @@ body{
   margin:0;
   font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
   color:var(--text-dark);
-  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #38BDF8);
+
+  /* 🌌 CYBER AURORA BACKGROUND */
+  background: radial-gradient(circle at 10% 20%, #3a1c71, #d76d77, #ffaf7b);
   background-size: 400% 400%;
-  animation: gradientBG 12s ease infinite;
+  animation: gradientBG 14s ease infinite;
+
+  /* Alternative backgrounds (uncomment to try)
+  🌈 Neon Sunset:
+  background: linear-gradient(135deg, #ff0844, #ffb199, #ff0844);
+
+  🧊 Cool Ice Blue:
+  background: linear-gradient(135deg, #00c6ff, #0072ff, #00c6ff);
+
+  🪩 Midnight Glow:
+  background: radial-gradient(circle at top left, #1a2a6c, #b21f1f, #fdbb2d);
+  */
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
