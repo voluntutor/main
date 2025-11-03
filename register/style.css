@@ -13,21 +13,20 @@
 }
 
 /* ================== GLOBAL ================== */
-* { box-sizing: border-box; }
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  color: var(--text);
-  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
-  background: linear-gradient(180deg, var(--black) 0%, var(--dark) 100%);
-  background-attachment: fixed;
+*{box-sizing:border-box}
+html{font-size:100%}
+body{
+  margin:0; color:var(--gray);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+  min-height:100svh; display:block;
+  background: var(--white) url("/Media/bgAuth.png") center/cover fixed no-repeat;
+  /* space for fixed header */
+  padding-top: clamp(64px, 9svh, 88px);
 }
+a{color:inherit}
 
-/* Smooth fade blue accent animation on focus or hover */
-a, button {
-  transition: all .2s ease-in-out;
-}
+/* simple utility */
+.linklike{background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;font:inherit}
 
 /* ================== HEADER ================== */
 .site-header {
@@ -95,10 +94,49 @@ a, button {
   width: min(95vw, 900px);
   padding: 2rem 3rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  transition: all .3s ease;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Inner container takes full size of the card */
+.auth-card .container {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;   /* card already has rounded corners */
+  box-shadow: none;   /* avoid double shadow */
+}
+
+/* Add distance between header and auth panel */
+.auth-card,
+.container {
+  margin-top: 10%;   /* 👈 adjust this value to make the gap bigger/smaller */
+}
+
+
+#signin .link {
+  margin-bottom: 1rem;
+}
+
+body {
+  /* animated gradient background */
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+/* keyframes to cycle the gradient */
+@keyframes gradientBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  /* animated gradient background */
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
 }
 
 /* Glass shimmer */
@@ -181,3 +219,4 @@ button[type="submit"]:hover {
   }
   .nav-links { display: none; }
 }
+

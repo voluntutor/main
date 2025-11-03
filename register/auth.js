@@ -1,4 +1,25 @@
 // auth.js
+// Firebase (match config used in dashboard/tutor.html)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCiiAfvZ25ChvpCVCbMj46dsCrZBYMGBpM",
+  authDomain: "logintrial001.firebaseapp.com",
+  projectId: "logintrial001",
+  storageBucket: "logintrial001.appspot.com",
+  messagingSenderId: "419688887007",
+  appId: "1:419688887007:web:013af1286ba6e7aff42f6a"
+};
+
+let app, auth, db;
+try {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+} catch {}
+
 function qs(sel){ return document.querySelector(sel); }
 
 const signupForm = qs('#signup');
@@ -39,16 +60,21 @@ signupForm?.addEventListener('submit', async (e) => {
   signupStatus.textContent = 'Creating your account...';
 
   try{
-    // TODO: replace with your real auth call (Firebase or API)
-    await fakeCreateUser({name,email,password,role});
+    if(!auth) throw new Error('Auth not initialized');
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    try { await updateProfile(cred.user, { displayName: name }); } catch {}
+    try {
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        displayName: name,
+        email,
+        role,
+        createdAt: Date.now()
+      });
+    } catch {}
 
     signupStatus.textContent = 'Success. Redirecting...';
-    // example routing by role:
-    if(role === 'student'){
-      location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html';
-    }else{
-      location.href = '/dashboard/teacher.html';
-    }
+    // After sign up, go to Tutor Signup page to collect details
+    location.href = 'https://voluntutor.github.io/main/dashboard/tutorSignup.html';
   }catch(err){
     signupStatus.textContent = (err && err.message) || 'Signup failed. Try again.';
     signupBtn.disabled = false;
@@ -66,20 +92,12 @@ signinForm?.addEventListener('submit', async (e) => {
   }
   signinStatus.textContent = 'Signing in...';
   try{
-    await fakeSignIn({email,password});
+    if(!auth) throw new Error('Auth not initialized');
+    await signInWithEmailAndPassword(auth, email, password);
     signinStatus.textContent = 'Welcome back.';
+    // After sign in, you can decide where to land; keeping Tutor Dashboard for now
     location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html';
   }catch(err){
     signinStatus.textContent = (err && err.message) || 'Sign in failed.';
   }
 });
-
-// Mock fns for smoke testing
-function fakeCreateUser(data){
-  console.log('createUser', data);
-  return new Promise(res => setTimeout(res, 700));
-}
-function fakeSignIn(data){
-  console.log('signIn', data);
-  return new Promise(res => setTimeout(res, 500));
-}

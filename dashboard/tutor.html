@@ -25,6 +25,7 @@
         <div>
           <div class="title">VolunTutor</div>
           <div class="subtitle muted small">Tutor Dashboard</div>
+          <div class="subtitle muted small" id="welcomeBar">Signed in as <strong id="welcomeName">Tutor</strong></div>
         </div>
       </div>
       <div class="top-controls">
@@ -420,6 +421,7 @@
         $('#userName').textContent = name;
         $('#userEmail').textContent = email;
         $('#avatar').textContent = name.slice(0,2).toUpperCase();
+        const wn = $('#welcomeName'); if (wn) wn.textContent = name;
       });
     }
 
@@ -492,6 +494,7 @@
       $('#userName').textContent = 'Tutor';
       $('#userEmail').textContent = '';
       $('#avatar').textContent = 'VT';
+      const wn = $('#welcomeName'); if (wn) wn.textContent = 'Tutor';
     }
 
     renderCalendar(); renderLists();
