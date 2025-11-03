@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutor Sign-Up | VolunTutor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tutor-signup.css">
+</head>
+
+<body>
+  <header class="site-header glass">
+    <a href="#" class="brand">
+      <img src="/Media/logo.png" alt="VolunTutor Logo" />
+      <h2>VolunTutor</h2>
+    </a>
+  </header>
+
+  <main class="auth-shell">
+    <section class="auth-card glass">
+      <h1>🧑‍🏫 Tutor Sign-Up</h1>
+      <form id="tutorForm" novalidate>
+        <div class="form-group">
+          <label for="tutorName">Full Name</label>
+          <input id="tutorName" type="text" placeholder="Your full name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="tutorEmail">Email</label>
+          <input id="tutorEmail" type="email" placeholder="your@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="tutorClass">Class / Grade</label>
+          <input id="tutorClass" type="text" placeholder="Example: 10th Grade" required />
+        </div>
+
+        <div class="form-group">
+          <label for="subjectSelect">Subjects Comfortable Teaching</label>
+          <select id="subjectSelect" required>
+            <option value="">Select Subject</option>
+            <option>French</option>
+            <option>German</option>
+            <option>Spanish</option>
+            <option>Physics</option>
+            <option>Math</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="levelSelect">Level</label>
+          <select id="levelSelect" required>
+            <option value="">Select Level</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bio">Short Bio / Experience</label>
+          <textarea id="bio" rows="3" placeholder="Tell us about your experience..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-primary" id="submitForm">Submit</button>
+          <button type="button" class="btn-clear" id="clearForm">Clear</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="tutor-signup.js"></script>
+</body>
+</html>
