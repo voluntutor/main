@@ -14,7 +14,23 @@
   <!-- Confetti (kept; harmless) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
+  
+
   <style>
+
+    /* Base button contrasts */
+.btn{background:var(--card); color:var(--text); border:1px solid var(--glass-border)}
+.btn:hover,
+.btn-ghost:hover,
+.btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
+.btn:active,
+.btn-ghost:active,
+.btn-primary:active{ transform: translateY(0); box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+
+.btn-primary{background:var(--accent); color:#fff}
+.btn-primary:hover{background:var(--accent-2)}
+.btn-ghost{background:transparent; color:var(--text)}
+
     /* ================== THEME TOKENS ================== */
     :root{
       --bg-grad: linear-gradient(145deg, #f0f0ff 0%, rgba(225,230,255,.9) 100%);
@@ -169,6 +185,42 @@
       main.main-grid{ grid-template-columns:1fr }
       .sidecol{ order:-1 }
     }
+
+    /* Style the date input in dark mode */
+body.dark input[type="date"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="date"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the calendar icon */
+}
+
+/* Style the time input in dark mode */
+body.dark input[type="time"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="time"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the clock icon */
+}
   </style>
 </head>
 <body>

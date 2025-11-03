@@ -55,9 +55,10 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
 });
 
   /* ===== Simple routing buttons ===== */
-  $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main');
+  $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html');//button takes user back to tutor dashboard
+  $('#volunteer-hours')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/submit-hours/submit-hours.html');
   $('#logoutBtn')?.addEventListener('click', () => {
-    toast('Logged out'); setTimeout(()=> location.href = 'https://voluntutor.github.io/main/register/auth.html', 600);
+    toast('Logged out'); setTimeout(()=> location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html', 600);
   });
 
     /* ===== Mock user ===== */
@@ -103,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Selected Subjects:', selectedSubjects);
   
       alert('Profile updated successfully!');
-      form.reset(); // Reset the form
     });
   });
 
