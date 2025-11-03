@@ -1,10 +1,19 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import {
   getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-const app = initializeApp({ /* your Firebase config */ });
+const firebaseConfig = {
+  apiKey: "AIzaSyCiiAfvZ25ChvpCVCbMj46dsCrZBYMGBpM",
+  authDomain: "logintrial001.firebaseapp.com",
+  projectId: "logintrial001",
+  storageBucket: "logintrial001.appspot.com",
+  messagingSenderId: "419688887007",
+  appId: "1:419688887007:web:013af1286ba6e7aff42f6a"
+};
+
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
@@ -15,7 +24,7 @@ const submitBtn  = document.getElementById('submitApp');
 let currentUser = null;
 onAuthStateChanged(auth, (u) => {
   currentUser = u;
-  if (!u) location.href = "./auth.html";
+  if (!u) location.href = "https://voluntutor.github.io/main/register/auth.html";
 });
 
 subjectSel.addEventListener('change', async () => {
@@ -51,5 +60,5 @@ submitBtn.addEventListener('click', async () => {
   });
 
   alert("Application submitted. A teacher will review it.");
-  location.href = "../dashboard/student.html";
+  location.href = "../dashboard/tutor.html";
 });

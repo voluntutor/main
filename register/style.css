@@ -12,7 +12,7 @@ body{
   margin:0; color:var(--gray);
   font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
   min-height:100svh; display:block;
-  background: var(--white) url("/Media/bgAuth.png") center/cover fixed no-repeat;
+  background: var(--white) url("https: //github .com/voluntutor/main/blob/e 15em 3c 9463c 1049bf 2192dcf 656d 2af 3508412ca /Media/bgAuth .jpeg;") center/cover fixed no-repeat;
   /* space for fixed header */
   padding-top: clamp(64px, 9svh, 88px);
 }
@@ -220,7 +220,7 @@ body { padding-top: var(--header-h); }
 
 body {
   /* animated gradient background */
-  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background: linear-gradient(135deg, #1E3A8A, #60A5FA);
   background-size: 400% 400%;
   animation: gradientBG 12s ease infinite;
 }
@@ -234,7 +234,7 @@ body {
 
 body {
   /* animated gradient background */
-  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #F472B6);
+  background: linear-gradient(135deg, #1E3A8A, #60A5FA);
   background-size: 400% 400%;
   animation: gradientBG 12s ease infinite;
 }
@@ -363,3 +363,4 @@ form#signup button[type="submit"]:hover{
     min-height: 560px;            /* still tall on phones */
   }
 }
+
