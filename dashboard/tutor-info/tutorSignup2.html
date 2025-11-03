@@ -1,72 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutor Sign-Up | VolunTutor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tutor-signup.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Sign Up</title>
+    <link rel="stylesheet" href="tutor-signup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
-  <header class="site-header glass">
-    <a href="#" class="brand">
-      <img src="/Media/logo.png" alt="VolunTutor Logo" />
-      <h2>VolunTutor</h2>
-    </a>
-  </header>
-
-  <main class="auth-shell">
-    <section class="auth-card glass">
-      <h1>🧑‍🏫 Tutor Sign-Up</h1>
-      <form id="tutorForm" novalidate>
-        <div class="form-group">
-          <label for="tutorName">Full Name</label>
-          <input id="tutorName" type="text" placeholder="Your full name" required />
+    <!-- Header -->
+    <header class="site-header glass">
+        <div class="brand">
+            <img src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="Logo">
+            <span>VolunTutor</span>
         </div>
+        <button id="themeToggle" class="btn-clear" title="Toggle Theme">🌗</button>
+    </header>
 
-        <div class="form-group">
-          <label for="tutorEmail">Email</label>
-          <input id="tutorEmail" type="email" placeholder="your@email.com" required />
+    <!-- Form Section -->
+    <div class="auth-shell">
+        <div class="auth-card glass">
+            <h1>Tutor Sign Up</h1>
+            <form id="tutorForm">
+                <!-- Tutor Info -->
+                <div class="form-group">
+                    <label for="tutorName">Your Name</label>
+                    <input type="text" id="tutorName" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="tutorEmail">Your Email</label>
+                    <input type="email" id="tutorEmail" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <label for="tutorClass">Your Grade/Class</label>
+                    <input type="text" id="tutorClass" placeholder="Grade Level" required>
+                </div>
+
+                <!-- Teacher Info -->
+                <div class="form-group">
+                    <label for="teacherName">Teacher's Name</label>
+                    <input type="text" id="teacherName" placeholder="Teacher Full Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="teacherEmail">Teacher's Email</label>
+                    <input type="email" id="teacherEmail" placeholder="Teacher Email" required>
+                </div>
+
+                <!-- Subjects -->
+                <div class="form-group">
+                    <label for="subjectSelect">Subjects you can teach</label>
+                    <select id="subjectSelect" required>
+                        <option value="">Select Subject</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Spanish</option>
+                        <option>Physics</option>
+                        <option>Math</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="levelSelect">Level</label>
+                    <select id="levelSelect" required>
+                        <option value="">Select Level</option>
+                    </select>
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group">
+                    <label for="bio">Additional Notes</label>
+                    <textarea id="bio" rows="3" placeholder="Any extra info or requests..."></textarea>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="form-actions">
+                    <button type="button" id="submitForm" class="btn-primary">Submit</button>
+                    <button type="button" id="clearForm" class="btn-clear">Clear</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div class="form-group">
-          <label for="tutorClass">Class / Grade</label>
-          <input id="tutorClass" type="text" placeholder="Example: 10th Grade" required />
-        </div>
-
-        <div class="form-group">
-          <label for="subjectSelect">Subjects Comfortable Teaching</label>
-          <select id="subjectSelect" required>
-            <option value="">Select Subject</option>
-            <option>French</option>
-            <option>German</option>
-            <option>Spanish</option>
-            <option>Physics</option>
-            <option>Math</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="levelSelect">Level</label>
-          <select id="levelSelect" required>
-            <option value="">Select Level</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="bio">Short Bio / Experience</label>
-          <textarea id="bio" rows="3" placeholder="Tell us about your experience..."></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn-primary" id="submitForm">Submit</button>
-          <button type="button" class="btn-clear" id="clearForm">Clear</button>
-        </div>
-      </form>
-    </section>
-  </main>
-
-  <script src="tutor-signup.js"></script>
+    <script src="tutor-signup.js"></script>
 </body>
 </html>
