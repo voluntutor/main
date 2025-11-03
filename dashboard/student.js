@@ -1,26 +1,13 @@
-<<<<<<< HEAD
-// student.js — VolunTutor Dashboard (complete, fixed, and extended)
+// student.js — VolunTutor Dashboard (complete, merged, and extended)
 // Put at /dashboard/student.js and load as <script type="module" src="student.js"></script>
 //
-// Features:
-// - Firebase v10 modular imports & initialized with your project's config
-// - Auth state handling (redirects to ../index.html if not signed in)
-// - Firestore writes include `studentUid` to satisfy rules
-// - Dropdown population from `classes` collection (fallback to static)
-// - Real-time listener on requests (where studentUid == auth.uid)
-// - Calendar month view (square layout assumed in CSS) that highlights booked days
-// - Click any day to open a full-screen day overlay with sessions, reminders, cancel
-// - Confetti particle system (canvas fallback + optional canvas-confetti if loaded)
-// - Theme toggle (dark/light) that persists to localStorage and updates logo
-// - Reminder scheduling (Notification API + localStorage fallback)
-// - Helpful toasts and debug helpers
+// This file preserves your original features and adds:
+//  - Subject -> Level dynamic dropdown (populateLevels())
+//  - Optional fields: studentEmail, gradeLevel, preferredTutor (wired to UI & payload)
+//  - Confetti burst on successful scheduling (prefers canvas-confetti library, fallback particle system)
+//  - Keeps Firebase modular imports, auth, Firestore realtime listeners, calendar, overlay, theme, toasts
 //
-// IMPORTANT: Ensure your HTML has matching IDs:
-// #logoutBtn, #userName, #userEmail, #logoImg, #subjectSelect, #teacherSelect,
-// #reqDate, #reqTime, #reqDetails, #sendRequest, #clearForm, #upcomingList,
-// #toast, #calendar, #monthLabel, #prevMonth, #nextMonth, #themeToggle
-//
-// If any of those are missing the code will try to continue gracefully.
+// IMPORTANT: Ensure your HTML includes matching IDs used below (levelSelect, studentEmail, gradeLevel, preferredTutor, etc.)
 
 // -------------------------------
 // Firebase imports (modular v10+)
@@ -77,6 +64,7 @@ let userNameEl = null;
 let userEmailEl = null;
 let logoImg = null;
 let subjectSelect = null;
+let levelSelect = null;
 let teacherSelect = null;
 let reqDate = null;
 let reqTime = null;
@@ -91,6 +79,9 @@ let prevMonthBtn = null;
 let nextMonthBtn = null;
 let themeToggle = null;
 let requestForm = null;
+let studentEmailInput = null;
+let gradeLevelInput = null;
+let preferredTutorInput = null;
 
 // confetti canvas & state
 let confettiCanvas = null;
@@ -106,6 +97,17 @@ let dayOverlay = null;
 // -------------------------------
 const supportsNotification = ("Notification" in window);
 const supportsLocalStorage = ("localStorage" in window);
+
+// -------------------------------
+// Subject -> Level mapping (added)
+// -------------------------------
+const levelsBySubject = {
+  'French': ['French 1','French 2','French 3','Honors French','AP French'],
+  'German': ['German 1','German 2','German 3','Honors German','AP German'],
+  'Spanish': ['Spanish 1','Spanish 2','Spanish 3','Honors Spanish','AP Spanish'],
+  'Physics': ['Conceptual Physics','Physics Honors','AP Physics 1','AP Physics 2','AP Physics C'],
+  'Math': ['Algebra I','Geometry','Algebra II','Precalculus','Honors','AP Calculus','AP Statistics']
+};
 
 // -------------------------------
 // Utility helpers
@@ -191,6 +193,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   userEmailEl = document.getElementById("userEmail");
   logoImg = document.getElementById("logoImg") || document.querySelector("#logo img") || null;
   subjectSelect = document.getElementById("subjectSelect");
+  levelSelect = document.getElementById("levelSelect");
   teacherSelect = document.getElementById("teacherSelect");
   reqDate = document.getElementById("reqDate");
   reqTime = document.getElementById("reqTime");
@@ -205,6 +208,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   nextMonthBtn = document.getElementById("nextMonth");
   themeToggle = document.getElementById("themeToggle");
   requestForm = document.getElementById("requestForm");
+  studentEmailInput = document.getElementById("studentEmail");
+  gradeLevelInput = document.getElementById("gradeLevel");
+  preferredTutorInput = document.getElementById("preferredTutor");
 
   // Make sure calendar is visible as square (CSS should handle aspect-ratio but this ensures fallback)
   if (calendarEl) {
@@ -216,11 +222,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initialize confetti canvas (creates if missing)
   initConfettiCanvas();
 
-  // Load dropdowns (attempt Firestore classes collection, otherwise static fallback)
+  // Load dropdowns (attempt Firestore classes collection, otherwise static)
   await populateDropdowns();
 
   // Wire UI interactions (buttons, theme)
   wireUI();
+
+  // Wire subject->level dynamic population (added)
+  if (subjectSelect && levelSelect) {
+    subjectSelect.addEventListener('change', populateLevels);
+    // If subject already has value (e.g., from Firestore), populate on load
+    if (subjectSelect.value) populateLevels();
+  }
 
   // Render initial placeholder calendar while Firestore loads
   renderCalendar(selectedMonth, []);
@@ -245,7 +258,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // -------------------------------
-// Dropdown population
+// Dropdown population (keeps your Firestore attempt, falls back to static)
 // -------------------------------
 async function populateDropdowns() {
   // Try to load from Firestore collection `classes` with fields { subject, teacher }
@@ -287,8 +300,9 @@ async function populateDropdowns() {
   // fallback static options (if Firestore didn't populate anything)
   if (!loadedFromFirestore) {
     const staticSubjects = ["French", "Spanish", "German", "Math", "Science"];
-    const staticTeachers = ["Mr. Hearty", "Mr. French"];
+    const staticTeachers = ["Mr. Hearty", "Ms. Smith"];
     if (subjectSelect) {
+      // preserve existing options if any, otherwise replace
       subjectSelect.innerHTML = "<option value=''>Select Subject</option>";
       for (const s of staticSubjects) {
         const opt = document.createElement("option"); opt.value = s; opt.textContent = s;
@@ -304,6 +318,21 @@ async function populateDropdowns() {
     }
   }
 }
+
+// -------------------------------
+// Populate Levels based on subject selection (added)
+function populateLevels() {
+  if (!subjectSelect || !levelSelect) return;
+  const subj = subjectSelect.value;
+  levelSelect.innerHTML = '<option value="">Select Level</option>';
+  (levelsBySubject[subj] || []).forEach(l=>{
+    const opt = document.createElement('option');
+    opt.value = l;
+    opt.textContent = l;
+    levelSelect.appendChild(opt);
+  });
+}
+// -------------------------------
 
 // -------------------------------
 // UI wiring & event listeners
@@ -350,11 +379,7 @@ function wireUI() {
   if (clearForm) {
     clearForm.addEventListener("click", (e) => {
       e.preventDefault();
-      if (subjectSelect) subjectSelect.value = "";
-      if (teacherSelect) teacherSelect.value = "";
-      if (reqDate) reqDate.value = "";
-      if (reqTime) reqTime.value = "";
-      if (reqDetails) reqDetails.value = "";
+      clearRequestForm();
       showToast("Form cleared");
     });
   }
@@ -387,6 +412,19 @@ function wireUI() {
       }
     });
   }
+}
+
+// small helper to clear the form (resets optional fields too)
+function clearRequestForm() {
+  if (subjectSelect) subjectSelect.value = "";
+  if (levelSelect) levelSelect.innerHTML = '<option value="">Select Level</option>';
+  if (teacherSelect) teacherSelect.value = "";
+  if (reqDate) reqDate.value = "";
+  if (reqTime) reqTime.value = "";
+  if (reqDetails) reqDetails.value = "";
+  if (studentEmailInput) studentEmailInput.value = "";
+  if (gradeLevelInput) gradeLevelInput.value = "";
+  if (preferredTutorInput) preferredTutorInput.value = "";
 }
 
 // -------------------------------
@@ -439,13 +477,19 @@ async function scheduleRequest() {
   }
 
   const subject = subjectSelect.value?.trim();
+  const level = levelSelect ? levelSelect.value?.trim() : "";
   const teacher = teacherSelect.value?.trim();
   const date = reqDate.value;   // expected 'YYYY-MM-DD'
   const time = reqTime.value;   // expected 'HH:MM'
   const details = reqDetails?.value?.trim() || "";
 
+  // optional fields
+  const studentEmailVal = studentEmailInput?.value?.trim() || currentUser.email || "";
+  const gradeLevelVal = gradeLevelInput?.value?.trim() || "";
+  const preferredTutorVal = preferredTutorInput?.value?.trim() || "";
+
   if (!subject || !teacher || !date || !time) {
-    showToast("Please fill all fields");
+    showToast("Please fill all required fields (subject, teacher, date, time)");
     return;
   }
 
@@ -462,12 +506,15 @@ async function scheduleRequest() {
   // Construct payload matching your Firestore rules
   const payload = {
     studentUid: currentUser.uid,        // required by rules
-    studentEmail: currentUser.email || "",
+    studentEmail: studentEmailVal,
     subject,
+    level,
     teacher,
     date,                               // YYYY-MM-DD
     time,                               // HH:MM
     details,
+    preferredTutor: preferredTutorVal || null,
+    gradeLevel: gradeLevelVal || null,
     createdAt: serverTimestamp()
   };
 
@@ -481,11 +528,7 @@ async function scheduleRequest() {
     try { startConfetti(); } catch (e) { /* ignore */ }
 
     // clear form
-    subjectSelect.value = "";
-    teacherSelect.value = "";
-    reqDate.value = "";
-    reqTime.value = "";
-    if (reqDetails) reqDetails.value = "";
+    clearRequestForm();
 
     // note: the real-time listener will pick up the new document and update UI
   } catch (err) {
@@ -517,18 +560,19 @@ function renderUpcoming(sessions) {
   // Render a compact card for each session
   for (const s of sessions) {
     const card = document.createElement("div");
-    card.className = "upcoming-card glass-panel";
+    card.className = "upcoming-card glass-panel card";
     // left content
     const left = document.createElement("div");
     left.className = "up-left";
-    left.innerHTML = `<div class="subj">${escapeHtml(s.subject)}</div><div class="meta muted">${escapeHtml(s.teacher)}</div>`;
+    left.innerHTML = `<div class="subj">${escapeHtml(s.subject)} ${s.level ? `• ${escapeHtml(s.level)}` : ""}</div><div class="meta muted">${escapeHtml(s.teacher)}</div>`;
+
     // right content
     const right = document.createElement("div");
     right.className = "up-right";
     right.innerHTML = `<div class="time">${escapeHtml(s.date)} • ${escapeHtml(s.time)}</div>`;
 
     // actions
-    const actions = document.createElement("div"); actions.className = "up-actions";
+    const actions = document.createElement("div"); actions.className = "up-actions row";
     const cancelBtn = document.createElement("button");
     cancelBtn.className = "btn-ghost small";
     cancelBtn.textContent = "Cancel";
@@ -549,9 +593,29 @@ function renderUpcoming(sessions) {
     actions.appendChild(remindBtn);
     actions.appendChild(cancelBtn);
 
-    card.appendChild(left);
-    card.appendChild(right);
-    card.appendChild(actions);
+    // optional meta display: studentEmail, gradeLevel
+    const metaExtras = document.createElement("div");
+    metaExtras.className = "meta-extras small muted";
+    metaExtras.style.marginTop = "6px";
+    const extras = [];
+    if (s.studentEmail) extras.push(escapeHtml(s.studentEmail));
+    if (s.gradeLevel) extras.push(escapeHtml(s.gradeLevel));
+    if (extras.length) metaExtras.textContent = extras.join(" • ");
+
+    // assemble card
+    const leftWrap = document.createElement("div"); leftWrap.style.flex = "1";
+    leftWrap.appendChild(left);
+    leftWrap.appendChild(metaExtras);
+
+    const rightWrap = document.createElement("div");
+    rightWrap.style.display = "flex";
+    rightWrap.style.flexDirection = "column";
+    rightWrap.style.alignItems = "flex-end";
+    rightWrap.appendChild(right);
+    rightWrap.appendChild(actions);
+
+    card.appendChild(leftWrap);
+    card.appendChild(rightWrap);
 
     upcomingList.appendChild(card);
   }
@@ -591,8 +655,8 @@ function renderCalendar(monthDate, sessions = []) {
   // blank cells before first
   for (let i = 0; i < startDay; i++) {
     const blank = document.createElement("div");
-    blank.className = "day blank";
-    blank.innerHTML = `<div class="date"><div class="num muted"> </div></div>`; // blank number
+    blank.className = "cal-cell blank";
+    blank.innerHTML = `<div class="cal-date muted"> </div>`; // blank number
     calendarEl.appendChild(blank);
   }
 
@@ -602,22 +666,22 @@ function renderCalendar(monthDate, sessions = []) {
   for (let d = 1; d <= daysInMonth; d++) {
     const dt = new Date(year, month, d);
     const iso = formatISO(dt);
-    const cell = document.createElement("div");
-    cell.className = "day";
-    cell.setAttribute("data-date", iso);
-    if (iso === todayISO) cell.classList.add("today");
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell';
+    cell.setAttribute('data-date', iso);
+    if (iso === todayISO) cell.classList.add('today');
 
-    const header = document.createElement("div");
-    header.className = "date";
-    header.innerHTML = `<div class="num">${d}</div><div class="weekday small muted">${dt.toLocaleDateString(undefined, { weekday: 'short' })}</div>`;
+    const header = document.createElement('div');
+    header.className = 'cal-date';
+    header.innerHTML = `<div class="cal-date-num">${d}</div>`;
 
-    const items = document.createElement("div");
-    items.className = "items";
+    const items = document.createElement('div');
+    items.className = 'items';
 
     // if there are sessions that day, render up to 3 mini items
     const daySessions = map[iso] || [];
     if (daySessions.length > 0) {
-      // add a booked indicator
+      // add a booked indicator (dot)
       const dot = document.createElement("span");
       dot.className = "dot booked";
       header.prepend(dot);
@@ -626,7 +690,7 @@ function renderCalendar(monthDate, sessions = []) {
         const s = daySessions[i];
         const mini = document.createElement("div");
         mini.className = "session mini";
-        mini.innerHTML = `<div class="msub">${escapeHtml(s.subject)}</div><div class="mtime muted">${escapeHtml(s.time)}</div>`;
+        mini.innerHTML = `<div class="msub">${escapeHtml(s.subject)}${s.level ? ` • ${escapeHtml(s.level)}` : ""}</div><div class="mtime muted">${escapeHtml(s.time)}</div>`;
         items.appendChild(mini);
       }
 
@@ -661,8 +725,8 @@ function renderCalendar(monthDate, sessions = []) {
   const remainder = (7 - (totalChildren % 7)) % 7;
   for (let i = 0; i < remainder; i++) {
     const b = document.createElement("div");
-    b.className = "day blank";
-    b.innerHTML = `<div class="date"><div class="num muted"> </div></div>`;
+    b.className = 'cal-cell blank';
+    b.innerHTML = `<div class="cal-date muted"> </div>`;
     calendarEl.appendChild(b);
   }
 }
@@ -737,15 +801,15 @@ function openDayOverlay(dateIso, sessionsForDay) {
     // create a list of session cards
     for (const s of sessionsForDay) {
       const card = document.createElement("div");
-      card.className = "session-card glass-panel";
+      card.className = "session-card glass-panel card";
 
       card.innerHTML = `
         <div class="session-top">
-          <div class="session-subj">${escapeHtml(s.subject)}</div>
+          <div class="session-subj">${escapeHtml(s.subject)}${s.level ? ` • ${escapeHtml(s.level)}` : ""}</div>
           <div class="session-meta muted">${escapeHtml(s.teacher)} • ${escapeHtml(s.time)}</div>
         </div>
         <div class="session-body">${escapeHtml(s.details || "No extra details")}</div>
-        <div class="session-actions">
+        <div class="session-actions row">
           <button class="btn-ghost btn-remind" data-id="${s.id}" data-date="${s.date}" data-time="${s.time}">🔔 Remind 30m</button>
           <button class="btn-ghost btn-cancel" data-id="${s.id}">Cancel</button>
         </div>
@@ -1064,46 +1128,9 @@ export function vtInit() {
 
 // End of student.js
 // -------------------------------
-// Notes & next steps:
-// - If calendar still doesn't show newly scheduled items immediately, open DevTools -> Console to inspect errors.
-// - If Firestore write fails, check the exact error code in console (e.g. "permission-denied") and compare to rules:
-//     your rules require request.resource.data.studentUid == request.auth.uid when creating requests.
-// - If you want, I can also produce:
-//     - a matching, lengthy CSS file implementing the iOS 16/17 glass aesthetic (dark glass + animations)
-//     - or a tutor.html page with the cinematic carousel you liked.
-// -------------------------------
-=======
-// Week Navigation Example
-const prevWeekBtn = document.getElementById("prev-week");
-const nextWeekBtn = document.getElementById("next-week");
-const weekLabel = document.getElementById("week-label");
-
-let currentWeek = 0; // 0 = current week
-
-function updateWeekLabel() {
-  const now = new Date();
-  now.setDate(now.getDate() + currentWeek * 7);
-  const options = { month: "long", day: "numeric" };
-  weekLabel.textContent = `Week of ${now.toLocaleDateString(undefined, options)}`;
-}
-
-prevWeekBtn.addEventListener("click", () => {
-  currentWeek--;
-  updateWeekLabel();
-});
-
-nextWeekBtn.addEventListener("click", () => {
-  currentWeek++;
-  updateWeekLabel();
-});
-
-updateWeekLabel();
-
-// Form submission example
-const requestForm = document.getElementById("request-form");
-requestForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  alert("Request submitted!");
-  requestForm.reset();
-});
->>>>>>> parent of d084aba (All Dashes)
+// Notes:
+// - This file keeps your Firestore write that requires studentUid when creating requests.
+// - Optional fields (studentEmail, gradeLevel, preferredTutor) are stored in the payload (nullable if empty).
+// - Confetti will use the canvas-confetti library if loaded; otherwise internal particle system is used.
+// - If you want me to also produce a matching tutor.js or teacher.js derived from this, I can.
+// - If you want the code wrapped (non-module), tell me and I will output a UMD/plain script variant.
