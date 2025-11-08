@@ -16,7 +16,7 @@ qs('#switchToSignUp')?.addEventListener('click', () => {
   document.querySelector('.container')?.classList.add('right-panel-active');
 });
 
-// Guard against overlay eating clicks
+// Guard against overlay eating clicksa
 // Ensure overlay panels don't block pointer events over forms
 document.querySelector('.container__overlay')?.setAttribute('style','pointer-events:none;');
 document.querySelectorAll('.overlay__panel .btn').forEach(b => b.style.pointerEvents = 'auto');

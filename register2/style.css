@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: "Open Sans", system-ui, sans-serif; }
+
+body {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; width: 100%; padding: 0 10px; position: relative; overflow: hidden;
+}
+
+/* Background image + dark overlay for glass pop */
+body::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: url("login-hero-bg.jpg"), #000;   /* replace if you want */
+  background-position: center; background-size: cover;
+  filter: brightness(.6);
+}
+
+/* soft animated gradient sheen so it doesn’t look like 2019 Dribbble */
+body::after{
+  content:""; position:absolute; inset:-40% -20% auto -20%;
+  height:70%; transform: rotate(8deg);
+  background: radial-gradient(60% 60% at 50% 50%, rgba(255,255,255,.18), rgba(255,255,255,0));
+  pointer-events:none;
+}
+
+.wrapper {
+  width: 400px; border-radius: 14px; padding: 32px; text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  position: relative; z-index: 1;
+}
+
+form { display: flex; flex-direction: column; }
+
+h2 { font-size: 2rem; margin-bottom: 22px; color: #fff; letter-spacing: .3px; }
+
+.input-field { position: relative; border-bottom: 2px solid rgba(255,255,255,.55); margin: 16px 0 26px; }
+.input-field label {
+  position: absolute; top: 50%; left: 0; transform: translateY(-50%);
+  color: #fff; font-size: 16px; pointer-events: none; transition: .15s ease;
+}
+.input-field input {
+  width: 100%; height: 44px; background: transparent; border: none; outline: none;
+  font-size: 16px; color: #fff;
+}
+.input-field input:focus ~ label,
+.input-field input:valid ~ label {
+  font-size: 0.8rem; top: 10px; transform: translateY(-120%);
+}
+
+button[type="submit"]{
+  margin-top: 8px; height: 46px; border-radius: 10px; border: 0;
+  font-weight: 700; letter-spacing: .2px; color: #0b1220; cursor: pointer;
+  background: #8ef3c5;
+  box-shadow: 0 10px 28px rgba(142,243,197,.35);
+  transition: transform .12s ease, filter .15s ease, box-shadow .15s ease, opacity .15s ease;
+}
+button[type="submit"]:hover{ transform: translateY(-1px); filter: brightness(.98); }
+button[type="submit"]:active{ transform: translateY(0); }
+
+.register p { color: rgba(255,255,255,.8); font-size: 0.9rem; margin-top: 18px; }
+
+.msg { color: #fff; font-size: .95rem; min-height: 1.4em; margin-top: 10px; }
+.msg.error { color: #ffb4b4; }
