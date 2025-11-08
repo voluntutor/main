@@ -1,6 +1,15 @@
+/*
+Responsibilities:
+- Initialize Firebase
+- Detect if current URL is a valid email link
+- Complete sign-in with signInWithEmailLink
+- Route teacher vs student based on email domain
+*/
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
 import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
+/* Same Firebase config as the sender page */
 const firebaseConfig = {
   apiKey: "AIzaSyDKACGUOxw-4lfu6so4h7cqN1-U0DeFwW4",
   authDomain: "voluntutorauthentication.firebaseapp.com",
@@ -11,41 +20,47 @@ const firebaseConfig = {
   measurementId: "G-WFJ3MZEQDL"
 };
 initializeApp(firebaseConfig);
-
 const auth = getAuth();
-const $status = document.getElementById("status");
 
-// destinations
-const teacherDest = "https://voluntutor.github.io/main/dashboard/teacher.html";
-const studentDest = "https://voluntutor.github.io/main/dashboard/tutor.html"; // your existing student/tutor page
+/* Where to send users after success */
+const TEACHER_DEST = "https://voluntutor.github.io/main/dashboard/teacher.html";  // teachers go here
+const STUDENT_DEST = "https://voluntutor.github.io/main/dashboard/tutor.html";    // everyone else goes here
+
+const statusEl = document.getElementById('status');
+
+function niceError(err){
+  const c = err?.code || '';
+  if (c.includes('invalid-action-code')) return 'This link is invalid or expired. Try sending a new one.';
+  return err?.message || 'Sign-in failed.';
+}
 
 (async () => {
+  const href = location.href;                                   // Full URL with oobCode
+  if (!isSignInWithEmailLink(auth, href)) {                     // Is this a valid link for our app?
+    statusEl.textContent = 'Invalid or expired link.';          // Not a valid link → show message
+    return;
+  }
   try {
-    const href = window.location.href;
-
-    if (!isSignInWithEmailLink(auth, href)) {
-      $status.textContent = "Invalid or expired link.";
-      return;
-    }
-
-    let email = localStorage.getItem("emailForSignIn");
+    // Get the email we saved on the sender page. If missing (e.g., opened on another device), ask.
+    let email = localStorage.getItem('emailForSignIn');
     if (!email) {
-      email = prompt("Confirm your email to finish sign-in");
-      if (!email) throw new Error("Email confirmation required.");
+      email = prompt('Confirm your email to finish sign-in');   // Security: must confirm ownership
+      if (!email) throw new Error('Email confirmation required.');
     }
+    email = email.trim().toLowerCase();
 
+    // Complete the sign-in with the link the user clicked
     await signInWithEmailLink(auth, email, href);
-    localStorage.removeItem("emailForSignIn");
+    localStorage.removeItem('emailForSignIn');
 
-    // Routing by email domain
-    const lower = email.toLowerCase();
-    const isTeacher = lower.endsWith("@hse.k12.in.us") || lower.endsWith("@gmail.com");
-    const dest = isTeacher ? teacherDest : studentDest;
+    // Route by email domain
+    const isTeacher = email.endsWith('@hse.k12.in.us') || email.endsWith('@gmail.com');
+    const dest = isTeacher ? TEACHER_DEST : STUDENT_DEST;
 
-    $status.textContent = "Signed in. Redirecting…";
-    window.location.replace(dest);
+    statusEl.textContent = 'Signed in. Redirecting…';
+    location.replace(dest);                                     // Final redirect
   } catch (err) {
     console.error(err);
-    $status.textContent = err?.message || "Sign-in failed.";
+    statusEl.textContent = niceError(err);                      // Show friendly failure
   }
 })();

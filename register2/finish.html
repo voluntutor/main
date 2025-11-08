@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Finishing sign-in…</title>
-  <link rel="stylesheet" href="/register2/style.css" />
-  <style>
-    /* tiny inline helper so the status is legible on the bg */
-    .wrapper { width: 420px }
-    .status { color: #fff; text-align: center; }
-  </style>
-  <script type="module" src="/register2/finish.js" defer></script>
+  <title>VolunTutor • Finishing sign-in…</title>
+  <!-- Reuse the same styles for consistent look -->
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <div class="wrapper">
-    <div class="status">
-      <h2>One moment…</h2>
-      <p id="status">Verifying your link.</p>
-    </div>
+  <div class="blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
   </div>
+  <div class="wrap">
+    <section class="card" id="card">
+      <div class="brand"><span class="dot"></span><strong>VolunTutor</strong></div>
+      <h1>One moment…</h1>
+      <p class="sub" id="status">Verifying your link.</p>
+    </section>
+  </div>
+  <!-- This script completes sign-in and routes the user -->
+  <script type="module" src="./finish.js"></script>
 </body>
 </html>

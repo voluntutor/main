@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VolunTutor • Sign In</title>
+
+  <!-- UI font for headings/body -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Confetti for tiny dopamine hit after sending link (optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+
+  <!-- Shared styles for both pages -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- Decorative animated background blobs and stars -->
+  <div class="blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="stars" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <section class="card" id="card">
+      <div class="brand"><span class="dot"></span><strong>VolunTutor</strong></div>
+      <h1 id="title">Sign in with your email</h1>
+      <p class="sub" id="subtitle">No password. We’ll email you a magic link to continue.</p>
+
+      <!-- Email-only sign-in form -->
+      <form id="signinForm" novalidate>
+        <div class="field">
+          <!-- Tiny inline icon just for vibes -->
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M2.25 7.5l9.06 6.04c.42.28.96.28 1.38 0L21.75 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="3" y="5" width="18" height="14" rx="2.5" ry="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </svg>
+          <input id="email" type="email" placeholder="you@school.org" autocomplete="email" required />
+        </div>
+        <button class="btn" id="submitBtn" type="submit">Send magic link</button>
+        <div class="alert" id="alert"></div>
+      </form>
+
+      <div class="row" style="margin-top:1rem">
+        <span class="link">New here? <a href="#" id="swapToSignup">Create an account</a></span>
+        <span class="link"><a href="#" id="resendLink" style="display:none">Resend link</a></span>
+      </div>
+      <p class="note">By continuing you agree to our basic decency policy and cookies that aren’t even chocolate.</p>
+    </section>
+  </div>
+
+  <!-- Handles UI polish and sends the email link -->
+  <script type="module" src="./send-link.js"></script>
+</body>
+</html>
