@@ -167,6 +167,9 @@
     .subtitle{margin-top:-4px}
     .top-controls{display:flex;align-items:center;gap:10px}
     .user-chip{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:14px}
+    .nav-button{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:14px;white-space: nowrap;transition: background-color 0.25s ease-in-out}
+    .nav-button:hover{background:var(--accent-2);cursor:pointer}
+    .active-nav-button{display:flex;align-items:center;gap:20px;padding:6px 10px;border-radius:14px;background:var(--accent-2);white-space: nowrap}  
     .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:700}
     
     main.main-grid{

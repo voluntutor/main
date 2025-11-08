@@ -185,6 +185,42 @@
       main.main-grid{ grid-template-columns:1fr }
       .sidecol{ order:-1 }
     }
+
+    /* Style the date input in dark mode */
+body.dark input[type="date"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="date"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the calendar icon */
+}
+
+/* Style the time input in dark mode */
+body.dark input[type="time"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="time"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the clock icon */
+}
   </style>
 </head>
 <body>
@@ -350,7 +386,7 @@
 
     /* ================== NAV / ROUTING BUTTONS ================== */
     $('#homeLink')?.addEventListener('click', () => location.href = 'student.html');
-    $('#applyTutorBtn')?.addEventListener('click', () => location.href = 'tutor.html');
+    $('#applyTutorBtn')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor-info/tutorSignup2.html');
     $('#logoutBtn')?.addEventListener('click', () => {
       // If you wire Firebase, call signOut here. For now, just fake it:
       toast('Logged out'); setTimeout(()=> location.href = 'https://voluntutor.github.io/main/register/auth.html', 600);

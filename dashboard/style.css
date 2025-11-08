@@ -86,6 +86,8 @@ img{max-width:100%; display:block}
 .subtitle{margin-top:-4px}
 .top-controls{display:flex;align-items:center;gap:10px}
 .user-chip{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:14px}
+.nav-button{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:14px;white-space: nowrap;transition: background-color 0.25s ease-in-out}
+.nav-button:hover{background:var(--accent-2);cursor:pointer}
 .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-weight:700}
 
 /* Layout: calendar LEFT, request form RIGHT */
@@ -142,3 +144,39 @@ footer.footer{margin:10px auto 24px;max-width:1200px;padding:10px 18px;border-ra
 /* Toast */
 .toast{position:fixed;right:16px;bottom:16px;min-width:220px;padding:10px 14px;border-radius:12px;background:#111827;color:#fff;opacity:0;transform:translateY(8px);transition:.3s}
 .toast.show{opacity:1;transform:translateY(0)}
+
+/* Style the date input in dark mode */
+body.dark input[type="date"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="date"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the calendar icon */
+}
+
+/* Style the time input in dark mode */
+body.dark input[type="time"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="time"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the clock icon */
+}
