@@ -154,6 +154,50 @@
     </div>
   </div>
   <script type="module" src="tutor.js"></script>
+
+  <section class="panel glass" id="availabilityPanel">
+    <div class="panel-head">
+      <h2>📅 Set Your Availability</h2>
+    </div>
+  
+    <form id="availabilityForm" class="form">
+      <label for="availSubject">Subject</label>
+      <select id="availSubject" required>
+        <option value="">Select subject</option>
+        <option>Math</option>
+        <option>Science</option>
+        <option>French</option>
+        <option>Spanish</option>
+      </select>
+  
+      <label for="availLevel">Level</label>
+      <input id="availLevel" placeholder="Algebra 2, AP Bio, etc" />
+  
+      <label for="availDate">Date</label>
+      <input id="availDate" type="date" required />
+  
+      <label for="availStart">Start time</label>
+      <input id="availStart" type="time" required />
+  
+      <label for="availEnd">End time</label>
+      <input id="availEnd" type="time" />
+  
+      <button type="submit" class="btn-primary" style="margin-top:10px;">
+        Add available slot
+      </button>
+    </form>
+  
+    <hr style="margin:16px 0; opacity:.3" />
+  
+    <h3 class="small muted">Your availability</h3>
+    <div id="availabilityList" class="list small">
+      <div class="muted small">No slots yet.</div>
+    </div>
+  </section>
+  
+  <!-- At the bottom of tutor.html, before </body>: -->
+  <script type="module" src="tutor-availability.js"></script>
+  
   
 </body>
 </html>

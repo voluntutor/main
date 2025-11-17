@@ -514,5 +514,13 @@ body.dark input[type="time"]::-moz-focus-inner {
     $('#userEmail').textContent = mockUser.email || '';
     $('#avatar').textContent = (mockUser.displayName || 'VT').slice(0,2).toUpperCase();
   </script>
+
+<script type="module">
+  import { auth, db } from "../firebase.js";
+
+  console.log("Firebase works:", auth, db);
+</script>
+
+
 </body>
 </html>
