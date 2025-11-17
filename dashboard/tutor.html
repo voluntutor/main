@@ -88,11 +88,6 @@
           <label for="subjectSelect">Subject</label>
           <select id="subjectSelect" required>
             <option value="">Select Subject</option>
-            <option>French</option>
-            <option>German</option>
-            <option>Spanish</option>
-            <option>Physics</option>
-            <option>Math</option>
           </select>
 
           <label for="levelSelect">Level</label>
@@ -110,9 +105,9 @@
           <textarea id="reqDetails" rows="3" placeholder="Notes or special requests..."></textarea>
 
           <div class="form-actions">
-            <button type="button" id="sendRequest" class="btn btn-primary">Schedule</button>
-            <button type="button" id="clearForm" class="btn">Clear</button>
-            <button type="button" id="applyTutorBtn" class="btn-ghost" title="Student View">Student View</button>
+            <button type="button" id="sendRequest" class="form-button glass">Schedule</button>
+            <button type="button" id="clearForm" class="form-button glass">Clear</button>
+            <button type="button" id="applyTutorBtn" class="form-button glass" title="Student View">Student View</button>
           </div>
         </form>
 
@@ -121,15 +116,15 @@
           <p class="muted small">Report an issue, complaint, or suggestion.</p>
           <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
           <div class="form-actions">
-            <button id="sendHelp" class="btn">Send</button>
-            <button id="openFAQ" class="btn-ghost">FAQ</button>
+            <button type="button" id="sendHelp" class="form-button glass">Send</button>
+            <button type="button" id="openFAQ" class="form-button glass">FAQ</button>
           </div>
         </section>
       </section>
     </main>
 
     <footer class="footer glass">
-      <div>© 2025 VolunTutor</div>
+      <div>2025 VolunTutor</div>
       <div class="muted small">Tutor tools • Local storage + Firestore</div>
     </footer>
 
@@ -148,7 +143,7 @@
         </div>
         <div id="overlayBody" class="overlay-body"></div>
         <div class="overlay-footer">
-          <button id="overlayQuickAdd" class="btn btn-primary">Quick Add Today</button>
+          <button id="overlayQuickAdd" class="btn btn-primary">Quick Add Date</button>
         </div>
       </div>
     </div>
