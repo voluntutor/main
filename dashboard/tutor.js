@@ -79,14 +79,52 @@ $('#logoutBtn')?.addEventListener('click', async () => {
 });
 
 /* ================= Subject -> Level ================= */
-const levelsBySubject = {
-    'French': ['French 1','French 2','French 3','Honors French','AP French'],
-    'German': ['German 1','German 2','German 3','Honors German','AP German'],
-    'Spanish': ['Spanish 1','Spanish 2','Spanish 3','Honors Spanish','AP Spanish'],
-    'Physics': ['Conceptual Physics','Physics Honors','AP Physics 1','AP Physics 2','AP Physics C'],
-    'Math': ['Algebra I','Geometry','Algebra II','Precalculus','Honors','AP Calculus','AP Statistics']
-};
-const subjectSelect = $('#subjectSelect');
+let levelsBySubject = {};
+
+async function loadSubjects() {
+  try {
+    //const res = await fetch('https://voluntutor.github.io/main/dashboard/subjects.json');
+    const res = await fetch('subjects.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    levelsBySubject = await res.json();
+
+    // Populate subject dropdown
+    populateSubjects();
+  } catch (err) {
+    console.error('Failed to load subjects.json', err);
+    toast('Failed to load subjects list.');
+  }
+}
+
+function populateSubjects() {
+  const subjectSelect = $('#subjectSelect');
+  subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+  Object.keys(levelsBySubject).forEach(subject => {
+    const opt = document.createElement('option');
+    opt.value = subject;
+    opt.textContent = subject;
+    subjectSelect.appendChild(opt);
+  });
+}
+
+function populateLevels() {
+  const subj = $('#subjectSelect').value;
+  const levelSelect = $('#levelSelect');
+  levelSelect.innerHTML = '<option value="">Select Level</option>';
+  (levelsBySubject[subj] || []).forEach(level => {
+    const opt = document.createElement('option');
+    opt.value = level;
+    opt.textContent = level;
+    levelSelect.appendChild(opt);
+  });
+}
+
+$('#subjectSelect').addEventListener('change', populateLevels);
+
+// Load at startup
+loadSubjects();
+
+/*const subjectSelect = $('#subjectSelect');
 const levelSelect = $('#levelSelect');
 function populateLevels(){
     const subj = subjectSelect.value;
@@ -95,7 +133,7 @@ function populateLevels(){
     const opt = document.createElement('option'); opt.value = l; opt.textContent = l; levelSelect.appendChild(opt);
     });
 }
-subjectSelect.addEventListener('change', populateLevels);
+subjectSelect.addEventListener('change', populateLevels);*/
 
 /* ================= Calendar (local render, instant) ================= */
 const calHead = $('#calHead');
@@ -235,8 +273,14 @@ $('#overlayBackdrop')?.addEventListener('click', ()=> dayOverlay.classList.add('
 $('#overlayQuickAdd')?.addEventListener('click', () => {
     dayOverlay.classList.add('hidden');
     const d = new Date(dayOverlay.dataset.theDate);
-    $('#reqDate').value = d.toISOString().slice(0, 10);
-    toast('Prefilled ' + String(d.toDateString()));
+    const today = new Date();
+
+    if (d.setHours(0,0,0,0) < today.setHours(0,0,0,0)) {
+        toast('Cannot prefill past date');
+    } else {
+        $('#reqDate').value = d.toISOString().slice(0, 10);
+        toast('Prefilled ' + String(d.toDateString()));
+    }
 });
 
 /* ================= Auth: robust name/email ================= */
@@ -345,3 +389,11 @@ renderCalendar(); renderLists();
 
 $('#prevMonth')?.addEventListener('click', ()=>{ current.setMonth(current.getMonth()-1); renderCalendar(); });
 $('#nextMonth')?.addEventListener('click', ()=>{ current.setMonth(current.getMonth()+1); renderCalendar(); });
+
+//resize textbox automatically based on input
+document.querySelectorAll('textarea').forEach(textarea => {
+    textarea.addEventListener('input', () => {
+      textarea.style.height = 'auto'; // Reset height
+      textarea.style.height = textarea.scrollHeight + 'px'; // Set to full height
+    });
+  });

@@ -1,0 +1,7 @@
+{
+    "French": ["French 1", "French 2", "French 2 Honors", "French 3", "French 3 Honors", "French 4 Honors", "AP French 5"],
+    "German": ["German 1", "German 2", "German 2 Honors", "German 3", "German 3 Honors", "German 4 Honors", "AP German 5"],
+    "Spanish": ["Spanish 1", "Spanish 2", "Spanish 2 Honors", "Spanish 3", "Spanish 3 Honors", "Spanish 4 Honors", "AP Spanish 5"],
+    "Physics": ["Physics I", "Physics I Honors", "Integrated Chemistry Physics", "AP Physics 1", "AP Physics 2", "AP Physics C"],
+    "Math": ["Algebra I (Regular/Honors)", "Geometry (Regular/Honors)", "Algebra II (Regular/Honors)", "Precalculus (Regular/Honors)", "AP Calculus AB", "AP Calculus BC", "AP Statistics"]
+  }
