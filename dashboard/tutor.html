@@ -11,7 +11,7 @@
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Confetti -->
+  <!-- Confetti (still here if you want to use it later) -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
   <!-- Styles -->
@@ -19,18 +19,21 @@
 </head>
 <body>
   <div id="app">
+    <!-- HEADER -->
     <header class="topbar glass" role="banner">
       <div class="brand" id="homeLink" style="cursor:pointer;">
         <img id="logoImg" src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor Logo" class="logo" />
         <div>
           <div class="title">VolunTutor</div>
           <div class="subtitle muted small">Tutor Dashboard</div>
-          <div class="subtitle muted small" id="welcomeBar">Signed in as <strong id="welcomeName">Tutor</strong></div>
+          <div class="subtitle muted small" id="welcomeBar">
+            Signed in as <strong id="welcomeName">Tutor</strong>
+          </div>
         </div>
       </div>
       <div class="top-controls">
-        <div class = "nav-button glass" id = "volunteer-hours">Volunteer Hours</div>
-        <div class = "nav-button glass" id = "account">Account</div>
+        <div class="nav-button glass" id="volunteer-hours">Volunteer Hours</div>
+        <div class="nav-button glass" id="account">Account</div>
         <div class="user-chip glass" id="userChip" aria-hidden="false">
           <div class="avatar" id="avatar">VT</div>
           <div class="user-info">
@@ -43,8 +46,74 @@
       </div>
     </header>
 
+    <!-- MAIN GRID -->
     <main class="main-grid" role="main" id="mainGrid">
-      <!-- LEFT: Calendar + Appointments -->
+      <!-- LEFT COLUMN: availability + help -->
+      <section class="panel glass" id="leftColumn">
+        <div class="panel-head">
+          <h2>📅 Set Your Availability</h2>
+        </div>
+
+        <!-- AVAILABILITY FORM -->
+        <form id="availabilityForm" class="form">
+          <label for="availSubject">Subject</label>
+          <select id="availSubject" required>
+            <option value="">Select subject</option>
+            <option>Math</option>
+            <option>Science</option>
+            <option>French</option>
+            <option>Spanish</option>
+            <option>English</option>
+            <option>History</option>
+          </select>
+
+          <label for="availLevel">Level</label>
+          <select id="availLevel" required>
+            <option value="">Select level</option>
+            <option>Middle School</option>
+            <option>Algebra 1</option>
+            <option>Geometry</option>
+            <option>Algebra 2</option>
+            <option>Precalculus</option>
+            <option>AP / IB</option>
+          </select>
+
+          <label for="availDate">Date</label>
+          <input id="availDate" type="date" required />
+
+          <label for="availStart">Start time</label>
+          <input id="availStart" type="time" required />
+
+          <label for="availEnd">End time</label>
+          <input id="availEnd" type="time" />
+
+          <div class="form-actions" style="margin-top:10px;">
+            <button type="submit" class="btn-primary">Add available slot</button>
+            <button type="button" id="clearAvail" class="btn">Clear</button>
+            <button type="button" id="studentView" class="btn-ghost">Student View</button>
+          </div>
+        </form>
+
+        <hr style="margin:16px 0; opacity:.3" />
+
+        <h3 class="small muted">Your availability</h3>
+        <div id="availabilityList" class="list small">
+          <div class="muted small">No slots yet.</div>
+        </div>
+
+        <!-- HELP SECTION -->
+        <div style="margin-top:24px">
+          <div class="panel-head"><h3>🆘 Help & Support</h3></div>
+          <p class="muted small">Report an issue, complaint, or suggestion.</p>
+          <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
+          <div class="form-actions">
+            <button type="button" id="sendHelp" class="btn">Send</button>
+            <button type="button" id="openFAQ" class="btn-ghost">FAQ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: calendar + upcoming/past -->
       <aside class="sidecol" id="rightColumn">
         <section class="panel glass" aria-labelledby="calTitle">
           <div class="panel-head">
@@ -58,74 +127,31 @@
           <div class="cal-head" id="calHead"></div>
           <div id="calendar" class="calendar" role="grid" aria-label="Month calendar"></div>
           <div class="legend muted small" style="margin-top:12px">
-            <span class="dot booked"></span> Booked
-            <span class="dot cancel" style="margin-left:12px"></span> Canceled
+            <span class="dot booked"></span> Open slots
+            <span class="dot cancel" style="margin-left:12px"></span> Cancelled
             <span class="dot today" style="margin-left:12px"></span> Today
           </div>
         </section>
 
         <section class="panel glass">
-          <div class="panel-head"><h2>📍 Upcoming Appointments</h2></div>
+          <div class="panel-head"><h2>📍 Upcoming Availability</h2></div>
           <div id="upcomingList" class="list" aria-live="polite">
-            <div class="muted small">No upcoming appointments.</div>
+            <div class="muted small">No upcoming slots.</div>
           </div>
         </section>
 
         <section class="panel glass">
-          <div class="panel-head"><h2>🗂 Past Appointments</h2></div>
+          <div class="panel-head"><h2>🗂 Past / Cancelled</h2></div>
           <div id="pastList" class="list" aria-live="polite">
-            <div class="muted small">No past appointments.</div>
+            <div class="muted small">Nothing here yet.</div>
           </div>
         </section>
       </aside>
-
-      <!-- RIGHT: Create Appointment -->
-      <section class="panel glass" id="leftColumn">
-        <div class="panel-head">
-          <h2>✍ Create Appointment</h2>
-        </div>
-        <form id="requestForm" class="form" novalidate>
-          <label for="subjectSelect">Subject</label>
-          <select id="subjectSelect" required>
-            <option value="">Select Subject</option>
-          </select>
-
-          <label for="levelSelect">Level</label>
-          <select id="levelSelect" required>
-            <option value="">Select Level</option>
-          </select>
-
-          <label for="reqDate">Date</label>
-          <input id="reqDate" type="date" required />
-
-          <label for="reqTime">Time <span class="small muted">(EST)</span></label>
-          <input id="reqTime" type="time" required />
-
-          <label for="reqDetails">Notes</label>
-          <textarea id="reqDetails" rows="3" placeholder="Notes or special requests..."></textarea>
-
-          <div class="form-actions">
-            <button type="button" id="sendRequest" class="form-button glass">Schedule</button>
-            <button type="button" id="clearForm" class="form-button glass">Clear</button>
-            <button type="button" id="applyTutorBtn" class="form-button glass" title="Student View">Student View</button>
-          </div>
-        </form>
-
-        <section class="panel glass" style="margin-top:16px">
-          <div class="panel-head"><h3>🆘 Help & Support</h3></div>
-          <p class="muted small">Report an issue, complaint, or suggestion.</p>
-          <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
-          <div class="form-actions">
-            <button type="button" id="sendHelp" class="form-button glass">Send</button>
-            <button type="button" id="openFAQ" class="form-button glass">FAQ</button>
-          </div>
-        </section>
-      </section>
     </main>
 
     <footer class="footer glass">
-      <div>2025 VolunTutor</div>
-      <div class="muted small">Tutor tools • Local storage + Firestore</div>
+      <div>© 2025 VolunTutor</div>
+      <div class="muted small">Tutor tools • Firestore-backed availability</div>
     </footer>
 
     <!-- Toast -->
@@ -143,12 +169,13 @@
         </div>
         <div id="overlayBody" class="overlay-body"></div>
         <div class="overlay-footer">
-          <button id="overlayQuickAdd" class="btn btn-primary">Quick Add Date</button>
+          <button id="overlayQuickAdd" class="btn-primary">Quick Add to availability</button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- ONE script: this handles availability + calendar -->
   <script type="module" src="tutor.js"></script>
-  
 </body>
 </html>
