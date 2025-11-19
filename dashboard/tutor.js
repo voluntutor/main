@@ -218,9 +218,9 @@ overlayQuickAdd?.addEventListener("click", () => {
     console.log("Parsed =", new Date(overlayDateISO));
     const today = new Date();
     const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const d = new Date(overlayDateISO);
-    const dMid = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-      if (dMid < todayMid ){
+    const [Y, M, D] = overlayDateISO.split("-");
+    const dMid = new Date(+Y, M - 1, +D); // local midnight, no timezone shift
+    if (dMid < todayMid ){
         showToast("Cannot add availability to past dates");
         return;
     }
