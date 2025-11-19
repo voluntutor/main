@@ -215,8 +215,10 @@ overlayBackdrop?.addEventListener("click", closeDayOverlay);
 overlayQuickAdd?.addEventListener("click", () => {
     if (!overlayDateISO || !availDate) return;
     const today = new Date();
+    const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const d = new Date(overlayDateISO);
-    if (d.setHours(0,0,0,0) < today.setHours(0,0,0,0)) {
+    const dMid = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      if (dMid < todayMid ){
         showToast("Cannot add availability to past dates");
         return;
     }
