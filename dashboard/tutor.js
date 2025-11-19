@@ -213,11 +213,17 @@ overlayClose?.addEventListener("click", closeDayOverlay);
 overlayBackdrop?.addEventListener("click", closeDayOverlay);
 
 overlayQuickAdd?.addEventListener("click", () => {
-  if (!overlayDateISO || !availDate) return;
-  availDate.value = overlayDateISO;
-  closeDayOverlay();
-  showToast("Date copied to availability form");
+    if (!overlayDateISO || !availDate) return;
+    const today = new Date();
+    if (overlayDateISO.setHours(0,0,0,0) < today.setHours(0,0,0,0)) {
+        showToast("Cannot add availability to past dates");
+        return;
+    }
+    availDate.value = overlayDateISO;
+    closeDayOverlay();
+    showToast("Date copied to availability form");
 });
+
 
 /* ---------- availability form ---------- */
 clearAvailBtn?.addEventListener("click", () => {
