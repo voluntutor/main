@@ -482,3 +482,4 @@ onAuthStateChanged(auth, (user) => {
   startAvailabilityListener();
   renderCalendar(); // initial empty calendar while snapshot loads
 });
+tv
