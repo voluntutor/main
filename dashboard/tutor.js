@@ -467,7 +467,7 @@ function renderCalendar() {
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     // tutor must be logged in
-    location.href = "https://voluntutor.github.io/main/register/auth.html";
+   // location.href = "https://voluntutor.github.io/main/register/auth.html";
     return;
   }
   currentUser = user;

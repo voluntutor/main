@@ -5,24 +5,30 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VolunTutor • Student Dashboard</title>
 
-  <!-- Favicon (fixed the filename and path) -->
-  <link rel="icon" type="image/png" href="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png"
+        href="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true">
 
-  <!-- Optional font -->
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Confetti (kept; harmless) -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
+  <!-- Styles (external only) -->
+  <link rel="stylesheet" href="student.css">
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="student.css" />
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 </head>
+
 <body>
   <div id="app">
-    <!-- Header -->
-    <header class="topbar glass" role="banner">
+
+    <!-- ================== HEADER ================== -->
+    <header class="topbar glass">
       <div class="brand" id="homeLink" style="cursor:pointer;">
-        <img id="logoImg" src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" alt="VolunTutor Logo" class="logo" />
+        <img class="logo" id="logoImg"
+             src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true"
+             alt="VolunTutor Logo">
+
         <div>
           <div class="title">VolunTutor</div>
           <div class="subtitle muted small">Student Dashboard</div>
@@ -30,132 +36,161 @@
       </div>
 
       <div class="top-controls">
+        <div class="user-chip glass">
+          <div class="avatar" id="avatar">ST</div>
+          <div class="user-info">
+            <div id="userName">Student</div>
+            <div id="userEmail" class="small muted"></div>
+          </div>
         </div>
 
-        <button id="themeToggle" class="icon-btn" aria-pressed="false" title="Toggle theme">🌗</button>
-        <button id="logoutBtn" class="btn-ghost" title="Log out">Log Out</button>
+        <button id="themeToggle" class="icon-btn">🌗</button>
+        <button id="applyTutorBtn" class="btn-ghost">Become a Tutor</button>
+        <button id="logoutBtn" class="btn">Return</button>
       </div>
     </header>
 
-    <!-- Main -->
-    <main class="main-grid" role="main" id="mainGrid">
-      <!-- Left column -->
+
+    <!-- ================== MAIN ================== -->
+    <main class="main-grid" id="mainGrid">
+
+      <!-- LEFT: Calendar -->
       <section class="panel glass" id="leftColumn">
         <div class="panel-head">
-          <h2>📆 Your Calendar</h2>
-          <div class="panel-actions" style="display:flex;align-items:center;gap:8px">
-            <button id="prevMonth" class="btn-ghost" aria-label="Previous month">◀</button>
-            <div id="monthLabel" class="muted small" aria-live="polite">Loading…</div>
-            <button id="nextMonth" class="btn-ghost" aria-label="Next month">▶</button>
+          <h2>📆 Tutor Availability</h2>
+
+          <div class="panel-actions" style="display:flex;gap:8px;">
+            <button id="prevMonth" class="btn-ghost">◀</button>
+            <div id="monthLabel" class="muted small">Loading…</div>
+            <button id="nextMonth" class="btn-ghost">▶</button>
           </div>
         </div>
 
         <div class="cal-head" id="calHead"></div>
-        <div id="calendar" class="calendar" role="grid" aria-label="Month calendar"></div>
+        <div id="calendar" class="calendar"></div>
 
-        <div class="legend" aria-hidden="true" style="margin-top:12px">
-          <span class="dot booked"></span> Booked
-          <span class="dot today" style="margin-left:12px"></span> Today
+        <div class="legend muted small" style="margin-top:12px;">
+          <span class="dot booked"></span> Slots available
+          <span class="dot today" style="margin-left:12px;"></span> Today
         </div>
       </section>
 
-      <!-- Right column -->
+
+      <!-- RIGHT: Forms & Lists -->
       <aside class="sidecol" id="rightColumn">
-        <section class="panel glass" aria-labelledby="requestTitle">
+
+        <!-- Request Form -->
+        <section class="panel glass">
           <div class="panel-head">
-            <h2 id="requestTitle">✍ Request a Session</h2>
+            <h2>✍ Request a Session</h2>
           </div>
 
           <form id="requestForm" class="form" novalidate>
             <label for="subjectSelect">Subject</label>
-            <select id="subjectSelect" class="dropdown" required>
+            <select id="subjectSelect" required>
               <option value="">Select Subject</option>
-              <option>French</option><option>Spanish</option><option>German</option>
-              <option>Math</option><option>Science</option>
+              <option>Math</option>
+              <option>Science</option>
+              <option>English</option>
+              <option>French</option>
+              <option>Spanish</option>
+              <option>History</option>
             </select>
 
-            <label for="teacherSelect">Teacher</label>
-            <select id="teacherSelect" class="dropdown" required>
-              <option value="">Select Teacher</option>
-              <option>Mr. Hearty</option>
-              <option>Mr. French</option>
+            <label for="levelSelect">Level</label>
+            <select id="levelSelect" required>
+              <option value="">Select Level</option>
+              <option>Middle School</option>
+              <option>Algebra 1</option>
+              <option>Geometry</option>
+              <option>Algebra 2</option>
+              <option>Precalculus</option>
+              <option>AP / IB</option>
             </select>
 
             <label for="reqDate">Date</label>
-            <input id="reqDate" type="date" required />
+            <input id="reqDate" type="date" required>
 
             <label for="reqTime">Time</label>
-            <input id="reqTime" type="time" required />
+            <input id="reqTime" type="time" required>
 
             <label for="reqDetails">Notes</label>
             <textarea id="reqDetails" rows="3" placeholder="Notes or special requests..."></textarea>
 
             <div class="form-actions">
-              <button type="button" id="sendRequest" class="form-button glass">Schedule</button>
-              <button type="button" id="clearForm" class="form-button glass">Clear</button>
-              <button type="button" id="applyTutorBtn" class="form-button glass" title="Become a Tutor">Become a Tutor</button>
+              <button type="button" id="sendRequest" class="btn-primary">Schedule</button>
+              <button type="button" id="clearForm" class="btn">Clear</button>
             </div>
           </form>
         </section>
 
+        <!-- Upcoming -->
         <section class="panel glass">
-          <div class="panel-head">
-            <h2>📍 Upcoming Sessions</h2>
-          </div>
-          <div id="upcomingList" class="list" aria-live="polite">
+          <div class="panel-head"><h2>📍 Upcoming (local)</h2></div>
+          <div id="upcomingList" class="list">
             <div class="muted small">No sessions yet.</div>
           </div>
         </section>
 
+        <!-- Reviews -->
         <section class="panel glass">
           <h3>📝 Leave a Review</h3>
           <p class="muted small">Feedback is anonymous and helps us improve.</p>
-          <textarea id="reviewText" placeholder="Write your feedback here..." rows="3"></textarea>
+          <textarea id="reviewText" rows="4"></textarea>
           <div class="form-actions">
-            <button type="button" id="submitReview" class="form-button glass">Submit Review</button>
-            <button type="button" id="viewReviews" class="form-button glass">View Reviews</button>
+            <button id="submitReview" class="btn">Submit Review</button>
+            <button id="viewReviews" class="btn-ghost">View Reviews</button>
           </div>
         </section>
 
+        <!-- Help -->
         <section class="panel glass">
-          <div class="panel-head"><h3>🆘 Help & Support</h3></div>
-          <p class="muted small">Report an issue, complaint, or suggestion.</p>
-          <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
+          <h3>🆘 Help & Support</h3>
+          <p class="muted small">Report an issue or suggestion.</p>
+          <textarea id="helpText" rows="3"></textarea>
           <div class="form-actions">
-            <button type="button" id="sendHelp" class="form-button glass">Send</button>
-            <button type="button" id="openFAQ" class="form-button glass">FAQ</button>
+            <button id="sendHelp" class="btn">Send</button>
+            <button id="openFAQ" class="btn-ghost">FAQ</button>
           </div>
         </section>
+
       </aside>
     </main>
 
-    <!-- Footer -->
+
+    <!-- ================== FOOTER ================== -->
     <footer class="footer glass">
       <div>© 2025 VolunTutor</div>
-      <div class="muted small">Futuristic glass UI • Mobile-ready</div>
+      <div class="muted small">Student view • Live tutor availability</div>
     </footer>
 
-    <!-- Toast -->
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    <!-- Day overlay -->
-    <div id="dayOverlay" class="day-overlay hidden" aria-hidden="true">
+    <!-- ================== TOAST ================== -->
+    <div id="toast" class="toast"></div>
+
+
+    <!-- ================== OVERLAY ================== -->
+    <div id="dayOverlay" class="day-overlay hidden">
       <div class="overlay-backdrop" id="overlayBackdrop"></div>
-      <div class="overlay-panel glass-panel" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
+
+      <div class="overlay-panel glass-panel" aria-modal="true">
         <div class="overlay-header">
           <h3 id="overlayTitle">Selected Date</h3>
-          <div class="overlay-controls">
-            <button id="overlayClose" class="btn-ghost">Close</button>
-          </div>
+          <button id="overlayClose" class="btn-ghost">Close</button>
         </div>
+
         <div id="overlayBody" class="overlay-body"></div>
+
         <div class="overlay-footer">
-          <button id="overlayQuickAdd" class="btn-primary">Quick Add</button>
+          <button id="overlayQuickAdd" class="btn-primary">Quick Add Date</button>
         </div>
       </div>
     </div>
+
   </div>
 
+  <!-- External JS only -->
   <script type="module" src="student.js"></script>
+  <script type="module" src="student-availability.js"></script>
 </body>
 </html>
