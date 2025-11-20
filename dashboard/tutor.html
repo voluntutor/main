@@ -59,23 +59,23 @@
           <label for="availSubject">Subject</label>
           <select id="availSubject" required>
             <option value="">Select subject</option>
-            <option>Math</option>
+            <!--<option>Math</option>
             <option>Science</option>
             <option>French</option>
             <option>Spanish</option>
             <option>English</option>
-            <option>History</option>
+            <option>History</option>-->
           </select>
 
           <label for="availLevel">Level</label>
           <select id="availLevel" required>
             <option value="">Select level</option>
-            <option>Middle School</option>
+            <!--<option>Middle School</option>
             <option>Algebra 1</option>
             <option>Geometry</option>
             <option>Algebra 2</option>
             <option>Precalculus</option>
-            <option>AP / IB</option>
+            <option>AP / IB</option>-->
           </select>
 
           <label for="availDate">Date</label>
@@ -88,9 +88,9 @@
           <input id="availEnd" type="time" />
 
           <div class="form-actions" style="margin-top:10px;">
-            <button type="submit" class="btn-primary">Add available slot</button>
-            <button type="button" id="clearAvail" class="btn">Clear</button>
-            <button type="button" id="studentView" class="btn-ghost">Student View</button>
+            <button type="submit" id="addSlot" class="form-button glass">Add available slot</button>
+            <button type="button" id="clearAvail" class="form-button glass">Clear</button>
+            <button type="button" id="studentView" class="form-button glass">Student View</button>
           </div>
         </form>
 
@@ -107,8 +107,8 @@
           <p class="muted small">Report an issue, complaint, or suggestion.</p>
           <textarea id="helpText" placeholder="Describe your issue..." rows="3"></textarea>
           <div class="form-actions">
-            <button type="button" id="sendHelp" class="btn">Send</button>
-            <button type="button" id="openFAQ" class="btn-ghost">FAQ</button>
+            <button type="button" id="sendHelp" class="form-button glass">Send</button>
+            <button type="button" id="openFAQ" class="form-button glass">FAQ</button>
           </div>
         </div>
       </section>

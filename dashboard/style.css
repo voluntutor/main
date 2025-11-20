@@ -206,6 +206,9 @@ textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--
 /* Make Schedule, Clear, and Student View buttons white in dark mode */
 body.dark #sendRequest,
 body.dark #clearForm,
-body.dark #applyTutorBtn {
+body.dark #applyTutorBtn,
+body.dark #studentView,
+body.dark #addSlot,
+body.dark #clearAvail {
   color: white !important;
 }

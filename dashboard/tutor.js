@@ -90,6 +90,8 @@ const userNameEl = $("#userName");
 const userEmailEl = $("#userEmail");
 const avatarEl = $("#avatar");
 
+
+
 /* ---------- header / nav / theme ---------- */
 function applyTheme() {
   const saved = localStorage.getItem("vt-theme");
@@ -222,6 +224,7 @@ overlayQuickAdd?.addEventListener("click", () => {
     const dMid = new Date(+Y, M - 1, +D); // local midnight, no timezone shift
     if (dMid < todayMid ){
         showToast("Cannot add availability to past dates");
+        closeDayOverlay();
         return;
     }
     availDate.value = overlayDateISO;
@@ -493,4 +496,56 @@ onAuthStateChanged(auth, (user) => {
   startAvailabilityListener();
   renderCalendar(); // initial empty calendar while snapshot loads
 });
-tv
+
+/* ---------- auto-resize textareas ---------- */
+document.querySelectorAll('textarea').forEach(textarea => {
+  textarea.addEventListener('input', () => {
+    textarea.style.height = 'auto'; // Reset height
+    textarea.style.height = textarea.scrollHeight + 'px'; // Set to full height
+  });
+});
+
+let levelsBySubject = {};
+
+async function loadSubjects() {
+  try {
+    //const res = await fetch('https://voluntutor.github.io/main/dashboard/subjects.json');
+    const res = await fetch('subjects.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    levelsBySubject = await res.json();
+
+    // Populate subject dropdown
+    populateSubjects();
+  } catch (err) {
+    console.error('Failed to load subjects.json', err);
+    toast('Failed to load subjects list.');
+  }
+}
+
+function populateSubjects() {
+  const subjectSelect = $('#availSubject');
+  subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+  Object.keys(levelsBySubject).forEach(subject => {
+    const opt = document.createElement('option');
+    opt.value = subject;
+    opt.textContent = subject;
+    subjectSelect.appendChild(opt);
+  });
+}
+
+function populateLevels() {
+  const subj = $('#availSubject').value;
+  const levelSelect = $('#availLevel');
+  levelSelect.innerHTML = '<option value="">Select Level</option>';
+  (levelsBySubject[subj] || []).forEach(level => {
+    const opt = document.createElement('option');
+    opt.value = level;
+    opt.textContent = level;
+    levelSelect.appendChild(opt);
+  });
+}
+
+$('#availSubject').addEventListener('change', populateLevels);
+
+// Load at startup
+loadSubjects();
