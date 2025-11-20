@@ -509,8 +509,8 @@ let levelsBySubject = {};
 
 async function loadSubjects() {
   try {
-    //const res = await fetch('https://voluntutor.github.io/main/dashboard/subjects.json');
-    const res = await fetch('subjects.json');
+    const res = await fetch('https://voluntutor.github.io/main/dashboard/subjects.json');
+    //const res = await fetch('subjects.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     levelsBySubject = await res.json();
 
