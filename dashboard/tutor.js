@@ -53,44 +53,50 @@ let allSlots = [];            // every availability doc for this tutor
 let currentMonth = new Date();
 currentMonth.setDate(1);
 let overlayDateISO = null;
+let cachedNotifs = [];
 
 /* ---------- DOM refs ---------- */
-const availForm = $("#availabilityForm");
-const availSubject = $("#availSubject");
-const availLevel = $("#availLevel");
-const availDate = $("#availDate");
-const availStart = $("#availStart");
-const availEnd = $("#availEnd");
+const availForm     = $("#availabilityForm");
+const availSubject  = $("#availSubject");
+const availLevel    = $("#availLevel");
+const availDate     = $("#availDate");
+const availStart    = $("#availStart");
+const availEnd      = $("#availEnd");
 const clearAvailBtn = $("#clearAvail");
 const studentViewBtn = $("#studentView");
 
 const availabilityList = $("#availabilityList");
-const upcomingList = $("#upcomingList");
-const pastList = $("#pastList");
+const upcomingList     = $("#upcomingList");
+const pastList         = $("#pastList");
 
-const calHead = $("#calHead");
-const calEl = $("#calendar");
-const monthLabel = $("#monthLabel");
+const calHead      = $("#calHead");
+const calEl        = $("#calendar");
+const monthLabel   = $("#monthLabel");
 const prevMonthBtn = $("#prevMonth");
 const nextMonthBtn = $("#nextMonth");
 
-const dayOverlay = $("#dayOverlay");
-const overlayBody = $("#overlayBody");
-const overlayTitle = $("#overlayTitle");
-const overlayClose = $("#overlayClose");
+const dayOverlay      = $("#dayOverlay");
+const overlayBody     = $("#overlayBody");
+const overlayTitle    = $("#overlayTitle");
+const overlayClose    = $("#overlayClose");
 const overlayBackdrop = $("#overlayBackdrop");
 const overlayQuickAdd = $("#overlayQuickAdd");
 
-const logoutBtn = $("#logoutBtn");
-const themeToggle = $("#themeToggle");
-const homeLink = $("#homeLink");
+const logoutBtn         = $("#logoutBtn");
+const themeToggle       = $("#themeToggle");
+const homeLink          = $("#homeLink");
 const volunteerHoursBtn = $("#volunteer-hours");
-const accountBtn = $("#account");
-const userNameEl = $("#userName");
-const userEmailEl = $("#userEmail");
-const avatarEl = $("#avatar");
+const accountBtn        = $("#account");
+const userNameEl        = $("#userName");
+const userEmailEl       = $("#userEmail");
+const avatarEl          = $("#avatar");
 
-
+// Notifications
+const notifBtn   = $("#notifBtn");
+const notifDot   = $("#notifDot");
+const notifPanel = $("#notifPanel");
+const notifList  = $("#notifList");
+const notifClose = $("#notifClose");
 
 /* ---------- header / nav / theme ---------- */
 function applyTheme() {
@@ -138,15 +144,16 @@ $("#openFAQ")?.addEventListener("click", () => {
   showToast("FAQ coming soon.");
 });
 studentViewBtn?.addEventListener("click", () => {
-  // your generic student dash
   location.href = "student.html";
 });
 
 /* ---------- calendar header ---------- */
 const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-calHead.innerHTML = weekdayNames
-  .map((d) => `<div class="small" style="text-align:center">${d}</div>`)
-  .join("");
+if (calHead) {
+  calHead.innerHTML = weekdayNames
+    .map((d) => `<div class="small" style="text-align:center">${d}</div>`)
+    .join("");
+}
 
 prevMonthBtn?.addEventListener("click", () => {
   currentMonth.setMonth(currentMonth.getMonth() - 1);
@@ -207,6 +214,7 @@ function openDayOverlay(dateISO, slotsForDay) {
     });
   }
 }
+
 function closeDayOverlay() {
   dayOverlay?.classList.add("hidden");
   overlayDateISO = null;
@@ -230,7 +238,6 @@ overlayQuickAdd?.addEventListener("click", () => {
     showToast("Date copied to availability form");
 });
 
-
 /* ---------- availability form ---------- */
 clearAvailBtn?.addEventListener("click", () => {
   availForm?.reset();
@@ -244,11 +251,11 @@ availForm?.addEventListener("submit", async (e) => {
     return;
   }
 
-  const subject = availSubject.value.trim();
-  const level = availLevel.value.trim();
-  const date = availDate.value;
-  const startTime = availStart.value;
-  const endTime = availEnd.value;
+  const subject = (availSubject?.value || "").trim();
+  const level   = (availLevel?.value || "").trim();
+  const date    = availDate?.value;
+  const startTime = availStart?.value;
+  const endTime   = availEnd?.value;
 
   if (!subject || !level || !date || !startTime) {
     showToast("Fill subject, level, date, and time.");
@@ -258,8 +265,8 @@ availForm?.addEventListener("submit", async (e) => {
   try {
     const ref = collection(db, "availability");
     await addDoc(ref, {
-      tutorUid: currentUser.uid,
-      tutorName: currentUser.displayName || currentUser.email,
+      tutorUid:   currentUser.uid,
+      tutorName:  currentUser.displayName || currentUser.email,
       tutorEmail: currentUser.email,
       subject,
       level,
@@ -277,7 +284,7 @@ availForm?.addEventListener("submit", async (e) => {
   }
 });
 
-/* ---------- Firestore listener ---------- */
+/* ---------- Firestore listener: availability ---------- */
 function startAvailabilityListener() {
   const ref = collection(db, "availability");
   const q = query(ref, where("tutorUid", "==", currentUser.uid));
@@ -300,8 +307,6 @@ function startAvailabilityListener() {
 
 /* ---------- render availability lists ---------- */
 function renderAvailabilityLists() {
-  // upcoming: status=open, date >= today
-  // past/cancelled: anything else
   const todayISO = fmtISO(new Date());
 
   const upcoming = [];
@@ -316,91 +321,97 @@ function renderAvailabilityLists() {
   }
 
   // upcoming
-  upcomingList.innerHTML = "";
-  if (!upcoming.length) {
-    upcomingList.innerHTML = '<div class="muted small">No upcoming slots.</div>';
-  } else {
-    upcoming
-      .sort((a, b) => (a.date + a.startTime).localeCompare(b.date + b.startTime))
-      .forEach((s) => {
-        const row = document.createElement("div");
-        row.className = "card";
-        row.innerHTML = `
-          <div>
-            <div><strong>${escapeHtml(s.subject)} ${
-          s.level ? "• " + escapeHtml(s.level) : ""
-        }</strong></div>
-            <div class="small muted">${s.date} • ${s.startTime}${
-          s.endTime ? "–" + s.endTime : ""
-        }</div>
-          </div>
-          <button class="btn-ghost small">Cancel</button>
-        `;
-        row.querySelector("button").addEventListener("click", async () => {
-          try {
-            await updateDoc(doc(db, "availability", s.id), {
-              status: "cancelled",
-            });
-            showToast("Slot cancelled");
-          } catch (err) {
-            console.error(err);
-            showToast("Failed to cancel slot");
-          }
+  if (upcomingList) {
+    upcomingList.innerHTML = "";
+    if (!upcoming.length) {
+      upcomingList.innerHTML = '<div class="muted small">No upcoming slots.</div>';
+    } else {
+      upcoming
+        .sort((a, b) => (a.date + a.startTime).localeCompare(b.date + b.startTime))
+        .forEach((s) => {
+          const row = document.createElement("div");
+          row.className = "card";
+          row.innerHTML = `
+            <div>
+              <div><strong>${escapeHtml(s.subject)} ${
+            s.level ? "• " + escapeHtml(s.level) : ""
+          }</strong></div>
+              <div class="small muted">${s.date} • ${s.startTime}${
+            s.endTime ? "–" + s.endTime : ""
+          }</div>
+            </div>
+            <button class="btn-ghost small">Cancel</button>
+          `;
+          row.querySelector("button").addEventListener("click", async () => {
+            try {
+              await updateDoc(doc(db, "availability", s.id), {
+                status: "cancelled",
+              });
+              showToast("Slot cancelled");
+            } catch (err) {
+              console.error(err);
+              showToast("Failed to cancel slot");
+            }
+          });
+          upcomingList.appendChild(row);
         });
-        upcomingList.appendChild(row);
-      });
+    }
   }
 
   // past
-  pastList.innerHTML = "";
-  if (!past.length) {
-    pastList.innerHTML =
-      '<div class="muted small">Nothing here yet.</div>';
-  } else {
-    past
-      .sort((a, b) => (b.date + b.startTime).localeCompare(a.date + a.startTime))
-      .forEach((s) => {
-        const row = document.createElement("div");
-        row.className = "card";
-        row.innerHTML = `
-          <div>
-            <div><strong>${escapeHtml(s.subject)} ${
-          s.level ? "• " + escapeHtml(s.level) : ""
-        }</strong></div>
-            <div class="small muted">${s.date} • ${s.startTime}${
-          s.endTime ? "–" + s.endTime : ""
-        }</div>
-            <div class="small muted">Status: ${s.status}</div>
-          </div>
-        `;
-        pastList.appendChild(row);
-      });
+  if (pastList) {
+    pastList.innerHTML = "";
+    if (!past.length) {
+      pastList.innerHTML =
+        '<div class="muted small">Nothing here yet.</div>';
+    } else {
+      past
+        .sort((a, b) => (b.date + b.startTime).localeCompare(a.date + a.startTime))
+        .forEach((s) => {
+          const row = document.createElement("div");
+          row.className = "card";
+          row.innerHTML = `
+            <div>
+              <div><strong>${escapeHtml(s.subject)} ${
+            s.level ? "• " + escapeHtml(s.level) : ""
+          }</strong></div>
+              <div class="small muted">${s.date} • ${s.startTime}${
+            s.endTime ? "–" + s.endTime : ""
+          }</div>
+              <div class="small muted">Status: ${s.status}</div>
+            </div>
+          `;
+          pastList.appendChild(row);
+        });
+    }
   }
 
-  // left column "Your availability" uses *all* slots
-  availabilityList.innerHTML = "";
-  if (!allSlots.length) {
-    availabilityList.innerHTML =
-      '<div class="muted small">No slots yet.</div>';
-  } else {
-    allSlots
-      .sort((a, b) => (a.date + a.startTime).localeCompare(b.date + b.startTime))
-      .forEach((s) => {
-        const row = document.createElement("div");
-        row.className = "card";
-        row.innerHTML = `
-          <div>
-            <div><strong>${escapeHtml(s.subject)} ${
-          s.level ? "• " + escapeHtml(s.level) : ""
-        }</strong></div>
-            <div class="small muted">${s.date} • ${s.startTime}${
-          s.endTime ? "–" + s.endTime : ""
-        }</div>
-            <div class="small muted">Status: ${s.status}</div>
-          </div>
-        `;
-        availabilityList.appendChild(row);
-      });
+  // left column "Your availability"
+  if (availabilityList) {
+    availabilityList.innerHTML = "";
+    if (!allSlots.length) {
+      availabilityList.innerHTML =
+        '<div class="muted small">No slots yet.</div>';
+    } else {
+      allSlots
+        .sort((a, b) => (a.date + a.startTime).localeCompare(b.date + b.startTime))
+        .forEach((s) => {
+          const row = document.createElement("div");
+          row.className = "card";
+          row.innerHTML = `
+            <div>
+              <div><strong>${escapeHtml(s.subject)} ${
+            s.level ? "• " + escapeHtml(s.level) : ""
+          }</strong></div>
+              <div class="small muted">${s.date} • ${s.startTime}${
+            s.endTime ? "–" + s.endTime : ""
+          }</div>
+              <div class="small muted">Status: ${s.status}</div>
+            </div>
+          `;
+          availabilityList.appendChild(row);
+        });
+    }
   }
 }
 
@@ -470,16 +481,129 @@ function renderCalendar() {
 
     cell.appendChild(header);
     cell.appendChild(inner);
-    cell.addEventListener("click", () => openDayOverlay(iso, slotsByDate[iso] || []));
+    cell.addEventListener("click", () =>
+      openDayOverlay(iso, slotsByDate[iso] || [])
+    );
     calEl.appendChild(cell);
   }
 }
 
+/* ---------- notifications (bookings) ---------- */
+
+function startNotificationsListener() {
+  if (!currentUser || !notifList) return;
+  const ref = collection(db, "notifications");
+  const q = query(ref, where("userUid", "==", currentUser.uid));
+
+  onSnapshot(
+    q,
+    (snap) => {
+      const notifs = [];
+      snap.forEach((d) => notifs.push({ id: d.id, ...d.data() }));
+      cachedNotifs = notifs;
+      renderNotifications(notifs);
+    },
+    (err) => {
+      console.error("notifications onSnapshot error", err);
+    }
+  );
+}
+
+function renderNotifications(notifs) {
+  if (!notifList) return;
+
+  notifList.innerHTML = "";
+
+  if (!notifs.length) {
+    notifList.innerHTML = `<div class="muted small">No notifications yet.</div>`;
+    if (notifDot) notifDot.style.display = "none";
+    return;
+  }
+
+  let unread = 0;
+
+  notifs
+    .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
+    .forEach((n) => {
+      if (!n.read) unread++;
+
+      const card = document.createElement("div");
+      card.className = "card";
+      const subj = escapeHtml(n.subject || "");
+      const level = n.level ? " • " + escapeHtml(n.level) : "";
+      const date = escapeHtml(n.date || "");
+      const time = escapeHtml(n.time || n.startTime || "");
+      const studentName  = escapeHtml(n.studentName || "");
+      const studentEmail = n.studentEmail ? ` (${escapeHtml(n.studentEmail)})` : "";
+      const notes = n.notes ? escapeHtml(n.notes) : "";
+
+      card.innerHTML = `
+        <div>
+          <div><strong>${escapeHtml(n.title || "New booking")}</strong></div>
+          ${
+            subj
+              ? `<div class="small muted">${subj}${level}</div>`
+              : ""
+          }
+          ${
+            date || time
+              ? `<div class="small muted">${date}${date && time ? " • " : ""}${time}</div>`
+              : ""
+          }
+          ${
+            studentName || studentEmail
+              ? `<div class="small muted">Student: ${studentName}${studentEmail}</div>`
+              : ""
+          }
+          ${
+            notes
+              ? `<div class="small muted">Notes: ${notes}</div>`
+              : ""
+          }
+          ${
+            n.message
+              ? `<div class="small muted">${escapeHtml(n.message)}</div>`
+              : ""
+          }
+        </div>
+      `;
+      notifList.appendChild(card);
+    });
+
+  if (notifDot) notifDot.style.display = unread > 0 ? "inline-block" : "none";
+}
+
+async function markNotificationsRead() {
+  if (!currentUser || !cachedNotifs.length) return;
+  const toUpdate = cachedNotifs.filter((n) => !n.read);
+  for (const n of toUpdate) {
+    try {
+      await updateDoc(doc(db, "notifications", n.id), { read: true });
+    } catch (err) {
+      console.error("markNotificationsRead error", err);
+    }
+  }
+}
+
+notifBtn?.addEventListener("click", async () => {
+  if (!notifPanel) return;
+  const visible = notifPanel.style.display !== "none";
+  notifPanel.style.display = visible ? "none" : "block";
+
+  if (!visible) {
+    await markNotificationsRead();
+  }
+});
+
+notifClose?.addEventListener("click", () => {
+  if (!notifPanel) return;
+  notifPanel.style.display = "none";
+});
+
 /* ---------- auth bootstrap ---------- */
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    // tutor must be logged in
-   // location.href = "https://voluntutor.github.io/main/register/auth.html";
+    // location.href = "https://voluntutor.github.io/main/register/auth.html";
     return;
   }
   currentUser = user;
@@ -492,62 +616,64 @@ onAuthStateChanged(auth, (user) => {
   }
 
   startAvailabilityListener();
+  startNotificationsListener();
   renderCalendar(); // initial empty calendar while snapshot loads
 });
 
 /* ---------- auto-resize textareas ---------- */
-document.querySelectorAll('textarea').forEach(textarea => {
-  textarea.addEventListener('input', () => {
-    textarea.style.height = 'auto'; // Reset height
-    textarea.style.height = textarea.scrollHeight + 'px'; // Set to full height
+document.querySelectorAll("textarea").forEach((textarea) => {
+  textarea.addEventListener("input", () => {
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
   });
 });
 
+/* ---------- subjects & levels from subjects.json ---------- */
 let levelsBySubject = {};
 
 async function loadSubjects() {
   try {
-    const res = await fetch('https://voluntutor.github.io/main/dashboard/subjects.json');
-    //const res = await fetch('subjects.json');
+    const res = await fetch(
+      "https://voluntutor.github.io/main/dashboard/subjects.json"
+    );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     levelsBySubject = await res.json();
-
-    // Populate subject dropdown
     populateSubjects();
   } catch (err) {
-    console.error('Failed to load subjects.json', err);
-    toast('Failed to load subjects list.');
+    console.error("Failed to load subjects.json", err);
+    showToast("Failed to load subjects list.");
   }
 }
 
 function populateSubjects() {
-  const subjectSelect = $('#availSubject');
-  subjectSelect.innerHTML = '<option value="">Select Subject</option>';
-  Object.keys(levelsBySubject).forEach(subject => {
-    const opt = document.createElement('option');
+  if (!availSubject) return;
+  availSubject.innerHTML = '<option value="">Select Subject</option>';
+  Object.keys(levelsBySubject).forEach((subject) => {
+    const opt = document.createElement("option");
     opt.value = subject;
     opt.textContent = subject;
-    subjectSelect.appendChild(opt);
+    availSubject.appendChild(opt);
   });
 }
 
 function populateLevels() {
-  const subj = $('#availSubject').value;
-  const levelSelect = $('#availLevel');
+  if (!availSubject || !availLevel) return;
+  const subj = availSubject.value;
   if (subj === "") {
-    levelSelect.innerHTML = '<option value="">Select Subject First</option>';
+    availLevel.innerHTML = '<option value="">Select Subject First</option>';
     return;
   }
-  levelSelect.innerHTML = '<option value="">Select Level</option>';
-  (levelsBySubject[subj] || []).forEach(level => {
-    const opt = document.createElement('option');
+  availLevel.innerHTML = '<option value="">Select Level</option>';
+  (levelsBySubject[subj] || []).forEach((level) => {
+    const opt = document.createElement("option");
     opt.value = level;
     opt.textContent = level;
-    levelSelect.appendChild(opt);
+    availLevel.appendChild(opt);
   });
 }
 
-$('#availSubject').addEventListener('change', populateLevels);
+if (availSubject) {
+  availSubject.addEventListener("change", populateLevels);
+}
 
-// Load at startup
 loadSubjects();
