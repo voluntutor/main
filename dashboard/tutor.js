@@ -536,6 +536,10 @@ function populateSubjects() {
 function populateLevels() {
   const subj = $('#availSubject').value;
   const levelSelect = $('#availLevel');
+  if (subj === "") {
+    levelSelect.innerHTML = '<option value="">Select Subject First</option>';
+    return;
+  }
   levelSelect.innerHTML = '<option value="">Select Level</option>';
   (levelsBySubject[subj] || []).forEach(level => {
     const opt = document.createElement('option');
