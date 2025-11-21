@@ -216,8 +216,6 @@ overlayBackdrop?.addEventListener("click", closeDayOverlay);
 
 overlayQuickAdd?.addEventListener("click", () => {
     if (!overlayDateISO || !availDate) return;
-    console.log("overlayDateISO =", overlayDateISO);
-    console.log("Parsed =", new Date(overlayDateISO));
     const today = new Date();
     const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const [Y, M, D] = overlayDateISO.split("-");

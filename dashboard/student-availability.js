@@ -217,8 +217,18 @@ overlayBackdrop?.addEventListener("click", closeDayOverlay);
 
 overlayQuickAdd?.addEventListener("click", () => {
   if (!overlayDateISO || !reqDate) return;
+  const today = new Date();
+  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const [Y, M, D] = overlayDateISO.split("-");
+  const dMid = new Date(+Y, M - 1, +D); // local midnight, no timezone shift
+  if (dMid < todayMid ){
+      showToast("Cannot add availability to past dates");
+      closeDayOverlay();
+      return;
+  }
   reqDate.value = overlayDateISO;
-  showToast("Date copied into request form");
+  closeDayOverlay();
+  showToast("Date copied to request form");
 });
 
 // ---------- booking form in overlay ----------
@@ -400,3 +410,12 @@ levelSelect?.addEventListener("change", () => {
 
 // initial blank render
 renderCalendar();
+
+
+/* ---------- auto-resize textareas ---------- */
+document.querySelectorAll('textarea').forEach(textarea => {
+  textarea.addEventListener('input', () => {
+    textarea.style.height = 'auto'; // Reset height
+    textarea.style.height = textarea.scrollHeight + 'px'; // Set to full height
+  });
+});

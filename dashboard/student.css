@@ -1,302 +1,405 @@
 /* ================== THEME TOKENS ================== */
 :root {
-    --bg-grad: linear-gradient(145deg, #f0f0ff 0%, rgba(225,230,255,.9) 100%);
-    --glass: rgba(255,255,255,.28);
-    --glass-border: rgba(255,255,255,.45);
-    --card: rgba(255,255,255,.36);
-    --text: #0b0b0b;
-    --muted: #596072;
-    --accent: #0066ff;
-    --accent-2: #3399ff;
-    --shadow: 0 8px 28px rgba(15,23,42,.12);
-    --nav-h: 64px;
-    --radius: 20px;
-  }
-  
-  body.dark {
-    --bg-grad: linear-gradient(145deg, #0b0f1a 0%, #141824 100%);
-    --glass: rgba(0,0,0,.35);
-    --glass-border: rgba(255,255,255,.12);
-    --card: rgba(0,0,0,.42);
-    --text: #eaf0ff;
-    --muted: #9aa3b2;
-    --accent: #3a86ff;
-    --accent-2: #66a6ff;
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
-  }
-  
-  /* ================== GLOBAL ================== */
-  * { box-sizing: border-box; }
-  html, body { height: 100%; }
-  
-  body {
-    margin: 0;
-    font-family: "Outfit", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: var(--bg-grad);
-    color: var(--text);
-  }
-  
-  img { max-width: 100%; display: block; }
-  
-  .glass {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(18px);
-    box-shadow: var(--shadow);
-  }
-  
-  .btn, .btn-ghost, .btn-primary, .icon-btn {
-    cursor: pointer; border: 0; border-radius: 12px; font-weight: 600;
-  }
-  
-  .btn {
-    padding: 10px 16px;
-    background: var(--card);
-    color: var(--text);
-    border: 1px solid var(--glass-border);
-  }
-  
-  .btn-primary {
-    padding: 10px 16px;
-    background: var(--accent);
-    color: #fff;
-  }
-  
-  .btn-ghost {
-    padding: 10px 16px;
-    background: transparent;
-    border: 1px solid transparent;
-  }
-  
-  .btn:hover,
-  .btn-primary:hover,
-  .btn-ghost:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0,0,0,.15);
-  }
-  
-  .icon-btn {
-    padding: 8px 10px;
-    background: transparent;
-    font-size: 18px;
-    border-radius: 999px;
-  }
-  
-  .muted { color: var(--muted); }
-  .small { font-size: .9rem; }
-  
-  /* ================== LAYOUT ================== */
-  .topbar {
-    position: sticky; top: 0; z-index: 10;
-    height: var(--nav-h);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 18px;
-    border-radius: 0 0 16px 16px;
-  }
-  
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .brand .logo { width: 40px; height: 40px; border-radius: 10px; }
-  .brand .title { font-weight: 800; }
-  
-  .subtitle { margin-top: -4px; }
-  
-  .top-controls { display: flex; align-items: center; gap: 10px; }
-  
+  --bg-grad: linear-gradient(145deg, #f0f0ff 0%, rgba(225, 230, 255, .9) 100%);
+  --glass: rgba(255, 255, 255, .28);
+  --glass-border: rgba(255, 255, 255, .45);
+  --card: rgba(255, 255, 255, .36);
+  --text: #0b0b0b;
+  --muted: #596072;
+  --accent: #0066ff;
+  --accent-2: #3399ff;
+  --shadow: 0 8px 28px rgba(15, 23, 42, .12);
+  --nav-h: 64px;
+  --radius: 20px;
+}
+
+body.dark {
+  --bg-grad: linear-gradient(145deg, #0b0f1a 0%, #141824 100%);
+  --glass: rgba(0, 0, 0, .35);
+  --glass-border: rgba(255, 255, 255, .12);
+  --card: rgba(0, 0, 0, .42);
+  --text: #eaf0ff;
+  --muted: #9aa3b2;
+  --accent: #3a86ff;
+  --accent-2: #66a6ff;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+
+/* ================== GLOBAL ================== */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Outfit", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg-grad);
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.btn,
+.btn-ghost,
+.btn-primary,
+.icon-btn {
+  cursor: pointer;
+  border: 0;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.btn {
+  padding: 10px 16px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-primary {
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-ghost {
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.btn-ghost:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
+}
+
+.icon-btn {
+  padding: 8px 10px;
+  background: transparent;
+  font-size: 18px;
+  border-radius: 999px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: .9rem;
+}
+
+/* ================== LAYOUT ================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-radius: 0 0 16px 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand .logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.brand .title {
+  font-weight: 800;
+}
+
+.subtitle {
+  margin-top: -4px;
+}
+
+.top-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+main.main-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 22px;
+  padding: 18px;
+  max-width: 1200px;
+  margin: 18px auto;
+}
+
+.panel {
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sidecol {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+footer.footer {
+  margin: 10px auto 24px;
+  max-width: 1200px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ================== CALENDAR ================== */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.cal-head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.cal-cell {
+  background: var(--card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 8px 10px;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cal-cell.today {
+  outline: 2px solid var(--accent);
+}
+
+.cal-date {
+  font-weight: 700;
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot.booked {
+  background: var(--accent);
+}
+
+.dot.today {
+  background: #22c55e;
+}
+
+/* ================== FORM ================== */
+.form label {
+  display: block;
+  font-weight: 600;
+  margin: 8px 0 6px;
+}
+
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--card);
+  color: var(--text);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ================== LISTS ================== */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card {
+  background: var(--card);
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* ================== OVERLAY ================== */
+.day-overlay.hidden {
+  display: none;
+}
+
+.overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .35);
+}
+
+.glass-panel {
+  position: fixed;
+  inset: 10% 50% auto 50%;
+  transform: translate(-50%, 0);
+  width: min(720px, 92vw);
+  max-height: 80vh;
+  overflow: auto;
+  padding: 16px;
+  border-radius: 18px;
+}
+
+.overlay-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.overlay-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.overlay-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* ================== TOAST ================== */
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  background: #111827;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: .25s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================== USER CHIP ================== */
+.user-chip {
+  display: flex;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 14px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ================== RESPONSIVE ================== */
+@media (max-width: 900px) {
   main.main-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 22px;
-    padding: 18px;
-    max-width: 1200px;
-    margin: 18px auto;
+    grid-template-columns: 1fr;
   }
-  
-  .panel {
-    border-radius: var(--radius);
-    padding: 16px;
+
+  .sidecol {
+    order: -1;
   }
-  
-  .panel-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  
-  .sidecol { display: flex; flex-direction: column; gap: 18px; }
-  
-  footer.footer {
-    margin: 10px auto 24px;
-    max-width: 1200px;
-    padding: 10px 18px;
-    border-radius: 14px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* ================== CALENDAR ================== */
-  .calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-  }
-  
-  .cal-head {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--muted);
-  }
-  
-  .cal-cell {
-    background: var(--card);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 8px 10px;
-    min-height: 72px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .cal-cell.today {
-    outline: 2px solid var(--accent);
-  }
-  
-  .cal-date {
-    font-weight: 700;
-    display: flex;
-    gap: 6px;
-  }
-  
-  .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-  }
-  
-  .dot.booked { background: var(--accent); }
-  .dot.today { background: #22c55e; }
-  
-  /* ================== FORM ================== */
-  .form label {
-    display: block;
-    font-weight: 600;
-    margin: 8px 0 6px;
-  }
-  
-  .form input,
-  .form select,
-  .form textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--glass-border);
-    background: var(--card);
-    color: var(--text);
-  }
-  
-  textarea { resize: vertical; }
-  
-  .form-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  /* ================== LISTS ================== */
-  .list { display: flex; flex-direction: column; gap: 10px; }
-  
-  .card {
-    background: var(--card);
-    padding: 12px;
-    border-radius: 14px;
-    border: 1px solid var(--glass-border);
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  
-  /* ================== OVERLAY ================== */
-  .day-overlay.hidden { display: none; }
-  
-  .overlay-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.35);
-  }
-  
-  .glass-panel {
-    position: fixed;
-    inset: 10% 50% auto 50%;
-    transform: translate(-50%, 0);
-    width: min(720px, 92vw);
-    max-height: 80vh;
-    overflow: auto;
-    padding: 16px;
-    border-radius: 18px;
-  }
-  
-  .overlay-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-  
-  .overlay-body {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .overlay-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 12px;
-  }
-  
-  /* ================== TOAST ================== */
-  .toast {
-    position: fixed;
-    right: 16px;
-    bottom: 16px;
-    background: #111827;
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 12px;
-    opacity: 0;
-    transform: translateY(8px);
-    transition: .25s ease;
-  }
-  
-  .toast.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  /* ================== USER CHIP ================== */
-  .user-chip {
-    display: flex;
-    gap: 10px;
-    padding: 6px 10px;
-    border-radius: 14px;
-  }
-  
-  .avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 700;
-  }
-  
-  /* ================== RESPONSIVE ================== */
-  @media (max-width: 900px) {
-    main.main-grid { grid-template-columns: 1fr; }
-    .sidecol { order: -1; }
-  }
-  
+}
+
+/* Auto-resizing textarea */
+textarea {
+  overflow: hidden;  /* prevents scrollbars */
+  min-height: 60px;  /* ensures reasonable default size */
+  resize: none;      /* optional, disable manual resizing */
+}
+
+/*apply textarea styles to all text areas for consistency*/
+textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--glass-border);background:var(--card);color:var(--text);outline:none}
+
+
+.nav-button, .form-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Outfit", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 14px;
+  white-space: nowrap;
+  transition: background-color 0.25s ease-in-out
+}
+
+.nav-button:hover, .form-button:hover {
+  background: var(--accent-2);
+  cursor: pointer
+}
+
+body.dark #applyTutorBtn,
+body.dark #logoutBtn, 
+body.dark #sendRequest,
+body.dark #clearForm,
+body.dark #submitReview,
+body.dark #viewReviews,
+body.dark #sendHelp,
+body.dark #openFAQ {
+  color: white !important;
+}
