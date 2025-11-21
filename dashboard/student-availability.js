@@ -419,3 +419,55 @@ document.querySelectorAll('textarea').forEach(textarea => {
     textarea.style.height = textarea.scrollHeight + 'px'; // Set to full height
   });
 });
+
+
+
+/* ---------- subjects & levels from subjects.json ---------- */
+let levelsBySubject = {};
+
+async function loadSubjects() {
+  try {
+    const res = await fetch(
+      "https://voluntutor.github.io/main/dashboard/subjects.json"
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    levelsBySubject = await res.json();
+    populateSubjects();
+  } catch (err) {
+    console.error("Failed to load subjects.json", err);
+    showToast("Failed to load subjects list.");
+  }
+}
+
+function populateSubjects() {
+  if (!subjectSelect) return;
+  subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+  Object.keys(levelsBySubject).forEach((subject) => {
+    const opt = document.createElement("option");
+    opt.value = subject;
+    opt.textContent = subject;
+    subjectSelect.appendChild(opt);
+  });
+}
+
+function populateLevels() {
+  if (!subjectSelect || !levelSelect) return;
+  const subj = subjectSelect.value;
+  if (subj === "") {
+    levelSelect.innerHTML = '<option value="">Select Subject First</option>';
+    return;
+  }
+  levelSelect.innerHTML = '<option value="">Select Level</option>';
+  (levelsBySubject[subj] || []).forEach((level) => {
+    const opt = document.createElement("option");
+    opt.value = level;
+    opt.textContent = level;
+    levelSelect.appendChild(opt);
+  });
+}
+
+if (subjectSelect) {
+  subjectSelect.addEventListener("change", populateLevels);
+}
+
+loadSubjects();
