@@ -32,8 +32,9 @@ const overlayClose    = $("#overlayClose");
 const overlayBackdrop = $("#overlayBackdrop");
 const overlayQuickAdd = $("#overlayQuickAdd");
 
-const reqDate  = $("#reqDate");
-const toastEl  = $("#toast");
+const reqDate      = $("#reqDate");
+const toastEl      = $("#toast");
+const upcomingList = $("#upcomingList");   // right column: upcoming appointments
 
 // ---------- utils ----------
 function showToast(msg, dur = 2000) {
@@ -63,8 +64,15 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+function emailPrefix(email) {
+  if (!email) return "unknown";
+  const idx = email.indexOf("@");
+  if (idx === -1) return email;
+  return email.slice(0, idx);
+}
+
 // ---------- state ----------
-let allSlots       = [];   // all open availability from all tutors
+let allSlots       = [];   // all open + booked availability from all tutors
 let filteredSlots  = [];   // subject+level filtered
 let currentMonth   = new Date();
 currentMonth.setDate(1);
@@ -86,7 +94,7 @@ function filterSlots() {
   const lvl  = levelSelect?.value || "";
 
   return allSlots.filter((s) => {
-    if (s.status && s.status !== "open") return false;
+    if (s.status && s.status !== "open" && s.status !== "booked") return false;
     if (subj && s.subject !== subj) return false;
     if (lvl  && s.level   !== lvl)  return false;
     return true;
@@ -146,10 +154,21 @@ function renderCalendar() {
 
     const slots = slotsByDate[iso] || [];
     if (slots.length) {
-      const dot = document.createElement("span");
-      dot.className = "dot booked";
-      header.prepend(dot);
-      body.textContent = `${slots.length} slot(s)`;
+      const openCount   = slots.filter(s => s.status === "open").length;
+      const bookedCount = slots.filter(s => s.status === "booked").length;
+
+      if (openCount) {
+        const dot = document.createElement("span");
+        dot.className = "dot booked"; // same class, styling via CSS
+        header.prepend(dot);
+      }
+
+      if (bookedCount) {
+        cell.classList.add("has-booked"); // for orange border via CSS
+        body.textContent = `${bookedCount} booked`;
+      } else {
+        body.textContent = `${openCount} slot(s)`;
+      }
     } else {
       body.textContent = "";
     }
@@ -182,6 +201,11 @@ function openDayOverlay(dateISO, slotsForDay) {
     .forEach((s) => {
       const row = document.createElement("div");
       row.className = "card";
+
+      const bookedBy = s.status === "booked" && s.bookedByEmail
+        ? emailPrefix(s.bookedByEmail)
+        : null;
+
       row.innerHTML = `
         <div>
           <div><strong>${escapeHtml(s.subject)}${
@@ -195,15 +219,26 @@ function openDayOverlay(dateISO, slotsForDay) {
           <div class="small muted">
             Tutor: ${escapeHtml(s.tutorName || s.tutorEmail || "Unknown")}
           </div>
+          ${
+            bookedBy
+              ? `<div class="small muted" style="color:#ea580c;">Booked by ${escapeHtml(bookedBy)}</div>`
+              : ""
+          }
         </div>
-        <button class="btn-primary small book-btn">Book</button>
+        ${
+          s.status === "open"
+            ? '<button class="btn-primary small book-btn">Book</button>'
+            : ''
+        }
       `;
 
       const btn = row.querySelector(".book-btn");
-      btn.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        openBookingForm(s);
-      });
+      if (btn) {
+        btn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          openBookingForm(s);
+        });
+      }
 
       overlayBody.appendChild(row);
     });
@@ -222,18 +257,8 @@ overlayBackdrop?.addEventListener("click", closeDayOverlay);
 
 overlayQuickAdd?.addEventListener("click", () => {
   if (!overlayDateISO || !reqDate) return;
-  const today = new Date();
-  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const [Y, M, D] = overlayDateISO.split("-");
-  const dMid = new Date(+Y, M - 1, +D); // local midnight, no timezone shift
-  if (dMid < todayMid ){
-      showToast("Cannot add availability to past dates");
-      closeDayOverlay();
-      return;
-  }
   reqDate.value = overlayDateISO;
-  closeDayOverlay();
-  showToast("Date copied to request form");
+  showToast("Date copied into request form");
 });
 
 // ---------- booking form in overlay ----------
@@ -348,42 +373,20 @@ async function submitBooking() {
       createdAt:      serverTimestamp(),
     });
 
-    // 2) mark the availability slot as booked (so it stops showing as open)
+    // 2) mark the availability slot as booked + store student email
     try {
       if (bookingSlot.id) {
         await updateDoc(doc(db, "availability", bookingSlot.id), {
           status: "booked",
+          bookedByEmail: email,
+          lastBookingId: bookingRef.id,
         });
       }
     } catch (err) {
       console.warn("Failed to mark availability as booked", err);
     }
 
-    // 3) create notification for the tutor so the bell lights up
-    try {
-      if (bookingSlot.tutorUid) {
-        await addDoc(collection(db, "notifications"), {
-          userUid: bookingSlot.tutorUid, // tutor's UID
-          title: "New booking request",
-          message: `New booking from ${name} for ${bookingSlot.subject || "a session"}.`,
-          subject: bookingSlot.subject || null,
-          level: bookingSlot.level || null,
-          date: bookingSlot.date || null,
-          startTime: bookingSlot.startTime || null,
-          endTime: bookingSlot.endTime || null,
-          studentName: name,
-          studentEmail: email,
-          notes: notes || null,
-          bookingId: bookingRef.id,
-          createdAt: serverTimestamp(),
-          read: false,
-        });
-      }
-    } catch (err) {
-      console.warn("Failed to create tutor notification", err);
-    }
-
-    // optional confetti
+    // 3) optional confetti
     try {
       if (typeof confetti === "function") {
         confetti({ particleCount: 80, spread: 70, origin: { y: 0.8 } });
@@ -395,7 +398,7 @@ async function submitBooking() {
         <div>
           <div><strong>Booking received!</strong></div>
           <div class="small muted">
-            The tutor will see this booking on their dashboard.
+            This slot is now booked. You’ll see it in the upcoming list.
           </div>
         </div>
       </div>
@@ -406,6 +409,47 @@ async function submitBooking() {
     console.error("Error creating booking", err);
     showToast("Error sending booking (check console)");
   }
+}
+
+// ---------- upcoming list on student dash ----------
+function renderUpcomingStudent() {
+  if (!upcomingList) return;
+
+  const todayISO = fmtISO(new Date());
+
+  const booked = allSlots
+    .filter(s => s.status === "booked" && s.date && s.date >= todayISO)
+    .sort((a, b) => (a.date + (a.startTime || "")).localeCompare(b.date + (b.startTime || "")));
+
+  upcomingList.innerHTML = "";
+
+  if (!booked.length) {
+    upcomingList.innerHTML = `<div class="muted small">No upcoming booked sessions yet.</div>`;
+    return;
+  }
+
+  booked.forEach((s) => {
+    const row = document.createElement("div");
+    row.className = "card";
+
+    const prefix = s.bookedByEmail ? emailPrefix(s.bookedByEmail) : "student";
+
+    row.innerHTML = `
+      <div>
+        <div><strong>${escapeHtml(s.subject)}${
+      s.level ? " • " + escapeHtml(s.level) : ""
+    }</strong></div>
+        <div class="small muted">
+          ${escapeHtml(s.date)} • ${escapeHtml(s.startTime || "")}
+        </div>
+        <div class="small muted" style="color:#ea580c;">
+          Booked by ${escapeHtml(prefix)}
+        </div>
+      </div>
+    `;
+
+    upcomingList.appendChild(row);
+  });
 }
 
 // ---------- month nav ----------
@@ -433,16 +477,21 @@ levelSelect?.addEventListener("change", () => {
 // ---------- Firestore listener ----------
 (function startAvailabilityListener() {
   const ref = collection(db, "availability");
-  const q   = query(ref, where("status", "==", "open"));
 
   onSnapshot(
-    q,
+    ref,
     (snap) => {
       const slots = [];
-      snap.forEach((d) => slots.push({ id: d.id, ...d.data() }));
+      snap.forEach((d) => {
+        const s = { id: d.id, ...d.data() };
+        if (s.status === "open" || s.status === "booked") {
+          slots.push(s);
+        }
+      });
       allSlots = slots;
       filteredSlots = filterSlots();
       renderCalendar();
+      renderUpcomingStudent();
     },
     (err) => {
       console.error("availability onSnapshot error", err);
@@ -453,6 +502,7 @@ levelSelect?.addEventListener("change", () => {
 
 // initial blank render
 renderCalendar();
+renderUpcomingStudent();
 
 
 /* ---------- auto-resize textareas ---------- */

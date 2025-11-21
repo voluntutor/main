@@ -212,3 +212,12 @@ body.dark #addSlot,
 body.dark #clearAvail {
   color: white !important;
 }
+
+.cal-cell.has-booked {
+  border-color: #f97316; /* orange */
+}
+
+.cal-cell.has-booked .cal-date {
+  color: #f97316;
+}
+

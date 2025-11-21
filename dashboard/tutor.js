@@ -92,7 +92,11 @@ const userEmailEl       = $("#userEmail");
 const avatarEl          = $("#avatar");
 
 // Notifications
-const notifBtn   = $("#notifBtn");
+const notifBtn = document.querySelector("#notifBtn");
+notifBtn?.addEventListener("click", () => {
+  window.open("tutor-bookings.html", "_blank");
+});
+
 const notifDot   = $("#notifDot");
 const notifPanel = $("#notifPanel");
 const notifList  = $("#notifList");
