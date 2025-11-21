@@ -223,22 +223,19 @@ overlayClose?.addEventListener("click", closeDayOverlay);
 overlayBackdrop?.addEventListener("click", closeDayOverlay);
 
 overlayQuickAdd?.addEventListener("click", () => {
-  if (!overlayDateISO || !availDate) return;
-  console.log("overlayDateISO =", overlayDateISO);
-  console.log("Parsed =", new Date(overlayDateISO));
-  const today = new Date();
-  const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const [Y, M, D] = overlayDateISO.split("-");
-  const dMid = new Date(+Y, M - 1, +D); // local midnight
-
-  if (dMid < todayMid) {
-    showToast("Cannot add availability to past dates");
+    if (!overlayDateISO || !availDate) return;
+    const today = new Date();
+    const todayMid = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const [Y, M, D] = overlayDateISO.split("-");
+    const dMid = new Date(+Y, M - 1, +D); // local midnight, no timezone shift
+    if (dMid < todayMid ){
+        showToast("Cannot add availability to past dates");
+        closeDayOverlay();
+        return;
+    }
+    availDate.value = overlayDateISO;
     closeDayOverlay();
-    return;
-  }
-  availDate.value = overlayDateISO;
-  closeDayOverlay();
-  showToast("Date copied to availability form");
+    showToast("Date copied to availability form");
 });
 
 /* ---------- availability form ---------- */
