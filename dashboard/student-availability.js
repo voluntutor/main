@@ -8,7 +8,9 @@ import {
   query,
   where,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
+  updateDoc,
+  doc,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 const $ = (sel) => document.querySelector(sel);
@@ -62,10 +64,11 @@ function escapeHtml(str) {
 }
 
 // ---------- state ----------
-let allSlots      = [];   // all open availability
-let filteredSlots = [];   // subject+level filtered
-let currentMonth  = new Date();
+let allSlots       = [];   // all open availability from all tutors
+let filteredSlots  = [];   // subject+level filtered
+let currentMonth   = new Date();
 currentMonth.setDate(1);
+
 let overlayDateISO = null;
 let bookingSlot    = null; // slot currently being booked
 
@@ -100,10 +103,12 @@ function renderCalendar() {
   const startDay    = first.getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  monthLabel.textContent = first.toLocaleDateString(undefined, {
-    month: "long",
-    year: "numeric",
-  });
+  if (monthLabel) {
+    monthLabel.textContent = first.toLocaleDateString(undefined, {
+      month: "long",
+      year: "numeric",
+    });
+  }
 
   calEl.innerHTML = "";
 
@@ -286,7 +291,7 @@ function openBookingForm(slot) {
 
   cancelBtn?.addEventListener("click", () => {
     // go back to list view for that date
-    openDayOverlay(slot.date, filteredSlots.filter(s => s.date === slot.date));
+    openDayOverlay(slot.date, filteredSlots.filter((s) => s.date === slot.date));
   });
 }
 
@@ -309,7 +314,8 @@ async function submitBooking() {
   }
 
   try {
-    await addDoc(collection(db, "bookings"), {
+    // 1) create booking doc
+    const bookingRef = await addDoc(collection(db, "bookings"), {
       availabilityId: bookingSlot.id,
       tutorUid:       bookingSlot.tutorUid || null,
       tutorName:      bookingSlot.tutorName || null,
@@ -329,10 +335,45 @@ async function submitBooking() {
       endTime:        bookingSlot.endTime || null,
 
       status:         "pending",
-      createdAt:      serverTimestamp()
+      createdAt:      serverTimestamp(),
     });
 
-    // You can also do a cute confetti
+    // 2) mark the availability slot as booked (so it stops showing as open)
+    try {
+      if (bookingSlot.id) {
+        await updateDoc(doc(db, "availability", bookingSlot.id), {
+          status: "booked",
+        });
+      }
+    } catch (err) {
+      console.warn("Failed to mark availability as booked", err);
+    }
+
+    // 3) create notification for the tutor so the bell lights up
+    try {
+      if (bookingSlot.tutorUid) {
+        await addDoc(collection(db, "notifications"), {
+          userUid: bookingSlot.tutorUid, // tutor's UID
+          title: "New booking request",
+          message: `New booking from ${name} for ${bookingSlot.subject || "a session"}.`,
+          subject: bookingSlot.subject || null,
+          level: bookingSlot.level || null,
+          date: bookingSlot.date || null,
+          startTime: bookingSlot.startTime || null,
+          endTime: bookingSlot.endTime || null,
+          studentName: name,
+          studentEmail: email,
+          notes: notes || null,
+          bookingId: bookingRef.id,
+          createdAt: serverTimestamp(),
+          read: false,
+        });
+      }
+    } catch (err) {
+      console.warn("Failed to create tutor notification", err);
+    }
+
+    // optional confetti
     try {
       if (typeof confetti === "function") {
         confetti({ particleCount: 80, spread: 70, origin: { y: 0.8 } });
@@ -344,7 +385,7 @@ async function submitBooking() {
         <div>
           <div><strong>Booking received!</strong></div>
           <div class="small muted">
-            A confirmation email will be sent once the system is wired on the backend.
+            The tutor will see this booking on their dashboard.
           </div>
         </div>
       </div>
@@ -360,10 +401,12 @@ async function submitBooking() {
 // ---------- month nav ----------
 prevMonth?.addEventListener("click", () => {
   currentMonth.setMonth(currentMonth.getMonth() - 1);
+  filteredSlots = filterSlots();
   renderCalendar();
 });
 nextMonth?.addEventListener("click", () => {
   currentMonth.setMonth(currentMonth.getMonth() + 1);
+  filteredSlots = filterSlots();
   renderCalendar();
 });
 
