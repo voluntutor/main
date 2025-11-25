@@ -119,10 +119,10 @@ homeLink?.addEventListener("click", () => {
   location.href = "tutor.html";
 });
 volunteerHoursBtn?.addEventListener("click", () => {
-  location.href = "submit-hours/index.html";
+  location.href = "submit-hours/submit-hours.html";
 });
 accountBtn?.addEventListener("click", () => {
-  location.href = "../account/index.html";
+  location.href = "tutor-info/index.html";
 });
 logoutBtn?.addEventListener("click", async () => {
   try {
