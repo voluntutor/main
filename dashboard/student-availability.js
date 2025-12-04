@@ -369,7 +369,7 @@ async function submitBooking() {
       startTime:      bookingSlot.startTime || null,
       endTime:        bookingSlot.endTime || null,
 
-      status:         "pending",
+      status:         "Booked",
       createdAt:      serverTimestamp(),
     });
 
