@@ -1,14 +1,9 @@
-document.getElementById('studentTutorForm').addEventListener('submit', function(event) {
+document.getElementById('tutorInfoForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form submission
   
-    const studentName = document.getElementById('studentName').value.trim();
     const tutorName = document.getElementById('tutorName').value.trim();
+    const gradeLevel = document.getElementById('gradeLevel').value.trim();
     const tutorEmail = document.getElementById('tutorEmail').value.trim();
-    const subject = document.getElementById('subject').value.trim();
-    const teacherName = document.getElementById('teacherName').value.trim();
-    const teacherEmail = document.getElementById('teacherEmail').value.trim();
-    const teacherPhoneNumber = document.getElementById('teacherPhoneNumber').value.trim();
-    const hours = document.getElementById('hours').value.trim();
   
     if (!studentName || !tutorName || !tutorEmail || !subject || !teacherName || !(teacherEmail || teacherPhoneNumber) || !hours) {
       document.getElementById('formMessage').textContent = 'Please fill out all fields.';
@@ -20,17 +15,13 @@ document.getElementById('studentTutorForm').addEventListener('submit', function(
   
     // Example: Log form data to the console
     console.log({
-      studentName,
       tutorName,
+      gradeLevel,
       tutorEmail,
-      subject,
-      teacherName,
-      teacherEmail,
-      hours
     });
   
     alert('Form submitted successfully!');
-    this.reset(); // Reset the form
+    //this.reset(); // Reset the form
   });
 
   const $ = s => document.querySelector(s);
@@ -68,7 +59,7 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
     $('#avatar').textContent = (mockUser.displayName || 'VT').slice(0,2).toUpperCase();
 
 
-    // Set the default value of the date input to today's date - MIGHT BE SETTING DATE TO WRONG TIME ZONE
+    // Set the default value of the date input to today's date
 document.addEventListener('DOMContentLoaded', () => {
   const dateInput = document.getElementById('date');
   console.log('Date input found:', dateInput); // Debuggings
@@ -80,83 +71,111 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+
+  /* ---------- subjects & levels from subjects.json ---------- */
+let levelsBySubject = {};
+
+async function loadSubjects() {
+  try {
+    const res = await fetch(
+      "https://voluntutor.github.io/main/dashboard/subjects.json"
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    levelsBySubject = await res.json();
+    populateSubjects();
+  } catch (err) {
+    console.error("Failed to load subjects.json", err);
+    showToast("Failed to load subjects list.");
+  }
+}
+
+function populateSubjects() {
+  const container = document.getElementById("subjects"); // parent element
+  const subjectBoxesContainer = document.getElementById("subjectBoxes");
+
+  if (!container) return;
+  container.innerHTML = ""; // clear existing content
+
+  Object.keys(levelsBySubject).forEach((subject) => {
+    // --- Create subject checkbox UI ---
+    const label = document.createElement("label");
+    label.className = "subject-checkbox-label";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "subjects";
+    checkbox.value = subject;
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(" " + subject));
+    container.appendChild(label);
+
+    // --- Add interaction logic ---
+    checkbox.addEventListener("change", () => {
+      //clear select a subject error message
+      const formMessage = document.getElementById('formMessage');
+      formMessage.textContent = '';
+
+      if (checkbox.checked) {
+        // Create a subject box
+        const box = document.createElement("div");
+        box.className = "subject-box";
+        box.id = `box-${subject}`;
+
+        const title = document.createElement("h3");
+        title.textContent = subject;
+        box.appendChild(title);
+
+        // Create class list from levelsBySubject[subject]
+        const classList = document.createElement("div");
+        classList.className = "class-list";
+
+        (levelsBySubject[subject] || []).forEach((className) => {
+          const classLabel = document.createElement("label");
+          const classInput = document.createElement("input");
+          classInput.type = "checkbox";
+          classInput.value = className;
+
+          classLabel.appendChild(classInput);
+          classLabel.appendChild(document.createTextNode(className));
+          classList.appendChild(classLabel);
+        });
+
+        box.appendChild(classList);
+        subjectBoxesContainer.appendChild(box);
+      } else {
+        // Remove box when unchecked
+        const box = document.getElementById(`box-${subject}`);
+        if (box) box.remove();
+      }
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadSubjects);
+
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('studentTutorForm');
+  const form = document.getElementById('tutorInfoForm');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent form submission
     const checkboxes = document.querySelectorAll('input[name="subjects"]');
     const formMessage = document.getElementById('formMessage');
-  
-    form.addEventListener('submit', (event) => {
-      event.preventDefault(); // Prevent form submission
-  
-      // Collect selected subjects
-      const selectedSubjects = Array.from(checkboxes)
-        .filter((checkbox) => checkbox.checked)
-        .map((checkbox) => checkbox.value);
-  
-      if (selectedSubjects.length === 0) {
-        formMessage.textContent = 'Please select at least one subject.';
-        return;
-      }
-  
-      formMessage.textContent = ''; // Clear any previous error message
-  
-      // Example: Log selected subjects to the console
-      console.log('Selected Subjects:', selectedSubjects);
-  
-      alert('Profile updated successfully!');
-    });
-  });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const subjects = {
-      Math: ['Algebra I', 'Geometry', 'Algebra II', 'Precalculus', 'Calculus'],
-      Science: ['Biology', 'Chemistry', 'Physics', 'Earth Science', 'Environmental Science'],
-      German: ['German 1', 'German 2', 'German 3', 'Honors German', 'AP German'],
-      French: ['French 1', 'French 2', 'French 3', 'Honors French', 'AP French'],
-      Spanish: ['Spanish 1', 'Spanish 2', 'Spanish 3', 'Honors Spanish', 'AP Spanish']
-    };
-  
-    const checkboxes = document.querySelectorAll('input[name="subjects"]');
-    const subjectBoxesContainer = document.getElementById('subjectBoxes');
-  
-    checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener('change', () => {
-        const subject = checkbox.value;
-  
-        if (checkbox.checked) {
-          // Create a new subject box
-          const box = document.createElement('div');
-          box.className = 'subject-box';
-          box.id = `box-${subject}`;
-  
-          // Add the subject title
-          const title = document.createElement('h3');
-          title.textContent = subject;
-          box.appendChild(title);
-  
-          // Add the checklist of classes
-          const classList = document.createElement('div');
-          classList.className = 'class-list';
-  
-          subjects[subject].forEach((className) => {
-            const label = document.createElement('label');
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.value = className;
-            label.appendChild(input);
-            label.appendChild(document.createTextNode(className));
-            classList.appendChild(label);
-          });
-  
-          box.appendChild(classList);
-          subjectBoxesContainer.appendChild(box);
-        } else {
-          // Remove the subject box if unchecked
-          const box = document.getElementById(`box-${subject}`);
-          if (box) {
-            subjectBoxesContainer.removeChild(box);
-          }
-        }
-      });
-    });
+    // Collect selected subjects
+    const selectedSubjects = Array.from(checkboxes)
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value);
+
+    if (selectedSubjects.length === 0) {
+      formMessage.textContent = 'Please select at least one subject.';
+      return;
+    }
+
+    formMessage.textContent = ''; // Clear any previous error message
+
+    // Example: Log selected subjects to the console
+    console.log('Selected Subjects:', selectedSubjects);
+
+    alert('Profile updated successfully!');
   });
+});

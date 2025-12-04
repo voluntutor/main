@@ -57,8 +57,11 @@ let cachedNotifs = [];
 
 /* ---------- DOM refs ---------- */
 const availForm     = $("#availabilityForm");
+const availStudent  = $("#availStudent");
+const availTutor    = $("#availTutor");
 const availSubject  = $("#availSubject");
 const availLevel    = $("#availLevel");
+const availRoom    = $("#availRoom");
 const availDate     = $("#availDate");
 const availStart    = $("#availStart");
 const availEnd      = $("#availEnd");
@@ -85,7 +88,6 @@ const overlayQuickAdd = $("#overlayQuickAdd");
 const logoutBtn         = $("#logoutBtn");
 const themeToggle       = $("#themeToggle");
 const homeLink          = $("#homeLink");
-const volunteerHoursBtn = $("#volunteer-hours");
 const accountBtn        = $("#account");
 const userNameEl        = $("#userName");
 const userEmailEl       = $("#userEmail");
@@ -116,13 +118,10 @@ themeToggle?.addEventListener("click", () => {
 });
 
 homeLink?.addEventListener("click", () => {
-  location.href = "tutor.html";
-});
-volunteerHoursBtn?.addEventListener("click", () => {
-  location.href = "submit-hours/submit-hours.html";
+  location.href = "teacher-dash.html";
 });
 accountBtn?.addEventListener("click", () => {
-  location.href = "tutor-info/index.html";
+  location.href = "teacher-info/index.html";
 });
 logoutBtn?.addEventListener("click", async () => {
   try {
@@ -233,16 +232,16 @@ overlayQuickAdd?.addEventListener("click", () => {
     const [Y, M, D] = overlayDateISO.split("-");
     const dMid = new Date(+Y, M - 1, +D); // local midnight, no timezone shift
     if (dMid < todayMid ){
-        showToast("Cannot add availability to past dates");
+        showToast("Cannot add appointment to past dates");
         closeDayOverlay();
         return;
     }
     availDate.value = overlayDateISO;
     closeDayOverlay();
-    showToast("Date copied to availability form");
+    showToast("Date copied to appointment form");
 });
 
-/* ---------- availability form ---------- */
+/* ---------- appointment form ---------- */
 clearAvailBtn?.addEventListener("click", () => {
   availForm?.reset();
   showToast("Form cleared");
@@ -255,17 +254,20 @@ availForm?.addEventListener("submit", async (e) => {
     return;
   }
 
+  const student = (availStudent?.value || "").trim();
+  const tutor = (availTutor?.value || "").trim();
   const subject = (availSubject?.value || "").trim();
   const level   = (availLevel?.value || "").trim();
+  const room   = (availRoom?.value || "").trim();
   const date    = availDate?.value;
   const startTime = availStart?.value;
   const endTime   = availEnd?.value;
 
-  if (!subject || !level || !date || !startTime) {
-    showToast("Fill subject, level, date, and time.");
+  if (!student || !tutor || !subject || !level || !room || !date || !startTime) {
+    showToast("Fill all fields please.");
     return;
   }
-
+  //not updated - this portion will need to grab the tutor information from the availTutor field
   try {
     const ref = collection(db, "availability");
     await addDoc(ref, {
