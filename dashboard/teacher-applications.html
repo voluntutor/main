@@ -1,15 +1,28 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Pending Tutor Applications</title>
-  <link rel="stylesheet" href="../style.css">
-  <script type="module" src="./teacherApplications.js" defer></script>
+  <meta charset="utf-8" />
+  <title>Apply to be a Tutor</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script type="module" src="./tutorSignup.js" defer></script>
 </head>
 <body>
-  <h2>Pending Tutor Applications</h2>
+  <h2>Apply to be a Tutor</h2>
 
-  <!-- You can style this with your own CSS -->
-  <div id="appList"></div>
+  <label for="subject">Subject</label>
+  <select id="subject" required>
+    <option value="" disabled selected>Select</option>
+    <option value="French">French</option>
+    <option value="Spanish">Spanish</option>
+    <option value="German">German</option>
+    <option value="Physics">Physics</option>
+    <option value="Chemistry">Chemistry</option>
+    <option value="Biology">Biology</option>
+    <option value="Math">Math</option>
+  </select>
+
+  <div id="classList" style="margin:1rem 0;"></div>
+
+  <button id="submitApp" class="btn">Submit Application</button>
 </body>
 </html>
