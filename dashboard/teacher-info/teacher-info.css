@@ -122,8 +122,6 @@
   .panel{border-radius:var(--radius);padding:16px;margin:24px 0px;max-width: 1200px;margin-left: auto;margin-right: auto;}
   .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
   
-  footer.footer{margin:10px auto 24px;max-width:1200px;padding:10px 18px;border-radius:14px;display:flex;align-items:center;justify-content:space-between}
-
   /* Buttons: unified animation + focus ring */
   .btn,.btn-ghost,.btn-primary,.icon-btn{
     cursor:pointer;border:0;border-radius:12px;font-weight:600;
@@ -189,6 +187,8 @@
       #leftColumn{order:2}
     }
   
+    footer.footer{margin:10px auto 24px;max-width:1200px;padding:10px 18px;border-radius:14px;display:flex;align-items:center;justify-content:space-between}
+
   /* Input fields in dark mode */
   body.dark input[type="text"],
   body.dark input[type="email"],

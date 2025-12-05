@@ -121,7 +121,7 @@ homeLink?.addEventListener("click", () => {
   location.href = "teacher-dash.html";
 });
 accountBtn?.addEventListener("click", () => {
-  location.href = "teacher-info/index.html";
+  location.href = "teacher-info/teacher-info.html";
 });
 logoutBtn?.addEventListener("click", async () => {
   try {

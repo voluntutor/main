@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Info</title>
-    <link rel="stylesheet" href="tutor-info.css">
+    <link rel="stylesheet" href="teacher-info.css">
     <!-- Favicon -->
     <link rel="icon" type="image/png"
         href="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" />
@@ -22,11 +22,10 @@
                     alt="VolunTutor Logo" class="logo" />
                 <div>
                     <div class="title">VolunTutor</div>
-                    <div class="subtitle muted small">Tutor Dashboard</div>
+                    <div class="subtitle muted small">Teacher Dashboard</div>
                 </div>
             </div>
             <div class="top-controls">
-                <div class = "nav-button glass" id = "volunteer-hours">Volunteer Hours</div>
                 <div class = "active-nav-button glass" id = "account">Account</div>        
                 <div class="user-chip glass" id="userChip" aria-hidden="false">
                     <div class="avatar" id="avatar">VT</div>
@@ -39,26 +38,32 @@
                 <div id="logoutBtn" class="nav-button glass" title="Log out">Log out</div>
             </div>
         </header>
+        <section id="mainContent">
         <section class="panel glass">
             <div class="panel-head">
-                <h1>Tutor Info</h1>
+                <h1>Teacher Info</h1>
             </div>
-            <form id="tutorInfoForm">
+            <form id="teacherInfoForm">
                 <div>
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" value="Braedon Kohlenberger" required>
+                    <input type="text" id="name" name="name" value="[Autofill Teacher Name]" required>
                 </div>
                 <div>
-                    <label for="tutorName">Grade Level</label>
-                    <input type="text" id="gradeLevel" name="gradeLevel" value="Senior" required>
+                    <label for="teacherEmail">Email</label>
+                    <input type="email" id="email" name="email" value="[Autofill Teacher Email]" required>
                 </div>
                 <div>
-                    <label for="tutorEmail">Email</label>
-                    <input type="email" id="email" name="email" value="kohlebra000@hsestudents.org" required>
+                    <label for="teacherRoom">Room</label>
+                    <input type="text" id="room" name="room" value="[Autofill Teacher Room]" required>
+                </div>
+                <div class="checkbox-group">
+                    <label for="roomAvailability">
+                    <input type="checkbox" id="roomAvailability" name="roomAvailability">
+                    Is this room available for scheduling?</label>
                 </div>
                 <div id="subjectsContainer">
                     <div>
-                        <label for="subjects">Subjects I Can Tutor</label>
+                        <label for="subjects">Subjects I Teach</label>
                         <div id="subjects" class="checkbox-group"></div>
                     </div>
                     <div id="subjectBoxes" class="subject-boxes"></div>
@@ -67,14 +72,23 @@
                 <p id="formMessage" class="error"></p>
             </form>
         </section>
+        <section class="panel glass">
+            <div class="panel-head">
+                <h1>My Class is Not Listed</h1>
+            </div>
+            <div>
+                <label for="numberMissing">How many of your classes are not listed?</label> input to be added
+            </div>
+        </section>
     </div>
+</section>
 
     <footer class="footer glass">
         <div>2025 VolunTutor</div>
         <div class="muted small">Tutor tools • Firestore-backed availability & bookings</div>
     </footer>
 
-    <script src="tutor-info.js"></script>
+    <script src="teacher-info.js"></script>
 </body>
 
 </html>
