@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VolunTutor • Tutor Bookings</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png"
+        href="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true" />
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Shared styles (same as tutor.html) -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- HEADER -->
+    <header class="topbar glass" role="banner">
+      <div class="brand" style="cursor:pointer;" id="backToDashboard">
+        <img id="logoImg"
+             src="https://github.com/voluntutor/main/blob/cb7c8c173a88ea857c9c794f5c1cae6ff55e6373/Media/logo.png?raw=true"
+             alt="VolunTutor Logo"
+             class="logo" />
+        <div>
+          <div class="title">VolunTutor</div>
+          <div class="subtitle muted small">Tutor Bookings</div>
+          <div class="subtitle muted small" id="welcomeBar">
+            Signed in as <strong id="welcomeName">Tutor</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-controls">
+        <div class="user-chip glass" id="userChip" aria-hidden="false">
+          <div class="avatar" id="avatar">VT</div>
+          <div class="user-info">
+            <div id="userName">Tutor</div>
+            <div id="userEmail" class="small muted"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-grid" role="main" id="mainGrid">
+      <section class="panel glass">
+        <div class="panel-head">
+          <h2>📍 Upcoming Bookings</h2>
+        </div>
+        <div id="upcomingBookings" class="list" aria-live="polite">
+          <div class="muted small">Loading…</div>
+        </div>
+      </section>
+
+      <section class="panel glass">
+        <div class="panel-head">
+          <h2>🗂 Past / Completed Bookings</h2>
+        </div>
+        <div id="pastBookings" class="list" aria-live="polite">
+          <div class="muted small">Loading…</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer glass">
+      <div>© 2025 VolunTutor</div>
+      <div class="muted small">Tutor bookings overview</div>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <!-- Logic for this page -->
+  <script type="module" src="tutor-bookings.js"></script>
+</body>
+</html>
