@@ -687,10 +687,10 @@ if (availSubject) {
 loadSubjects();
 
 /* ---------- generate a list of students from firebase ---------- */
-/*async function loadStudents() {
+async function loadStudents() {
   try {
     const ref = collection(db, "users");
-    const q = query(ref, where("role", "==", "student"));
+    const q = query(ref, where("userType", "==", "student"));
 
     const snap = await getDocs(q);
     const students = [];
@@ -700,41 +700,6 @@ loadSubjects();
   } catch (err) {
     console.error("Failed to load students", err);
     showToast("Failed to load students list.");
-  }
-}
-*/
-
-/* ---------- generate a list of students from firebase ---------- */
-async function loadStudents() {
-  if (!availStudent) return;
-
-  try {
-    // Query the "users" collection for only students
-    const q = query(
-      collection(db, "users"),
-      where("userType", "==", "student")
-    );
-
-    const snap = await getDocs(q);
-
-    // Clear dropdown
-    availStudent.innerHTML = '<option value="">Select Student</option>';
-
-    snap.forEach((docSnap) => {
-      const data = docSnap.data();
-      const name = data.name || data.displayName || data.email || "Unnamed";
-      const email = data.email || "";
-
-      const opt = document.createElement("option");
-      opt.value = email;
-      opt.textContent = `${name} (${email})`;
-
-      availStudent.appendChild(opt);
-    });
-
-  } catch (err) {
-    console.error("loadStudents error", err);
-    showToast("Failed to load student list.");
   }
 }
 
