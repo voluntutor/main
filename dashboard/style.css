@@ -28,6 +28,10 @@ body.dark{
 
 *{box-sizing:border-box}
 html,body{height:100%}
+html{
+  background: var(--bg-grad);
+  overscroll-behavior: none;
+}
 body{
   margin:0; font-family:"Outfit",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg-grad); color:var(--text);
@@ -220,4 +224,3 @@ body.dark #clearAvail {
 .cal-cell.has-booked .cal-date {
   color: #f97316;
 }
-
