@@ -39,7 +39,7 @@ themeToggle?.addEventListener("click", () => {
 });
 
 homeLink?.addEventListener("click", () => {
-  location.href = "student.html";
+  location.href = "https://voluntutor.github.io/main/";
 });
 
 applyTutorBtn?.addEventListener("click", () => {

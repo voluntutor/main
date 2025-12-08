@@ -61,7 +61,7 @@ function bookingDateTime(b) {
 /* ---------- nav ---------- */
 backToDashboard?.addEventListener("click", () => {
   // close this tab or go back to tutor dashboard in same tab
-  window.location.href = "tutor.html";
+  window.location.href = "https://voluntutor.github.io/main/";
 });
 
 /* ---------- state ---------- */
