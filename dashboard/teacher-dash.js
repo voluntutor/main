@@ -119,7 +119,7 @@ themeToggle?.addEventListener("click", () => {
 });
 
 homeLink?.addEventListener("click", () => {
-  location.href = "teacher-dash.html";
+  location.href = "https://voluntutor.github.io/main/";
 });
 accountBtn?.addEventListener("click", () => {
   location.href = "teacher-info/teacher-info.html";

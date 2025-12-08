@@ -116,7 +116,7 @@ themeToggle?.addEventListener("click", () => {
 });
 
 homeLink?.addEventListener("click", () => {
-  location.href = "tutor.html";
+  location.href = "https://voluntutor.github.io/main/";
 });
 volunteerHoursBtn?.addEventListener("click", () => {
   location.href = "submit-hours/submit-hours.html";
