@@ -15,7 +15,13 @@
 /* Reset-ish */
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
-html{ scroll-behavior:smooth; }
+html{
+  scroll-behavior:smooth;
+  background: linear-gradient(135deg, #6EE7B7, #3B82F6, #38BDF8); /* match body gradient during overscroll */
+  background-size: 400% 400%;
+  animation: gradientBG 14s ease infinite;
+  overscroll-behavior: none;
+}
 body{
   margin:0;
   font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;

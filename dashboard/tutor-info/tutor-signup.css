@@ -23,6 +23,11 @@ body.dark {
 }
 
 /* ==================== Global Styles ==================== */
+html{
+    background: var(--bg);
+    overscroll-behavior: none;
+}
+
 body {
     font-family: "Outfit", sans-serif;
     background: var(--bg);
