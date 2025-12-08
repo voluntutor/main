@@ -692,6 +692,9 @@ async function loadStudents() {
     const ref = collection(db, "users");
     const q = query(ref, where("userType", "==", "student"));
 
+    console.log("Query returned:", snap.size, "students");
+    snap.forEach(doc => console.log(doc.id, doc.data()));
+
     const snap = await getDocs(q);
     const students = [];
     snap.forEach((doc) => students.push({ id: doc.id, ...doc.data() }));
