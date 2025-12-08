@@ -10,6 +10,7 @@ import {
   serverTimestamp,
   updateDoc,
   doc,
+  getDocs,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import {
   onAuthStateChanged,
@@ -624,6 +625,7 @@ onAuthStateChanged(auth, (user) => {
   startAvailabilityListener();
   startNotificationsListener();
   renderCalendar(); // initial empty calendar while snapshot loads
+  loadStudents();
 });
 
 /* ---------- auto-resize textareas ---------- */
@@ -683,3 +685,31 @@ if (availSubject) {
 }
 
 loadSubjects();
+
+/* ---------- generate a list of students from firebase ---------- */
+async function loadStudents() {
+  try {
+    const ref = collection(db, "users");
+    const q = query(ref, where("role", "==", "student"));
+
+    const snap = await getDocs(q);
+    const students = [];
+    snap.forEach((doc) => students.push({ id: doc.id, ...doc.data() }));
+
+    populateStudents(students);
+  } catch (err) {
+    console.error("Failed to load students", err);
+    showToast("Failed to load students list.");
+  }
+}
+
+function populateStudents(students) {
+  if (!availStudent) return;
+  availStudent.innerHTML = '<option value="">Select Student</option>';
+  students.forEach((s) => {
+    const opt = document.createElement("option");
+    opt.value = s.displayName || s.email || "Unnamed Student";
+    opt.textContent = `${s.displayName || "Unnamed Student"} (${s.email || "no email"})`;
+    availStudent.appendChild(opt);
+  });
+}
