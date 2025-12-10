@@ -22,6 +22,17 @@ body.dark {
     --shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
 }
 
+html.dark {
+    --bg: #0b0b0b;
+    --glass: rgba(0, 0, 0, 0.5);
+    --glass-border: rgba(0, 102, 255, 0.5);
+    --text: #eaf0ff;
+    --muted: #aaa;
+    --accent: #3399ff;
+    --accent-2: #66a6ff;
+    --shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
+}
+
 /* ==================== Global Styles ==================== */
 html{
     background: var(--bg);

@@ -23,17 +23,17 @@ document.getElementById('teacherInfoForm').addEventListener('submit', function(e
   // Apply the saved theme on page load
 const applyTheme = () => {
   const savedTheme = localStorage.getItem('vt-theme');
-  if (savedTheme === 'dark') {
-    document.body.classList.add('dark');
-  } else {
-    document.body.classList.remove('dark');
-  }
+  const isDark = savedTheme === 'dark';
+  document.body.classList.toggle('dark', isDark);
+  document.documentElement.classList.toggle('dark', isDark);
 };
 applyTheme();
 
 // Add event listener to the theme toggle button
 document.getElementById('themeToggle')?.addEventListener('click', () => {
-  const isDark = document.body.classList.toggle('dark');
+  const isDark = !document.body.classList.contains('dark');
+  document.body.classList.toggle('dark', isDark);
+  document.documentElement.classList.toggle('dark', isDark);
   localStorage.setItem('vt-theme', isDark ? 'dark' : 'light');
 });
 

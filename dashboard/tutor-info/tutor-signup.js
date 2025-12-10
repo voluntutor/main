@@ -58,10 +58,13 @@ document.getElementById('clearForm').addEventListener('click', () => {
 const themeToggle = document.getElementById('themeToggle');
 
 themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    localStorage.setItem('tutor-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    const isDark = !document.body.classList.contains('dark');
+    document.body.classList.toggle('dark', isDark);
+    document.documentElement.classList.toggle('dark', isDark);
+    localStorage.setItem('tutor-theme', isDark ? 'dark' : 'light');
 });
 
 if (localStorage.getItem('tutor-theme') === 'dark') {
     document.body.classList.add('dark');
+    document.documentElement.classList.add('dark');
 }
