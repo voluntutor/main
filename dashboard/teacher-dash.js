@@ -626,6 +626,7 @@ onAuthStateChanged(auth, (user) => {
   startNotificationsListener();
   renderCalendar(); // initial empty calendar while snapshot loads
   loadStudents();
+  loadTutors();
 });
 
 /* ---------- auto-resize textareas ---------- */
@@ -710,6 +711,37 @@ function populateStudents(students) {
   if (!availStudent) return;
   availStudent.innerHTML = '<option value="">Select Student</option>';
   students.forEach((s) => {
+    const opt = document.createElement("option");
+    opt.value = s.displayName || s.email || "Unnamed Student";
+    opt.textContent = `${s.displayName || "Unnamed Student"} (${s.email || "no email"})`;
+    availStudent.appendChild(opt);
+  });
+}
+
+/* ---------- generate a list of tutors from firebase ---------- */
+async function loadTutors() {
+  try {
+    const ref = collection(db, "users");
+    const q = query(ref, where("userType", "==", "tutor"));
+
+    /*console.log("Query returned:", snap.size, "tutors");
+    snap.forEach(doc => console.log(doc.id, doc.data()));*/
+
+    const snap = await getDocs(q);
+    const tutors = [];
+    snap.forEach((doc) => tutors.push({ id: doc.id, ...doc.data() }));
+
+    populateStudents(tutors);
+  } catch (err) {
+    console.error("Failed to load students", err);
+    showToast("Failed to load students list.");
+  }
+}
+
+function populateStudents(tutors) {
+  if (!availStudent) return;
+  availStudent.innerHTML = '<option value="">Select Tutor</option>';
+  tutors.forEach((s) => {
     const opt = document.createElement("option");
     opt.value = s.displayName || s.email || "Unnamed Student";
     opt.textContent = `${s.displayName || "Unnamed Student"} (${s.email || "no email"})`;
