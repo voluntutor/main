@@ -55,7 +55,7 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
 });
 
   /* ===== Simple routing buttons ===== */
-  $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/');
+  $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html');
   $('#account')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/tutor-info/index.html');
   $('#logoutBtn')?.addEventListener('click', () => {
     toast('Logged out'); setTimeout(()=> location.href = 'https://voluntutor.github.io/main/register/auth.html', 600);

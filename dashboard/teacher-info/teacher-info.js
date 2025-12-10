@@ -38,9 +38,9 @@ document.getElementById('themeToggle')?.addEventListener('click', () => {
 });
 
   /* ===== Simple routing buttons ===== */
-  $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/');//return to main site
+  $('#homeLink')?.addEventListener('click', () => location.href = 'https://voluntutor.github.io/main/dashboard/teacher-dash.html');//return to main site
   $('#logoutBtn')?.addEventListener('click', () => {
-    toast('Logged out'); setTimeout(()=> location.href = 'https://voluntutor.github.io/main/dashboard/tutor.html', 600);
+    toast('Logged out'); setTimeout(()=> location.href = 'https://voluntutor.github.io/main/', 600);
   });
 
     /* ===== Mock user ===== */

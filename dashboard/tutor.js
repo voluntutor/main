@@ -118,9 +118,11 @@ themeToggle?.addEventListener("click", () => {
   localStorage.setItem("vt-theme", dark ? "dark" : "light");
 });
 
-homeLink?.addEventListener("click", () => {
+//link removed because they might accidentally click it and leave the dashboard - shouldn't be needed to go back to main site
+/*homeLink?.addEventListener("click", () => {
   location.href = "https://voluntutor.github.io/main/";
-});
+});*/
+
 volunteerHoursBtn?.addEventListener("click", () => {
   location.href = "submit-hours/submit-hours.html";
 });

@@ -41,9 +41,10 @@ themeToggle?.addEventListener("click", () => {
   localStorage.setItem("vt-theme", dark ? "dark" : "light");
 });
 
-homeLink?.addEventListener("click", () => {
+//link removed because they might accidentally click it and leave the dashboard - shouldn't be needed to go back to main site
+/*homeLink?.addEventListener("click", () => {
   location.href = "https://voluntutor.github.io/main/";
-});
+});*/
 
 applyTutorBtn?.addEventListener("click", () => {
   location.href = "https://voluntutor.github.io/main/dashboard/tutor-info/tutorSignup2.html";
