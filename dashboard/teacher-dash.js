@@ -739,12 +739,12 @@ async function loadTutors() {
 }
 
 function populateStudents(tutors) {
-  if (!availStudent) return;
-  availStudent.innerHTML = '<option value="">Select Tutor</option>';
+  if (!availTutor) return;
+  availTutor.innerHTML = '<option value="">Select Tutor</option>';
   tutors.forEach((s) => {
     const opt = document.createElement("option");
     opt.value = s.displayName || s.email || "Unnamed Student";
     opt.textContent = `${s.displayName || "Unnamed Student"} (${s.email || "no email"})`;
-    availStudent.appendChild(opt);
+    availTutor.appendChild(opt);
   });
 }
