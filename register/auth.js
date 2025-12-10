@@ -102,12 +102,12 @@ async function redirectBasedOnRole(user) {
     console.log("[REDIRECT] Firestore role =", role, "doc data =", data);
 
     if (role === "teacher") {
-      location.href = "https://voluntutor.github.io/main/dashboard/teacher.html";
+      location.href = "https://voluntutor.github.io/main/dashboard/teacher-dash.html";
     } else if (role === "tutor") {
       location.href = "https://voluntutor.github.io/main/dashboard/tutor.html";
     } else {
       // Student → Student dashboard (currently same as tutor)
-      location.href = "https://voluntutor.github.io/main/dashboard/tutor.html";
+      location.href = "https://voluntutor.github.io/main/dashboard/student.html";
     }
   } catch (err) {
     console.error("[REDIRECT ERROR]", err);
