@@ -28,13 +28,16 @@ const avatarEl      = $("#avatar");
 
 function applyTheme() {
   const saved = localStorage.getItem("vt-theme");
-  if (saved === "dark") document.body.classList.add("dark");
-  if (saved === "light") document.body.classList.remove("dark");
+  const isDark = saved === "dark";
+  document.body.classList.toggle("dark", isDark);
+  document.documentElement.classList.toggle("dark", isDark);
 }
 applyTheme();
 
 themeToggle?.addEventListener("click", () => {
-  const dark = document.body.classList.toggle("dark");
+  const dark = !document.body.classList.contains("dark");
+  document.body.classList.toggle("dark", dark);
+  document.documentElement.classList.toggle("dark", dark);
   localStorage.setItem("vt-theme", dark ? "dark" : "light");
 });
 

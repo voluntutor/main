@@ -13,7 +13,7 @@
   --radius: 20px;
 }
 
-body.dark {
+body.dark, html.dark {
   --bg-grad: linear-gradient(145deg, #0b0f1a 0%, #141824 100%);
   --glass: rgba(0, 0, 0, .35);
   --glass-border: rgba(255, 255, 255, .12);
