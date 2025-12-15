@@ -736,14 +736,14 @@ async function loadTutors() {
     const tutors = [];
     snap.forEach((doc) => tutors.push({ id: doc.id, ...doc.data() }));
 
-    populateStudents(tutors);
+    populateTutors(tutors);
   } catch (err) {
     console.error("Failed to load students", err);
     showToast("Failed to load students list.");
   }
 }
 
-function populateStudents(tutors) {
+function populateTutors(tutors) {
   if (!availTutor) return;
   availTutor.innerHTML = '<option value="">Select Tutor</option>';
   tutors.forEach((s) => {
