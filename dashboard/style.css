@@ -186,7 +186,7 @@ body.dark input[type="time"] {
   border: 1px solid var(--glass-border); /* Adjust border for dark mode */
 }
 
-/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+/* Change the time icon color in WebKit browsers (e.g., Chrome, Safari) */
 body.dark input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1); /* Inverts the color to white */
   opacity: 0.8; /* Slightly dim the icon */

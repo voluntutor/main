@@ -58,48 +58,40 @@ img {
   box-shadow: var(--shadow);
 }
 
-.btn,
-.btn-ghost,
-.btn-primary,
-.icon-btn {
-  cursor: pointer;
-  border: 0;
-  border-radius: 12px;
-  font-weight: 600;
+/* Buttons: unified animation + focus ring */
+.btn,.btn-ghost,.btn-primary,.icon-btn{
+  cursor:pointer;border:0;border-radius:12px;font-weight:600;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease, opacity .12s ease;
+  outline: none;
+  padding:10px 16px; line-height:1;
 }
 
-.btn {
-  padding: 10px 16px;
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--glass-border);
-}
+.btn, .btn-ghost, .btn-primary { padding:10px 16px; line-height:1; }
 
-.btn-primary {
-  padding: 10px 16px;
-  background: var(--accent);
-  color: #fff;
-}
-
-.btn-ghost {
-  padding: 10px 16px;
-  background: transparent;
-  border: 1px solid transparent;
-}
-
+/* Base button contrasts */
+.btn{background:var(--card); color:var(--text); border:1px solid var(--glass-border)}
 .btn:hover,
-.btn-primary:hover,
-.btn-ghost:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
+.btn-ghost:hover,
+.btn-primary:hover{ transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
+.btn:active,
+.btn-ghost:active,
+.btn-primary:active{ transform: translateY(0); box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+
+.btn-primary{background:var(--accent); color:#fff}
+.btn-primary:hover{background:var(--accent-2)}
+.btn-ghost{background:transparent; color:var(--text)}
+
+/* Accessible focus styles */
+.btn:focus-visible,
+.btn-ghost:focus-visible,
+.btn-primary:focus-visible,
+.icon-btn:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 20%, transparent);
 }
 
-.icon-btn {
-  padding: 8px 10px;
-  background: transparent;
-  font-size: 18px;
-  border-radius: 999px;
-}
+.icon-btn{padding:8px 10px;font-size:18px;background:transparent;color:var(--text)}
 
 .muted {
   color: var(--muted);
@@ -363,6 +355,45 @@ footer.footer {
   .sidecol {
     order: -1;
   }
+}
+
+
+/* ================== dark mode icon fixes ================== */
+
+/* Style the date input in dark mode */
+body.dark input[type="date"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the calendar icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="date"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the calendar icon */
+}
+
+/* Style the time input in dark mode */
+body.dark input[type="time"] {
+  background-color: var(--glass); /* Match the dark mode background */
+  color: #ffffff; /* White text for better contrast */
+  border: 1px solid var(--glass-border); /* Adjust border for dark mode */
+}
+
+/* Change the time icon color in WebKit browsers (e.g., Chrome, Safari) */
+body.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverts the color to white */
+  opacity: 0.8; /* Slightly dim the icon */
+}
+
+/* Adjust for Firefox */
+body.dark input[type="time"]::-moz-focus-inner {
+  color: #ffffff; /* White color for the clock icon */
 }
 
 /* Auto-resizing textarea */
